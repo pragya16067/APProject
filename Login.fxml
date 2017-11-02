@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="482.0" prefWidth="531.0" style="-fx-background-color: #5b615e;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUIComponents.Login">
+   <children>
+      <ImageView fitHeight="27.0" fitWidth="29.0" layoutX="109.0" layoutY="136.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../Downloads/rounded-512.png" />
+         </image>
+      </ImageView>
+      <TextField fx:id="TXTemail" layoutX="138.0" layoutY="136.0" prefHeight="27.0" prefWidth="264.0" promptText="Username (e.g. abc@iiitd.ac.in)" />
+      <PasswordField fx:id="TXTpwd" layoutX="138.0" layoutY="171.0" prefHeight="25.0" prefWidth="264.0" promptText="Password" />
+      <Button fx:id="LoginBtn" layoutX="180.0" layoutY="229.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="180.0" style="-fx-background-color: #24b590;" text="LOGIN" textFill="#fcfcfc">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Button>
+      <Button fx:id="SignUpBtn" layoutX="179.0" layoutY="340.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="180.0" style="-fx-background-color: White;" text="SIGN UP" textFill="#24b591">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Button>
+      <ImageView fitHeight="27.0" fitWidth="29.0" layoutX="109.0" layoutY="170.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../Downloads/Simpleicons_Interface_key-tool-1.svg.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="57.0" fitWidth="370.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../Desktop/style3colormid%20(1).jpg" />
+         </image>
+      </ImageView>
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="285.0" prefHeight="57.0" prefWidth="253.0" style="-fx-background-color: #24b590;" text="CLASSROOM BOOKING SYSTEM" textFill="#fcfcfc" AnchorPane.rightAnchor="0.0">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <Button layoutX="203.0" layoutY="275.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="135.0" style="-fx-background-color: #5b615e;" text="Forgot Password" textFill="#24b88e" underline="true" />
+      <Label layoutX="205.0" layoutY="316.0" text="New User ? Sign Up here" textFill="#f5eeee" />
+   </children>
+</AnchorPane>
