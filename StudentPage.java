@@ -21,7 +21,8 @@ import javafx.stage.Stage;
 
 
 public class StudentPage  implements javafx.fxml.Initializable {
-	Student student=new Student("pragya16067@iiitd.ac.in","a","Student");
+	static Student student;
+	//Student student=new Student("pragya16067@iiitd.ac.in","a","Student");
 	
 	public void setStudent(Student s) {
 		student=s;
