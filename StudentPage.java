@@ -1,8 +1,11 @@
 package GUIComponents;
 
+import application.Student;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import javax.swing.JOptionPane;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -11,12 +14,19 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 
 public class StudentPage  implements javafx.fxml.Initializable {
+	Student student=new Student("pragya16067@iiitd.ac.in","a","Student");
+	
+	public void setStudent(Student s) {
+		student=s;
+	}
+	
 	@FXML
 	Pane TimetablePane;
 	@FXML
@@ -32,6 +42,11 @@ public class StudentPage  implements javafx.fxml.Initializable {
 	
 	@FXML
 	Pane LogoutPane1,LogoutPane2,Default,ChangePasswordPane;
+	
+	@FXML
+	TextField TXTnewpwd1,TXTnewpwd2;
+	@FXML
+	Label LblName, LblBatch, LblRno;
 	@FXML
 	Button Timetable,Profile,Courses,Classrooms,AddC,ViewC,DropC,AddedC,DroppedC,BackC,RequestR,ViewR,AvailableR,RequestedR,BackR1,BackR2,Logout,ChangePassword,Changed,LoginA;
 	
@@ -63,7 +78,19 @@ public class StudentPage  implements javafx.fxml.Initializable {
 			
 			@Override
 			public void handle(ActionEvent event) {
-				System.out.println("I m here");
+				String np1=TXTnewpwd1.getText();
+				String np2=TXTnewpwd2.getText();
+				if(np1.equals(np2))
+				{
+					student.changePassword(np1);
+				}
+				else
+				{
+					JOptionPane.showMessageDialog(null, "Please make sure that your new passwords match");
+					TXTnewpwd1.setText("");
+					TXTnewpwd2.setText("");
+				}
+				
 				ProfilePane.setVisible(true);
 				TimetablePane.setVisible(false);
 				CoursesPane.setVisible(false);
@@ -107,7 +134,10 @@ public class StudentPage  implements javafx.fxml.Initializable {
 			
 			@Override
 			public void handle(ActionEvent event) {
-				System.out.println("I m here");
+				LblName.setText(student.getName());
+				LblBatch.setText(student.getBatch());
+				LblRno.setText(student.getRno());
+				
 				ProfilePane.setVisible(true);
 				TimetablePane.setVisible(false);
 				CoursesPane.setVisible(false);
