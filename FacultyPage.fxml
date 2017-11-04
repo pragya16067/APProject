@@ -14,24 +14,24 @@
   <items>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="435.0" prefWidth="99.0" style="-fx-background-color: #24b590;">
          <children>
-            <Button fx:id="showB" layoutX="34.0" layoutY="182.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="169.0" style="-fx-background-color: #5b615e;" text="Show Room Bookings" textFill="#24b590">
+            <Button fx:id="showB" layoutY="194.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="224.0" style="-fx-background-color: #5b615e; -fx-border-color: #24b590;" text="View Room Avaibility" textFill="#24b590">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font></Button>
-            <Button fx:id="bookB" layoutX="34.0" layoutY="237.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="169.0" style="-fx-background-color: #5b615e;" text="Book Rooms" textFill="#24b590">
+            <Button fx:id="bookB" layoutY="239.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="224.0" style="-fx-background-color: #5b615e; -fx-border-color: #24b590;" text="Book Rooms" textFill="#24b590">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font></Button>
-            <Button fx:id="profB" layoutX="34.0" layoutY="123.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="169.0" style="-fx-background-color: #5b615e;" text="My Profile" textFill="#24b590">
+            <Button fx:id="profB" layoutY="146.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="224.0" style="-fx-background-color: #5b615e; -fx-border-color: #24b590;" text="My Profile" textFill="#24b590">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font></Button>
-            <Button layoutX="28.0" layoutY="61.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="196.0" style="-fx-background-color: #5b615e;" text="Logout" textFill="#24b590">
+            <Button fx:id="LogoutBtn" layoutX="28.0" layoutY="61.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="196.0" style="-fx-background-color: #5b615e;" text="Logout" textFill="#24b590">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Button>
-            <Button fx:id="CancelB" layoutX="34.0" layoutY="300.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="169.0" style="-fx-background-color: #5b615e;" text="Cancel Booked Room" textFill="#24b590">
+            <Button fx:id="CancelB" layoutY="284.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="224.0" style="-fx-background-color: #5b615e; -fx-border-color: #24b590;" text="Cancel Booked Room" textFill="#24b590">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
@@ -72,20 +72,14 @@
                         <Font name="System Bold" size="13.0" />
                      </font>
                   </Button>
-                  <Label layoutX="175.0" layoutY="116.0" prefHeight="37.0" prefWidth="224.0" text="Hi, &lt;&lt;Faculty Name&gt;&gt; !!">
+                  <Label fx:id="LblName" layoutX="175.0" layoutY="116.0" prefHeight="37.0" prefWidth="224.0" text="LblName">
                      <font>
                         <Font name="System Bold Italic" size="16.0" />
                      </font>
                   </Label>
                   <Label layoutX="53.0" layoutY="178.0" prefHeight="17.0" prefWidth="74.0" text="Email Id" />
-                  <Label layoutX="53.0" layoutY="245.0" text="Year of Joining" />
-                  <Label layoutX="54.0" layoutY="278.0" text="Qualifications" />
                   <Label layoutX="54.0" layoutY="314.0" text="Courses Taken" />
-                  <Label layoutX="54.0" layoutY="212.0" text="Post" />
-                  <Label layoutX="237.0" layoutY="178.0" prefHeight="17.0" prefWidth="99.0" text="xyz@iiitd.ac.in" />
-                  <Label layoutX="237.0" layoutY="212.0" text="abc" />
-                  <Label layoutX="234.0" layoutY="245.0" text="2016" />
-                  <Label layoutX="232.0" layoutY="278.0" text="PhD from XUZ University" />
+                  <Label fx:id="Lblemail" layoutX="237.0" layoutY="178.0" prefHeight="17.0" prefWidth="99.0" text="Lblemail" />
                   <Label layoutX="234.0" layoutY="314.0" text="Course1" />
                   <ImageView fitHeight="60.0" fitWidth="532.0" layoutX="-1.0" pickOnBounds="true">
                      <image>
@@ -123,23 +117,24 @@
                </children>
             </Pane>
             <Pane fx:id="ShowPane" layoutX="1.0" layoutY="-2.0" prefHeight="490.0" prefWidth="532.0" style="-fx-background-color: #24b590" visible="false">
-               <children>
-                <ImageView fitHeight="60.0" fitWidth="532.0" layoutX="-1.0" pickOnBounds="true">
-                     <image>
-                        <Image url="@../../2017-10-20.png" />
-                     </image>
-                  </ImageView>
-                  <TableView layoutX="27.0" layoutY="65.0" prefHeight="404.0" prefWidth="478.0" style="-fx-background-color: #5b615e;">
-                    <columns>
-                      <TableColumn prefWidth="95.0" text="Room Number" />
-                      <TableColumn prefWidth="55.0" text="Status" />
-                        <TableColumn prefWidth="219.0" text="Courses Booked For" />
-                    </columns>
-                  </TableView>
-               </children>
-               <effect>
-                  <ColorAdjust />
-               </effect>
+              <children>
+                        <ImageView fitHeight="30.0" fitWidth="32.0" layoutX="53.0" layoutY="34.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../download%20(7).png" />
+                           </image>
+                        </ImageView>
+                        <ComboBox editable="true" layoutX="84.0" layoutY="34.0" prefHeight="30.0" prefWidth="401.0" promptText="Search By Room No." style="-fx-background-color: #ffffff;" />
+                        <TableView layoutX="47.0" layoutY="152.0" prefHeight="312.0" prefWidth="458.0" style="-fx-background-color: #5b615e;">
+                          <columns>
+                            <TableColumn prefWidth="70.0" text="Room No." />
+                            <TableColumn prefWidth="109.0" text="Capacity" />
+                              <TableColumn minWidth="0.0" prefWidth="106.0" text="Avaibility Status" />
+                        <TableColumn minWidth="0.0" prefWidth="172.0" text="Coures Booked For" />
+                          </columns>
+                        </TableView>
+                        <DatePicker layoutX="47.0" layoutY="72.0" prefHeight="30.0" prefWidth="218.0" promptText="Search By Date" />
+                        <TextField layoutX="285.0" layoutY="72.0" prefHeight="30.0" prefWidth="206.0" promptText="Search By Time(hh:mm:ss)" />
+                 </children>       
             </Pane>
             <Pane fx:id="CancelPane" prefHeight="490.0" prefWidth="532.0" style="-fx-background-color: #24b590;" visible="false">
                <children>
@@ -171,9 +166,9 @@
             </Pane>
             <Pane fx:id="ChangePasswordPane" layoutX="-1.0" layoutY="-5.0" prefHeight="504.0" prefWidth="545.0" style="-fx-background-color: #24b590;" visible="false">
                <children>
-                  <PasswordField layoutX="88.0" layoutY="128.0" prefHeight="25.0" prefWidth="349.0" promptText="Old Password" />
-                  <PasswordField layoutX="88.0" layoutY="165.0" prefHeight="25.0" prefWidth="349.0" promptText="New Password" />
-                  <PasswordField layoutX="88.0" layoutY="203.0" prefHeight="25.0" prefWidth="349.0" promptText="Re-Type New Password" />
+                  <PasswordField fx:id="OldPwd" layoutX="88.0" layoutY="128.0" prefHeight="25.0" prefWidth="349.0" promptText="Old Password" />
+                  <PasswordField fx:id="TXTnewpwd1" layoutX="88.0" layoutY="165.0" prefHeight="25.0" prefWidth="349.0" promptText="New Password" />
+                  <PasswordField fx:id="TXTnewpwd2" layoutX="88.0" layoutY="203.0" prefHeight="25.0" prefWidth="349.0" promptText="Re-Type New Password" />
                   <Button fx:id="Changed" layoutX="186.0" layoutY="277.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="132.0" style="-fx-background-color: #5b615e;" text="Change" textFill="#24b590">
                      <font>
                         <Font name="System Bold" size="16.0" />
