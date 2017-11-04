@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<Pane fx:id="Default" prefHeight="490.0" prefWidth="532.0" style="-fx-background-color: #5b615e;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUIComponents.Logout">
+   <children>
+      <ImageView fitHeight="62.0" fitWidth="532.0" pickOnBounds="true">
+         <image>
+            <Image url="@../../2017-10-20.png" />
+         </image>
+      </ImageView>
+      <Label alignment="CENTER" layoutX="49.0" layoutY="209.0" prefHeight="17.0" prefWidth="469.0" text="You Have Succesfully LoggedOut !!" textFill="#24b590">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <Button fx:id="LoginA" layoutX="200.0" layoutY="245.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="132.0" style="-fx-background-color: #5b615e;" text="Login Again?" textFill="#24b590" underline="true">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Button>
+   </children>
+</Pane>
