@@ -17,6 +17,8 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import application.Admin;
+import application.Faculty;
 import application.Student;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -164,7 +166,7 @@ public class Login  implements javafx.fxml.Initializable  {
 				        {
 				            Class.forName("java.sql.DriverManager");
 				            Connection con=(Connection) DriverManager.getConnection(
-				                    "jdbc:mysql://localhost:3306/project","root","tapeied");
+				                    "jdbc:mysql://localhost:3306/project","root","30july1998");
 				            Statement stmt=(Statement) con.createStatement();
 				            String q="Select type from users where email='"+email+"';";
 				            ResultSet rs=stmt.executeQuery(q);
@@ -173,9 +175,29 @@ public class Login  implements javafx.fxml.Initializable  {
 						 
 						//Move to student or Admin or Faculty page
 						try {
+							if(type.equals("Student"))
+							{
 							StudentPage sp=new StudentPage();
 							sp.setStudent(u);
 							System.out.println(sp.student.getName());
+							}
+							if(type.equals("Admin"))
+							{
+								AdminPage ap = new AdminPage();
+								Admin a = new Admin(email,password,"Admin");
+								ap.setAdmin(a);
+								System.out.println(ap.admin.getName());
+								
+							}
+							if(type.equals("Faculty"))
+							{
+								FacultyPage fp = new FacultyPage();
+								Faculty f = new Faculty(email,password,"Faculty");
+								fp.setFaculty(f);
+								System.out.println(fp.faculty.getName());
+								
+							}
+							
 							
 							Parent page =  FXMLLoader.load(getClass().getResource(type+"Page.fxml"));
 							Scene scene = new Scene(page);
@@ -195,6 +217,7 @@ public class Login  implements javafx.fxml.Initializable  {
 					else
 	            	{
 	            		JOptionPane.showMessageDialog(null, "Email id or Password is incorrect");
+	            		TXTpwd.setText("");
 	            	}
 					
 					
