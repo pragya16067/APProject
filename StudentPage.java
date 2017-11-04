@@ -11,6 +11,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -45,11 +46,11 @@ public class StudentPage  implements javafx.fxml.Initializable {
 	Pane LogoutPane1,LogoutPane2,Default,ChangePasswordPane;
 	
 	@FXML
-	TextField TXTnewpwd1,TXTnewpwd2;
+	TextField TXTnewpwd1,TXTnewpwd2, OldPwd;
 	@FXML
 	Label LblName, LblBatch, LblRno;
 	@FXML
-	Button Timetable,Profile,Courses,Classrooms,AddC,ViewC,DropC,AddedC,DroppedC,BackC,RequestR,ViewR,AvailableR,RequestedR,BackR1,BackR2,Logout,ChangePassword,Changed,LoginA;
+	Button Timetable,Profile,Courses,Classrooms,AddC,ViewC,DropC,AddedC,DroppedC,BackC,RequestR,ViewR,AvailableR,RequestedR,BackR1,BackR2,LogoutBtn,ChangePassword,Changed,LoginA;
 	
 	@Override	
 	public void initialize(URL location, ResourceBundle resources) {
@@ -81,9 +82,19 @@ public class StudentPage  implements javafx.fxml.Initializable {
 			public void handle(ActionEvent event) {
 				String np1=TXTnewpwd1.getText();
 				String np2=TXTnewpwd2.getText();
-				if(np1.equals(np2))
+				String op = OldPwd.getText();
+				if(np1.equals(np2) && student.AuthenticateUser(student.getemail(), op))
 				{
 					student.changePassword(np1);
+					JOptionPane.showMessageDialog(null, "Password Changed Succesfully");
+				}
+				else
+				if(!student.AuthenticateUser(student.getemail(), op))
+				{
+					JOptionPane.showMessageDialog(null, "Your Old Password is incorrect. Please Try Again!");
+					OldPwd.setText("");
+					TXTnewpwd1.setText("");
+					TXTnewpwd2.setText("");
 				}
 				else
 				{
@@ -463,6 +474,24 @@ public class StudentPage  implements javafx.fxml.Initializable {
 			}
 			
 		});	
+      LogoutBtn.setOnAction(new EventHandler<ActionEvent>() {
+			
+			@Override
+			public void handle(ActionEvent event) {
+				try
+				{
+				Parent page =  FXMLLoader.load(getClass().getResource("Logout.fxml"));
+				Scene scene = new Scene(page);
+				Stage page_stage = (Stage) (((Node) event.getSource()).getScene().getWindow());
+				page_stage.setScene(scene);
+				page_stage.show();
+				}
+				catch(Exception exp)
+				{
+					System.out.println(exp.getMessage());
+				}
+			}
+		});
     
 	}	
 	
