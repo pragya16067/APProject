@@ -179,25 +179,50 @@
                         <Image url="@../../2017-10-20.png" />
                      </image>
                   </ImageView>
-                  <Button layoutX="189.0" layoutY="309.0" mnemonicParsing="false" style="-fx-background-color: #5b615e;" text="Book Room" textFill="#24b590">
+                  <Button fx:id="BookedB" layoutX="190.0" layoutY="363.0" mnemonicParsing="false" style="-fx-background-color: #5b615e;" text="Book Room" textFill="#24b590">
                      <font>
                         <Font name="Calibri Bold" size="20.0" />
                      </font>
                   </Button>
-                  <Label layoutX="85.0" layoutY="145.0" text="Enter Course Code" textFill="#29322e">
+                  <Label layoutX="73.0" layoutY="120.0" text="Enter Course Code/Others" textFill="#29322e">
                      <font>
                         <Font size="16.0" />
                      </font>
                   </Label>
-                  <TextField layoutX="290.0" layoutY="145.0" />
-                  <ChoiceBox layoutX="289.0" layoutY="210.0" prefWidth="150.0" />
-                  <Label layoutX="88.0" layoutY="210.0" prefHeight="25.0" prefWidth="149.0" text="Choose Room" textFill="#29322e">
+                  <TextField fx:id="TXTCode" layoutX="280.0" layoutY="120.0" style="-fx-background-color: white;" />
+                  <Label layoutX="74.0" layoutY="220.0" prefHeight="25.0" prefWidth="149.0" text="Choose Room" textFill="#29322e">
                      <font>
                         <Font size="16.0" />
                      </font>
                   </Label>
                   <Separator layoutX="26.0" layoutY="75.0" prefHeight="17.0" prefWidth="478.0" style="-fx-background-color: #5b615e;" />
                   <Separator layoutX="26.0" layoutY="411.0" prefHeight="17.0" prefWidth="478.0" style="-fx-background-color: #5b615e;" />
+                  <Label layoutX="73.0" layoutY="171.0" prefHeight="30.0" prefWidth="132.0" text="Approx. Capacity">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="TXTCapacity" layoutX="280.0" layoutY="174.0" style="-fx-background-color: white;" />
+                  <Label layoutX="73.0" layoutY="271.0" prefHeight="17.0" prefWidth="60.0" text="Time">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="TXTTime" layoutX="116.0" layoutY="259.0" prefHeight="25.0" prefWidth="124.0" promptText="Start time (hh:mm)" style="-fx-background-color: white;" />
+                  <DatePicker fx:id="TXTDate" layoutX="310.0" layoutY="271.0" prefHeight="25.0" prefWidth="116.0" style="-fx-background-color: white;" />
+                  <Label layoutX="263.0" layoutY="271.0" text="Date">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="74.0" layoutY="327.0" prefHeight="25.0" prefWidth="233.0" text="Day(Booking for whole Semester)">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="TXTDay" layoutX="306.0" layoutY="327.0" prefHeight="25.0" prefWidth="124.0" promptText="e.g. Monday" style="-fx-background-color: white;" />
+                  <TextField fx:id="TXTTime1" layoutX="116.0" layoutY="296.0" prefHeight="25.0" prefWidth="124.0" promptText="End time (hh:mm)" style="-fx-background-color: white;" />
+                  <ComboBox fx:id="TXTRoom" layoutX="279.0" layoutY="220.0" prefWidth="150.0" style="-fx-background-color: white;" />
                </children>
             </Pane>
             
