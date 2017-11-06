@@ -15,6 +15,7 @@ import java.util.ResourceBundle;
 import javax.swing.JOptionPane;
 
 import application.Admin;
+import application.Classrooms;
 import application.Faculty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -29,7 +30,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
@@ -44,21 +48,77 @@ public class FacultyPage  implements javafx.fxml.Initializable {
 	Pane CancelPane,Default,ChangePasswordPane;
 	
 	@FXML
-	Button showB,profB,bookB,CancelB,ChangePassword,Changed,LogoutBtn,BookedB;
+	Button showB,profB,bookB,CancelB,ChangePassword,Changed,LogoutBtn,BookedB,CheckAvailB;
 	@FXML
-	TextField TXTnewpwd1,TXTnewpwd2, OldPwd,TXTCode,TXTCapacity,TXTTime,TXTTime1,TXTDay;
+	TextField TXTnewpwd1,TXTnewpwd2, OldPwd,TXTCode,TXTCapacity,TXTTime,TXTTime1,TXTDay,TXTBTime;
 	@FXML
 	Label Lblemail, LblName;
 	@FXML
-	ComboBox TXTRoom;
+	ComboBox TXTRoom,TXTBRoom;
 	@FXML
-	DatePicker TXTDate;
+	DatePicker TXTDate, TXTBDate;
+	@FXML
+	TableView Tblavail;
+	@FXML
+	TableColumn<Classrooms,String> RoomNo;
+	@FXML
+	TableColumn<Classrooms,Integer> Capacity;
+	@FXML
+	TableColumn<Classrooms,String> Avail;
+	@FXML
+	TableColumn<Classrooms,String> Course;
 	@FXML
 	
 	static Faculty faculty;
 	public void setFaculty(Faculty f)
 	{
 		faculty = f;
+	}
+	public ArrayList<Classrooms> accroom(String Room)
+	{
+		ArrayList<Classrooms> avail = new ArrayList<Classrooms>();
+		try
+		{Class.forName("java.sql.DriverManager");
+	    Connection con=(Connection) DriverManager.getConnection(
+	            "jdbc:mysql://localhost:3306/project","root","30july1998");
+	    Statement stmt=(Statement) con.createStatement();
+	    String q = "Select * from rooms where RoomNo = '"+Room+"';";
+	    System.out.println(q);
+	    ResultSet rs = stmt.executeQuery(q);
+	    rs.next();
+	    int c = rs.getInt("Capacity");
+	    System.out.println("Cap"+c);
+	    
+	    if(!rs.next())
+	    { q = "Select * from bookings where RoomNo = '"+Room+"';";
+	      System.out.println(q);
+	 	   ResultSet rs1 = stmt.executeQuery(q);
+	 	   
+	    	if(!rs1.next())
+	    {  
+	    	Classrooms cl =new Classrooms(Room,c,"Available","------");
+	    	avail.add(cl);
+	    	return avail;
+	    }
+	    else
+	    {
+	    	do
+	    	{
+	    		avail.add(new Classrooms(Room,c,rs1.getString("Day"),rs1.getString("CourseCode")));
+	    	
+	    	}
+	    	while(rs1.next());
+	    	return avail;
+	    }
+	    }
+		}
+		catch(Exception ex)
+		{
+			System.out.println("game is on");
+		}
+		//System.out.println("useless");
+		avail.add(new Classrooms(Room,0,"---","------"));
+		return avail;
 	}
 	public void getrooms()
 	{
@@ -79,6 +139,7 @@ public class FacultyPage  implements javafx.fxml.Initializable {
 	        }
 	        ObservableList<String> options = FXCollections.observableArrayList(list);
 	        TXTRoom.setItems(options);
+	        TXTBRoom.setItems(options);
 	        
 		}
 		catch(Exception ex)
@@ -98,6 +159,35 @@ public class FacultyPage  implements javafx.fxml.Initializable {
 				ProfilePane.setVisible(false);
 				CancelPane.setVisible(false);
 				Default.setVisible(false);
+				getrooms();
+			}
+			
+		});	
+		CheckAvailB.setOnAction(new EventHandler<ActionEvent>() {
+			
+			@Override
+			public void handle(ActionEvent event) {
+				String Room = (String) TXTBRoom.getValue();
+				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd LLLL yyyy");
+				if(TXTBDate.getValue()!=null)
+				{
+					String Date = TXTBDate.getValue().format(formatter);
+				
+				}
+				String Time = TXTBTime.getText();
+				ArrayList<Classrooms> list = accroom(Room);
+				System.out.println(list.get(0).RoomNo+" "+list.get(0).Course);
+				ObservableList lists = FXCollections.observableArrayList(list);
+				
+				System.out.println(list.size());
+				Tblavail.setItems(lists);
+				RoomNo.setCellValueFactory(new PropertyValueFactory<Classrooms,String>("RoomNo"));
+				Capacity.setCellValueFactory(new PropertyValueFactory<Classrooms,Integer>("Capacity"));
+				Avail.setCellValueFactory(new PropertyValueFactory<Classrooms,String>("Availbility"));
+				Course.setCellValueFactory(new PropertyValueFactory<Classrooms,String>("Course"));
+				
+				
+				
 				
 			}
 			
