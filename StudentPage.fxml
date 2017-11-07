@@ -177,7 +177,7 @@
                   
                            </children>
                   </Pane>
-                  <Pane fx:id="ViewCoursesPane" layoutY="-2.0" prefHeight="492.0" prefWidth="532.0" style="-fx-background-color: #24b590;" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <Pane fx:id="ViewCoursesPane" layoutY="-2.0" prefHeight="492.0" prefWidth="532.0" style="-fx-background-color: #24b590;" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
                         <Label layoutX="161.0" layoutY="30.0" text="My Courses :" textFill="#eee8e8">
                            <font>
@@ -368,7 +368,7 @@
                         </Button>
                      </children>
                   </Pane>
-                  <Pane fx:id="Default" prefHeight="490.0" prefWidth="532.0" style="-fx-background-color: #24b590;" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <Pane fx:id="Default" prefHeight="490.0" prefWidth="532.0" style="-fx-background-color: #24b590;" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
                         <Label layoutX="143.0" layoutY="177.0" prefHeight="17.0" prefWidth="276.0" text="Hi! Student" textFill="#686464">
                            <font>

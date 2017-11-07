@@ -1,7 +1,7 @@
-
 package GUIComponents;
 
 import application.Course;
+import javafx.scene.Node;
 
 import application.Student;
 import java.io.IOException;
@@ -294,15 +294,17 @@ public class StudentPage  implements javafx.fxml.Initializable {
 				 
 				 try
 				 {
-					// ViewCoursesTable.setItems(null);
+					 ViewCoursesTable.setItems(null);
 					 
 					 Class.forName("java.sql.DriverManager");
-				     Connection con=(Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/project","root","30july1998");
+				     Connection con=(Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/project","root","tapeied");
 				     Statement stmt=(Statement) con.createStatement();
 				        
 					 ResultSet rs=student.ViewCourses();
 					 
-					 //ViewCoursesTable.setEditable(true);
+					 ViewCoursesTable.setEditable(true);
+		        		
+					//ViewCoursesTable.setEditable(true);
 		        		
 					 if(rs.next())
 				        {
@@ -575,6 +577,26 @@ public class StudentPage  implements javafx.fxml.Initializable {
 			}
 			
 		});	
+      
+      Logout.setOnAction(new EventHandler<ActionEvent>() {
+			
+			@Override
+			public void handle(ActionEvent event) {
+				try
+				{
+				Parent page =  FXMLLoader.load(getClass().getResource("Logout.fxml"));
+				Scene scene = new Scene(page);
+				Stage page_stage = (Stage) (((Node) event.getSource()).getScene().getWindow());
+				page_stage.setScene(scene);
+				page_stage.show();
+				}
+				catch(Exception exp)
+				{
+					System.out.println(exp.getMessage());
+				}
+			}
+		});
+			
     
 	}	
 	
