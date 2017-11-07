@@ -51,6 +51,49 @@ public class Student extends User{
 		
 	}
 	
+	public void AddCourses() {
+		
+	}
+	
+	public ResultSet ViewCourses() {
+		ResultSet rs=null;
+		try
+		{
+			Class.forName("java.sql.DriverManager");
+	        Connection con=(Connection) DriverManager.getConnection(
+	                "jdbc:mysql://localhost:3306/project","root","tapeied");
+	        Statement stmt=(Statement) con.createStatement();
+	        String q="Select CoursesTaken from students where email='"+this.email+"';";
+	        rs=stmt.executeQuery(q);
+	        return rs;
+	        
+		}
+		catch(Exception exp)
+		{
+			System.out.println(exp.getMessage());
+		}
+		return rs;
+	}
+	
+	public ResultSet SearchCourses(String searchCode) {
+		ResultSet rs=null;
+		try
+		{
+			Class.forName("java.sql.DriverManager");
+	        Connection con=(Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/project","root","tapeied");
+	        Statement stmt=(Statement) con.createStatement();
+	        String q="Select CourseCode,CourseName,Faculty,Credits from courses where LCase(PostConditions) like '%"+searchCode.toLowerCase()+"%';";
+	        rs=stmt.executeQuery(q);
+	        return rs;
+	        
+		}
+		catch(Exception exp)
+		{
+			System.out.println(exp.getMessage());
+		}
+		return rs;
+	}
+	
 	public ResultSet ViewRoomBookings() {
 		ResultSet rs=null;
 		try
@@ -59,7 +102,7 @@ public class Student extends User{
 	        Connection con=(Connection) DriverManager.getConnection(
 	                "jdbc:mysql://localhost:3306/project","root","tapeied");
 	        Statement stmt=(Statement) con.createStatement();
-	        String q="Select password from users where email='"+this.email+"';";
+	        String q="Select * from users where email='"+this.email+"';";
 	        rs=stmt.executeQuery(q);
 	        return rs;
 		}
