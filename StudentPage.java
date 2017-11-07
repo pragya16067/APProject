@@ -1,25 +1,35 @@
 package GUIComponents;
 
+import application.Course;
+
 import application.Student;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ResourceBundle;
 
 import javax.swing.JOptionPane;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-
+import javafx.scene.control.cell.PropertyValueFactory;
 
 public class StudentPage  implements javafx.fxml.Initializable {
 	static Student student;
@@ -41,24 +51,48 @@ public class StudentPage  implements javafx.fxml.Initializable {
 	Pane AddCoursesPane,DropCoursesPane,ViewCoursesPane;
 	@FXML
 	Pane RequestRoomPane,ViewStatusPane,AvaibilityPane;
-	
 	@FXML
 	Pane LogoutPane1,LogoutPane2,Default,ChangePasswordPane;
 	
+	
 	@FXML
-	TextField TXTnewpwd1,TXTnewpwd2, OldPwd;
+	TextField TXTnewpwd1,TXTnewpwd2,SearchBox;
 	@FXML
 	Label LblName, LblBatch, LblRno;
 	@FXML
-	Button Timetable,Profile,Courses,Classrooms,AddC,ViewC,DropC,AddedC,DroppedC,BackC,RequestR,ViewR,AvailableR,RequestedR,BackR1,BackR2,LogoutBtn,ChangePassword,Changed,LoginA;
+	Button Timetable,Profile,Courses,Classrooms,AddC,ViewC,SearchC,DropC,AddedC,DroppedC,BackC,RequestR,ViewR,AvailableR,RequestedR,BackR1,BackR2,Logout,ChangePassword,Changed,LoginA;
+	
+	@FXML
+	TableView<Course> ViewCoursesTable;
+	@FXML
+	TableColumn<Course, String> Code;
+	@FXML
+	TableColumn<Course, String> Name;
+	@FXML
+	TableColumn<Course, String> Acronym;
+	@FXML
+	TableColumn<Course, String> Faculty;
+	@FXML
+	TableColumn<Course, String> Credits;
+	@FXML
+	TableColumn<Course, String> Type;
 	
 	@Override	
 	public void initialize(URL location, ResourceBundle resources) {
+		
+		ViewCoursesTable.setEditable(true);
+		Code.setCellValueFactory(new PropertyValueFactory<Course,String>("Code"));
+		Name.setCellValueFactory(new PropertyValueFactory<Course,String>("Name"));
+		Acronym.setCellValueFactory(new PropertyValueFactory<Course,String>("Acronym"));
+		Faculty.setCellValueFactory(new PropertyValueFactory<Course,String>("Faculty"));
+		Credits.setCellValueFactory(new PropertyValueFactory<Course,String>("Credits"));
+		Type.setCellValueFactory(new PropertyValueFactory<Course,String>("Type"));
+		
 		ChangePassword.setOnAction(new EventHandler<ActionEvent>() {
 			
 			@Override
 			public void handle(ActionEvent event) {
-				System.out.println("I m here");
+				
 				ProfilePane.setVisible(false);
 				TimetablePane.setVisible(false);
 				CoursesPane.setVisible(false);
@@ -70,6 +104,7 @@ public class StudentPage  implements javafx.fxml.Initializable {
 				 ViewStatusPane.setVisible(false);
 				 AvaibilityPane.setVisible(false);
 				 LogoutPane1.setVisible(false);
+				 LogoutPane2.setVisible(false);
 				 Default.setVisible(false);
 				 ChangePasswordPane.setVisible(true);
 			}
@@ -82,19 +117,9 @@ public class StudentPage  implements javafx.fxml.Initializable {
 			public void handle(ActionEvent event) {
 				String np1=TXTnewpwd1.getText();
 				String np2=TXTnewpwd2.getText();
-				String op = OldPwd.getText();
-				if(np1.equals(np2) && student.AuthenticateUser(student.getemail(), op))
+				if(np1.equals(np2))
 				{
 					student.changePassword(np1);
-					JOptionPane.showMessageDialog(null, "Password Changed Succesfully");
-				}
-				else
-				if(!student.AuthenticateUser(student.getemail(), op))
-				{
-					JOptionPane.showMessageDialog(null, "Your Old Password is incorrect. Please Try Again!");
-					OldPwd.setText("");
-					TXTnewpwd1.setText("");
-					TXTnewpwd2.setText("");
 				}
 				else
 				{
@@ -114,6 +139,7 @@ public class StudentPage  implements javafx.fxml.Initializable {
 				 ViewStatusPane.setVisible(false);
 				 AvaibilityPane.setVisible(false);
 				 LogoutPane1.setVisible(false);
+				 LogoutPane2.setVisible(false);
 				 Default.setVisible(false);
 				 ChangePasswordPane.setVisible(false);
 			}
@@ -124,7 +150,7 @@ public class StudentPage  implements javafx.fxml.Initializable {
 			
 			@Override
 			public void handle(ActionEvent event) {
-				System.out.println("I m here");
+				
 				ProfilePane.setVisible(false);
 				TimetablePane.setVisible(true);
 				CoursesPane.setVisible(false);
@@ -136,8 +162,9 @@ public class StudentPage  implements javafx.fxml.Initializable {
 				 ViewStatusPane.setVisible(false);
 				 AvaibilityPane.setVisible(false);
 				 LogoutPane1.setVisible(false);
+				 LogoutPane2.setVisible(false);
 				 Default.setVisible(false);
-				
+				 ChangePasswordPane.setVisible(false);
 			}
 			
 		});	
@@ -160,7 +187,10 @@ public class StudentPage  implements javafx.fxml.Initializable {
 				RequestRoomPane.setVisible(false);
 				 ViewStatusPane.setVisible(false);
 				 AvaibilityPane.setVisible(false);
+				 LogoutPane1.setVisible(false);
+				 LogoutPane2.setVisible(false);
 				 Default.setVisible(false);
+				 ChangePasswordPane.setVisible(false);
 				
 				
 			}
@@ -172,7 +202,7 @@ public class StudentPage  implements javafx.fxml.Initializable {
 			
 			@Override
 			public void handle(ActionEvent event) {
-				System.out.println("I m here");
+				
 				ProfilePane.setVisible(false);
 				TimetablePane.setVisible(false);
 				CoursesPane.setVisible(true);
@@ -183,7 +213,10 @@ public class StudentPage  implements javafx.fxml.Initializable {
 				RequestRoomPane.setVisible(false);
 				 ViewStatusPane.setVisible(false);
 				 AvaibilityPane.setVisible(false);
-				
+				 LogoutPane1.setVisible(false);
+				 LogoutPane2.setVisible(false);
+				 Default.setVisible(false);
+				 ChangePasswordPane.setVisible(false);
 				
 			}
 			
@@ -192,7 +225,7 @@ public class StudentPage  implements javafx.fxml.Initializable {
 			
 			@Override
 			public void handle(ActionEvent event) {
-				System.out.println("I m here");
+				
 				ProfilePane.setVisible(false);
 				TimetablePane.setVisible(false);
 				CoursesPane.setVisible(false);
@@ -203,12 +236,15 @@ public class StudentPage  implements javafx.fxml.Initializable {
 				RequestRoomPane.setVisible(false);
 				 ViewStatusPane.setVisible(false);
 				 AvaibilityPane.setVisible(false);
+				 LogoutPane1.setVisible(false);
+				 LogoutPane2.setVisible(false);
 				 Default.setVisible(false);
-				
+				 ChangePasswordPane.setVisible(false);
 				
 			}
 			
-		});	
+		});
+		
 		AddC.setOnAction(new EventHandler<ActionEvent>() {
 			
 			@Override
@@ -227,16 +263,25 @@ public class StudentPage  implements javafx.fxml.Initializable {
 				 LogoutPane1.setVisible(false);
 				 LogoutPane2.setVisible(false);
 				 Default.setVisible(false);
-				 
+				 ChangePasswordPane.setVisible(false);
 				
 			}
 			
 		});	
+		
+		SearchC.setOnAction(new EventHandler<ActionEvent> () {
+			
+			@Override
+			public void handle(ActionEvent event) {
+				System.out.println(SearchBox.getText());
+			}
+			
+		});
+		
 		ViewC.setOnAction(new EventHandler<ActionEvent>() {
 			
 			@Override
 			public void handle(ActionEvent event) {
-				System.out.println("I m here");
 				ProfilePane.setVisible(false);
 				TimetablePane.setVisible(false);
 				CoursesPane.setVisible(false);
@@ -250,6 +295,59 @@ public class StudentPage  implements javafx.fxml.Initializable {
 				 LogoutPane1.setVisible(false);
 				 LogoutPane2.setVisible(false);
 				 Default.setVisible(false);
+				 ChangePasswordPane.setVisible(false);
+				 
+				 try
+				 {
+					// ViewCoursesTable.setItems(null);
+					 
+					 Class.forName("java.sql.DriverManager");
+				     Connection con=(Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/project","root","tapeied");
+				     Statement stmt=(Statement) con.createStatement();
+				        
+					 ResultSet rs=student.ViewCourses();
+					 
+					 ViewCoursesTable.setEditable(true);
+		        		
+					 if(rs.next())
+				        {
+				        	String[] s=rs.getString("CoursesTaken").split(";");
+				        	for(int i=0; i<s.length; i++)
+				        	{
+				        		String CourseCode=s[i];
+				        		String q="Select CourseCode,CourseName,Acronym,Faculty,Credits,Type from courses where CourseCode='"+CourseCode+"';";
+				        		ResultSet CData= stmt.executeQuery(q);
+				        		ObservableList<Course> l=FXCollections.observableArrayList();
+				        		while(CData.next())
+				        		{
+				        			
+				        			Course c=new Course(CData.getString("CourseCode"),CData.getString("CourseName"),CData.getString("Acronym"),CData.getString("Faculty"),CData.getString("Faculty"),CData.getString("Type"));
+				        			
+				        			l.add(c);
+				        			
+				        			System.out.println(l.get(0).getCourseCode());
+				        		}
+				        		
+				        		//System.out.println("setting prop");
+				        		
+				        		
+				        		ViewCoursesTable.setItems(l);
+				        		
+				        		Code.setCellValueFactory(new PropertyValueFactory<Course,String>("CourseCode"));
+				        		Name.setCellValueFactory(new PropertyValueFactory<Course,String>("CourseName"));
+				        		Acronym.setCellValueFactory(new PropertyValueFactory<Course,String>("Acronym"));
+				        		Faculty.setCellValueFactory(new PropertyValueFactory<Course,String>("Faculty"));
+				        		Credits.setCellValueFactory(new PropertyValueFactory<Course,String>("Credits"));
+				        		Type.setCellValueFactory(new PropertyValueFactory<Course,String>("Type"));
+				        		
+				        	}
+				        }
+					 
+				 }
+				 catch(Exception e)
+				 {
+					 System.out.println(e.getMessage());
+				 }
 				
 			}
 			
@@ -258,7 +356,7 @@ public class StudentPage  implements javafx.fxml.Initializable {
 			
 			@Override
 			public void handle(ActionEvent event) {
-				System.out.println("I m here");
+				
 				ProfilePane.setVisible(false);
 				TimetablePane.setVisible(false);
 				CoursesPane.setVisible(false);
@@ -272,6 +370,7 @@ public class StudentPage  implements javafx.fxml.Initializable {
 				 LogoutPane1.setVisible(false);
 				 LogoutPane2.setVisible(false);
 				 Default.setVisible(false);
+				 ChangePasswordPane.setVisible(false);
 				
 				
 			}
@@ -293,7 +392,9 @@ public class StudentPage  implements javafx.fxml.Initializable {
 				 ViewStatusPane.setVisible(false);
 				 AvaibilityPane.setVisible(false);
 				 LogoutPane1.setVisible(false);
+				 LogoutPane2.setVisible(false);
 				 Default.setVisible(false);
+				 ChangePasswordPane.setVisible(false);
 				
 				
 			}
@@ -317,7 +418,7 @@ public class StudentPage  implements javafx.fxml.Initializable {
 				 LogoutPane1.setVisible(false);
 				 LogoutPane2.setVisible(false);
 				 Default.setVisible(false);
-				
+				 ChangePasswordPane.setVisible(false);
 				
 			}
 			
@@ -340,7 +441,7 @@ public class StudentPage  implements javafx.fxml.Initializable {
 				 LogoutPane1.setVisible(false);
 				 LogoutPane2.setVisible(false);
 				 Default.setVisible(false);
-				
+				 ChangePasswordPane.setVisible(false);
 				
 			}
 			
@@ -363,7 +464,7 @@ public class StudentPage  implements javafx.fxml.Initializable {
 				 LogoutPane1.setVisible(false);
 				 LogoutPane2.setVisible(false);
 				 Default.setVisible(false);
-				
+				 ChangePasswordPane.setVisible(false);
 			}
 			
 		});	
@@ -385,6 +486,7 @@ public class StudentPage  implements javafx.fxml.Initializable {
 				 LogoutPane1.setVisible(false);
 				 LogoutPane2.setVisible(false);
 				 Default.setVisible(false);
+				 ChangePasswordPane.setVisible(false);
 			}
 			
 		});	
@@ -406,6 +508,7 @@ public class StudentPage  implements javafx.fxml.Initializable {
 				 LogoutPane1.setVisible(false);
 				 LogoutPane2.setVisible(false);
 				 Default.setVisible(false);
+				 ChangePasswordPane.setVisible(false);
 			}
 			
 		});	
@@ -427,6 +530,7 @@ public class StudentPage  implements javafx.fxml.Initializable {
 				 LogoutPane1.setVisible(false);
 				 LogoutPane2.setVisible(false);
 				 Default.setVisible(false);
+				 ChangePasswordPane.setVisible(false);
 			}
 			
 		});	
@@ -446,7 +550,9 @@ public class StudentPage  implements javafx.fxml.Initializable {
 				 ViewStatusPane.setVisible(false);
 				 AvaibilityPane.setVisible(false);
 				 LogoutPane1.setVisible(false);
+				 LogoutPane2.setVisible(false);
 				 Default.setVisible(false);
+				 ChangePasswordPane.setVisible(false);
 				
 				
 			}
@@ -470,28 +576,10 @@ public class StudentPage  implements javafx.fxml.Initializable {
 				 LogoutPane1.setVisible(false);
 				 LogoutPane2.setVisible(false);
 				 Default.setVisible(false);
-				
+				 ChangePasswordPane.setVisible(false);
 			}
 			
 		});	
-      LogoutBtn.setOnAction(new EventHandler<ActionEvent>() {
-			
-			@Override
-			public void handle(ActionEvent event) {
-				try
-				{
-				Parent page =  FXMLLoader.load(getClass().getResource("Logout.fxml"));
-				Scene scene = new Scene(page);
-				Stage page_stage = (Stage) (((Node) event.getSource()).getScene().getWindow());
-				page_stage.setScene(scene);
-				page_stage.show();
-				}
-				catch(Exception exp)
-				{
-					System.out.println(exp.getMessage());
-				}
-			}
-		});
     
 	}	
 	
