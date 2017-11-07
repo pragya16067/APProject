@@ -1,3 +1,4 @@
+
 package GUIComponents;
 
 import application.Course;
@@ -73,20 +74,14 @@ public class StudentPage  implements javafx.fxml.Initializable {
 	@FXML
 	TableColumn<Course, String> Faculty;
 	@FXML
-	TableColumn<Course, String> Credits;
+	TableColumn<Course, Integer> Credits;
 	@FXML
 	TableColumn<Course, String> Type;
 	
 	@Override	
 	public void initialize(URL location, ResourceBundle resources) {
 		
-		ViewCoursesTable.setEditable(true);
-		Code.setCellValueFactory(new PropertyValueFactory<Course,String>("Code"));
-		Name.setCellValueFactory(new PropertyValueFactory<Course,String>("Name"));
-		Acronym.setCellValueFactory(new PropertyValueFactory<Course,String>("Acronym"));
-		Faculty.setCellValueFactory(new PropertyValueFactory<Course,String>("Faculty"));
-		Credits.setCellValueFactory(new PropertyValueFactory<Course,String>("Credits"));
-		Type.setCellValueFactory(new PropertyValueFactory<Course,String>("Type"));
+		
 		
 		ChangePassword.setOnAction(new EventHandler<ActionEvent>() {
 			
@@ -302,45 +297,45 @@ public class StudentPage  implements javafx.fxml.Initializable {
 					// ViewCoursesTable.setItems(null);
 					 
 					 Class.forName("java.sql.DriverManager");
-				     Connection con=(Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/project","root","tapeied");
+				     Connection con=(Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/project","root","30july1998");
 				     Statement stmt=(Statement) con.createStatement();
 				        
 					 ResultSet rs=student.ViewCourses();
 					 
-					 ViewCoursesTable.setEditable(true);
+					 //ViewCoursesTable.setEditable(true);
 		        		
 					 if(rs.next())
 				        {
 				        	String[] s=rs.getString("CoursesTaken").split(";");
+				        	ObservableList<Course> l=FXCollections.observableArrayList();
 				        	for(int i=0; i<s.length; i++)
 				        	{
 				        		String CourseCode=s[i];
 				        		String q="Select CourseCode,CourseName,Acronym,Faculty,Credits,Type from courses where CourseCode='"+CourseCode+"';";
 				        		ResultSet CData= stmt.executeQuery(q);
-				        		ObservableList<Course> l=FXCollections.observableArrayList();
+				        		
 				        		while(CData.next())
 				        		{
 				        			
-				        			Course c=new Course(CData.getString("CourseCode"),CData.getString("CourseName"),CData.getString("Acronym"),CData.getString("Faculty"),CData.getString("Faculty"),CData.getString("Type"));
+				        			Course c=new Course(CData.getString("CourseCode"),CData.getString("CourseName"),CData.getString("Acronym"),CData.getString("Faculty"),CData.getInt("Credits"),CData.getString("Type"));
 				        			
 				        			l.add(c);
 				        			
-				        			System.out.println(l.get(0).getCourseCode());
 				        		}
-				        		
-				        		//System.out.println("setting prop");
-				        		
-				        		
+				                  
+				        		System.out.println(l.get(i).getCourseCode()+" "+l.get(i).getCourseName());
+				        	}	
+				        		System.out.println(l.size());
 				        		ViewCoursesTable.setItems(l);
 				        		
 				        		Code.setCellValueFactory(new PropertyValueFactory<Course,String>("CourseCode"));
 				        		Name.setCellValueFactory(new PropertyValueFactory<Course,String>("CourseName"));
 				        		Acronym.setCellValueFactory(new PropertyValueFactory<Course,String>("Acronym"));
 				        		Faculty.setCellValueFactory(new PropertyValueFactory<Course,String>("Faculty"));
-				        		Credits.setCellValueFactory(new PropertyValueFactory<Course,String>("Credits"));
+				        		Credits.setCellValueFactory(new PropertyValueFactory<Course,Integer>("Credits"));
 				        		Type.setCellValueFactory(new PropertyValueFactory<Course,String>("Type"));
 				        		
-				        	}
+				        	
 				        }
 					 
 				 }

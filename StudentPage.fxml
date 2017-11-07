@@ -177,14 +177,14 @@
                   
                            </children>
                   </Pane>
-                  <Pane fx:id="ViewCoursesPane" layoutY="-2.0" prefHeight="492.0" prefWidth="532.0" style="-fx-background-color: #24b590;" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <Pane fx:id="ViewCoursesPane" layoutY="-2.0" prefHeight="492.0" prefWidth="532.0" style="-fx-background-color: #24b590;" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
                         <Label layoutX="161.0" layoutY="30.0" text="My Courses :" textFill="#eee8e8">
                            <font>
                               <Font name="System Bold" size="35.0" />
                            </font>
                         </Label>
-                        <TableView fx:id="ViewCoursesTable" fixedCellSize="1.0" layoutX="10.0" layoutY="91.0" prefHeight="332.0" prefWidth="512.0" style="-fx-background-color: #5b615e;">
+                        <TableView fx:id="ViewCoursesTable" layoutX="10.0" layoutY="91.0" prefHeight="332.0" prefWidth="512.0" style="-fx-background-color: #5b615e;">
                            <columns>
                               <TableColumn fx:id="Code" editable="true" prefWidth="81.0" text="Course Code" />
                         <TableColumn fx:id="Name" editable="true" prefWidth="113.0" text="Name" />
@@ -368,7 +368,7 @@
                         </Button>
                      </children>
                   </Pane>
-                  <Pane fx:id="Default" prefHeight="490.0" prefWidth="532.0" style="-fx-background-color: #24b590;" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <Pane fx:id="Default" prefHeight="490.0" prefWidth="532.0" style="-fx-background-color: #24b590;" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
                         <Label layoutX="143.0" layoutY="177.0" prefHeight="17.0" prefWidth="276.0" text="Hi! Student" textFill="#686464">
                            <font>

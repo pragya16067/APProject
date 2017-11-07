@@ -8,11 +8,11 @@ public class Course {
 	private String CourseName;
 	private String Acronym;
 	private String Faculty;
-	private String Credits;
+	private int Credits;
 	private String Type;
-	private String PC;
+	//private String PC;
 	
-	public Course(String code, String name, String a, String f, String c, String t) {
+	public Course(String code, String name, String a, String f, int c, String t) {
 		CourseCode=code;
 		CourseName=name;
 		Acronym=a;
@@ -37,7 +37,7 @@ public class Course {
 		return Faculty;
 	}
 	
-	public String getCredits() {
+	public Integer getCredits() {
 		return Credits;
 	}
 	
