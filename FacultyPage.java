@@ -15,6 +15,7 @@ import java.util.ResourceBundle;
 import javax.swing.JOptionPane;
 
 import application.Admin;
+import application.Bookings;
 import application.Classrooms;
 import application.Faculty;
 import javafx.collections.FXCollections;
@@ -48,9 +49,9 @@ public class FacultyPage  implements javafx.fxml.Initializable {
 	Pane CancelPane,Default,ChangePasswordPane;
 	
 	@FXML
-	Button showB,profB,bookB,CancelB,ChangePassword,Changed,LogoutBtn,BookedB,CheckAvailB;
+	Button showB,profB,bookB,CancelB,ChangePassword,Changed,LogoutBtn,BookedB,CheckAvailB,CancelBtn;
 	@FXML
-	TextField TXTnewpwd1,TXTnewpwd2, OldPwd,TXTCode,TXTCapacity,TXTTime,TXTTime1,TXTDay,TXTBTime;
+	TextField TXTnewpwd1,TXTnewpwd2, OldPwd,TXTCode,TXTCapacity,TXTTime,TXTTime1,TXTDay,TXTBTime,TXTBDay;
 	@FXML
 	Label Lblemail, LblName;
 	@FXML
@@ -58,7 +59,7 @@ public class FacultyPage  implements javafx.fxml.Initializable {
 	@FXML
 	DatePicker TXTDate, TXTBDate;
 	@FXML
-	TableView Tblavail;
+	TableView Tblavail,TblCancel;
 	@FXML
 	TableColumn<Classrooms,String> RoomNo;
 	@FXML
@@ -66,60 +67,23 @@ public class FacultyPage  implements javafx.fxml.Initializable {
 	@FXML
 	TableColumn<Classrooms,String> Avail;
 	@FXML
+	TableColumn<Classrooms,String> Time;
+	@FXML
 	TableColumn<Classrooms,String> Course;
 	@FXML
-	
+	TableColumn<Bookings,String> Purpose1;
+	@FXML
+	TableColumn<Bookings,String> RoomN1;
+	@FXML
+	TableColumn<Bookings,String> DateN1;
+	@FXML
+	TableColumn<Bookings,String> TimeN1;
 	static Faculty faculty;
 	public void setFaculty(Faculty f)
 	{
 		faculty = f;
 	}
-	public ArrayList<Classrooms> accroom(String Room)
-	{
-		ArrayList<Classrooms> avail = new ArrayList<Classrooms>();
-		try
-		{Class.forName("java.sql.DriverManager");
-	    Connection con=(Connection) DriverManager.getConnection(
-	            "jdbc:mysql://localhost:3306/project","root","30july1998");
-	    Statement stmt=(Statement) con.createStatement();
-	    String q = "Select * from rooms where RoomNo = '"+Room+"';";
-	    System.out.println(q);
-	    ResultSet rs = stmt.executeQuery(q);
-	    rs.next();
-	    int c = rs.getInt("Capacity");
-	    System.out.println("Cap"+c);
-	    
-	    if(!rs.next())
-	    { q = "Select * from bookings where RoomNo = '"+Room+"';";
-	      System.out.println(q);
-	 	   ResultSet rs1 = stmt.executeQuery(q);
-	 	   
-	    	if(!rs1.next())
-	    {  
-	    	Classrooms cl =new Classrooms(Room,c,"Available","------");
-	    	avail.add(cl);
-	    	return avail;
-	    }
-	    else
-	    {
-	    	do
-	    	{
-	    		avail.add(new Classrooms(Room,c,rs1.getString("Day"),rs1.getString("CourseCode")));
-	    	
-	    	}
-	    	while(rs1.next());
-	    	return avail;
-	    }
-	    }
-		}
-		catch(Exception ex)
-		{
-			System.out.println("game is on");
-		}
-		//System.out.println("useless");
-		avail.add(new Classrooms(Room,0,"---","------"));
-		return avail;
-	}
+	
 	public void getrooms()
 	{
 		try
@@ -147,6 +111,7 @@ public class FacultyPage  implements javafx.fxml.Initializable {
 			//System.out.println(ex.getMessage());
 		}
 	}
+	
 	@Override	
 	public void initialize(URL location, ResourceBundle resources) {
 		
@@ -168,30 +133,103 @@ public class FacultyPage  implements javafx.fxml.Initializable {
 			@Override
 			public void handle(ActionEvent event) {
 				String Room = (String) TXTBRoom.getValue();
+				System.out.println("room"+Room);
+				System.out.println("date"+TXTBDate.getValue());
+				System.out.println("day"+TXTBDay.getText());
+				System.out.println("time"+TXTBTime.getText());
+				ArrayList<Classrooms> list= new ArrayList<Classrooms>();
 				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd LLLL yyyy");
-				if(TXTBDate.getValue()!=null)
+				if(TXTBDate.getValue()==null && TXTBTime.getText().equals("") && TXTBDay.getText().equals(""))
 				{
-					String Date = TXTBDate.getValue().format(formatter);
-				
+				System.out.println("1a");
+				list = faculty.accroom(Room);
 				}
-				String Time = TXTBTime.getText();
-				ArrayList<Classrooms> list = accroom(Room);
-				System.out.println(list.get(0).RoomNo+" "+list.get(0).Course);
+				if((TXTBDate.getValue()!=null || !TXTBDay.getText().equals("")) && TXTBTime.getText().equals(""))
+				{
+					System.out.println("1b");
+					String Date="",Day="";
+					if(TXTBDate.getValue()!=null)
+					{ System.out.println("1f");
+						Date = TXTBDate.getValue().format(formatter);	
+						Day =  TXTBDate.getValue().getDayOfWeek().name();
+					}
+					else
+					{ System.out.println("1g");
+						Day = TXTBDay.getText();
+					}
+				list = faculty.accroom(Room,Date,Day);
+				}
+				if((TXTBDate.getValue()!=null || !TXTBDay.getText().equals("")) && TXTBTime.getText().equals("") && Room==null)
+				{
+					System.out.println("1c");
+					
+					String Date="",Day="";
+					if(TXTBDate.getValue()!=null)
+					{ //System.out.println("1f");
+						Date = TXTBDate.getValue().format(formatter);	
+						Day =  TXTBDate.getValue().getDayOfWeek().name();
+					}
+					else
+					{ //System.out.println("1g");
+						Day = TXTBDay.getText();
+					}
+				list = faculty.accroom(Date,Day);
+				}
+				if(TXTBDate.getValue()==null && TXTBDay.getText().equals("") && !TXTBTime.getText().equals("") && Room!=null )
+				{
+					System.out.println("1d");
+				String Times = TXTBTime.getText();
+				list = faculty.accroomt(Room,Times);
+				}
+				if(TXTBDate.getValue()==null&& TXTBDay.getText().equals("") && !TXTBTime.getText().equals("") && Room==null)
+				{
+					System.out.println("1e");
+				String Times = TXTBTime.getText();
+				list = faculty.accroomt(Times);
+				}
+				if((TXTBDate.getValue()!=null || !TXTBDay.getText().equals("")) && !TXTBTime.getText().equals(""))
+				{
+					String Date="",Day="";
+				if(TXTBDate.getValue()!=null)
+				{ System.out.println("1f");
+					Date = TXTBDate.getValue().format(formatter);	
+					Day =  TXTBDate.getValue().getDayOfWeek().name();
+				}
+				else
+				{ System.out.println("1g");
+					Day = TXTBDay.getText();
+				}
+				
+				String Times = TXTBTime.getText();
+				list = faculty.accroom(Room,Date,Day,Times);
+				}
+				if(TXTBDate.getValue()==null && TXTBTime.getText().equals("") && Room==null && TXTBDay.getText().equals(""))
+				{System.out.println("1h");
+					JOptionPane.showMessageDialog(null, "Showing All Available records");
+					list = faculty.accroom();
+				}
+				//System.out.println(list.get(0).RoomNo+" "+list.get(0).Course);
 				ObservableList lists = FXCollections.observableArrayList(list);
 				
-				System.out.println(list.size());
+				 System.out.println(list.size());
 				Tblavail.setItems(lists);
 				RoomNo.setCellValueFactory(new PropertyValueFactory<Classrooms,String>("RoomNo"));
 				Capacity.setCellValueFactory(new PropertyValueFactory<Classrooms,Integer>("Capacity"));
 				Avail.setCellValueFactory(new PropertyValueFactory<Classrooms,String>("Availbility"));
 				Course.setCellValueFactory(new PropertyValueFactory<Classrooms,String>("Course"));
+				Time.setCellValueFactory(new PropertyValueFactory<Classrooms,String>("Time"));
 				
+				TXTBRoom.getSelectionModel().clearSelection();
+				TXTBDate.getEditor().clear();
+				TXTBDay.setText("");
+				TXTBTime.setText("");
 				
 				
 				
 			}
 			
 		});	
+
 
 		profB.setOnAction(new EventHandler<ActionEvent>() {
 			
@@ -232,6 +270,14 @@ public class FacultyPage  implements javafx.fxml.Initializable {
 				ProfilePane.setVisible(false);
 				CancelPane.setVisible(true);
 				Default.setVisible(false);
+				ArrayList<Bookings> book = faculty.GetBooking();
+				ObservableList lists = FXCollections.observableArrayList(book);
+				System.out.println(book.size());
+				TblCancel.setItems(lists);
+				Purpose1.setCellValueFactory(new PropertyValueFactory<Bookings,String>("Purpose1"));
+				RoomN1.setCellValueFactory(new PropertyValueFactory<Bookings,String>("RoomN"));
+				DateN1.setCellValueFactory(new PropertyValueFactory<Bookings,String>("DateN"));
+				TimeN1.setCellValueFactory(new PropertyValueFactory<Bookings,String>("TimeN"));
 			
 				
 			}
@@ -348,6 +394,24 @@ public class FacultyPage  implements javafx.fxml.Initializable {
 			
 			
 		});	
+		CancelBtn.setOnAction(new EventHandler<ActionEvent>(){
+
+			@Override
+			public void handle(ActionEvent event) {
+				
+				Bookings rq = (Bookings) TblCancel.getSelectionModel().getSelectedItem();
+				faculty.CancelBooking(rq);
+				ArrayList<Bookings> book = faculty.GetBooking();
+				ObservableList lists = FXCollections.observableArrayList(book);
+				System.out.println(book.size());
+				TblCancel.setItems(lists);
+				Purpose1.setCellValueFactory(new PropertyValueFactory<Bookings,String>("Purpose1"));
+				RoomN1.setCellValueFactory(new PropertyValueFactory<Bookings,String>("RoomN"));
+				DateN1.setCellValueFactory(new PropertyValueFactory<Bookings,String>("DateN"));
+				TimeN1.setCellValueFactory(new PropertyValueFactory<Bookings,String>("TimeN"));
+				
+				
+			}});
 		LogoutBtn.setOnAction(new EventHandler<ActionEvent>() {
 			
 			@Override

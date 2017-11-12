@@ -55,7 +55,7 @@
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
          <children>
             
-            <Pane fx:id="ProfilePane" prefHeight="490.0" prefWidth="532.0" style="-fx-background-color: #24b590;">
+            <Pane fx:id="ProfilePane" prefHeight="490.0" prefWidth="532.0" style="-fx-background-color: #24b590;" visible="false">
                <children>
                    <Separator layoutX="45.0" layoutY="376.0" prefHeight="17.0" prefWidth="463.0" />
                         <Separator layoutX="45.0" layoutY="385.0" prefHeight="17.0" prefWidth="463.0" />
@@ -88,58 +88,32 @@
                   </ImageView>
                   
                </children></Pane>
-            <Pane fx:id="ShowPane" layoutX="1.0" layoutY="-2.0" prefHeight="490.0" prefWidth="532.0" style="-fx-background-color: #24b590">
+            <Pane fx:id="ShowPane" layoutX="1.0" layoutY="-2.0" prefHeight="490.0" prefWidth="532.0" style="-fx-background-color: #24b590" visible="false">
               <children>
-                        <ImageView fitHeight="30.0" fitWidth="32.0" layoutX="53.0" layoutY="34.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="30.0" fitWidth="32.0" layoutX="33.0" layoutY="34.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../../download%20(7).png" />
                            </image>
                         </ImageView>
-                        <ComboBox fx:id="TXTBRoom" editable="true" layoutX="84.0" layoutY="34.0" prefHeight="30.0" prefWidth="401.0" promptText="Search By Room No." style="-fx-background-color: #ffffff;" />
+                        <ComboBox fx:id="TXTBRoom" editable="true" layoutX="64.0" layoutY="34.0" prefHeight="30.0" prefWidth="445.0" promptText="Search By Room No." style="-fx-background-color: #ffffff;" />
                         <TableView fx:id="Tblavail" layoutX="47.0" layoutY="152.0" prefHeight="312.0" prefWidth="458.0" style="-fx-background-color: #5b615e;">
                           <columns>
                             <TableColumn fx:id="RoomNo" prefWidth="70.0" text="Room No." />
-                            <TableColumn fx:id="Capacity" prefWidth="109.0" text="Capacity" />
-                              <TableColumn fx:id="Avail" minWidth="0.0" prefWidth="106.0" text="Avaibility Status" />
-                        <TableColumn fx:id="Course" minWidth="0.0" prefWidth="172.0" text="Coures Booked For" />
+                            <TableColumn fx:id="Capacity" prefWidth="64.0" text="Capacity" />
+                              <TableColumn fx:id="Avail" minWidth="0.0" prefWidth="82.0" text="Day/Date" />
+                        <TableColumn fx:id="Time" minWidth="0.0" prefWidth="94.0" text="Time(from-to)" />
+                        <TableColumn fx:id="Course" prefWidth="147.0" text="Courses /Purpose" />
                           </columns>
                         </TableView>
-                        <DatePicker fx:id="TXTBDate" layoutX="47.0" layoutY="72.0" prefHeight="30.0" prefWidth="218.0" promptText="Search By Date" />
-                        <TextField fx:id="TXTBTime" layoutX="285.0" layoutY="72.0" prefHeight="30.0" prefWidth="206.0" promptText="Search By Time(hh:mm:ss)" />
+                        <DatePicker fx:id="TXTBDate" layoutX="33.0" layoutY="72.0" prefHeight="30.0" prefWidth="146.0" promptText="Search By Date" />
+                        <TextField fx:id="TXTBTime" layoutX="355.0" layoutY="72.0" prefHeight="30.0" prefWidth="155.0" promptText="Search By Time(Start-End)" />
                   <Button fx:id="CheckAvailB" layoutX="195.0" layoutY="112.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="162.0" style="-fx-background-color: #5b615e;" text="Check Avaibility" textFill="#0aeeaa">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
                   </Button>
+                  <TextField fx:id="TXTBDay" layoutX="192.0" layoutY="72.0" prefHeight="30.0" prefWidth="149.0" promptText="Search By Day" />
                  </children>       
-            </Pane>
-            <Pane fx:id="CancelPane" prefHeight="490.0" prefWidth="532.0" style="-fx-background-color: #24b590;" visible="false">
-               <children>
-                <ImageView fitHeight="60.0" fitWidth="532.0" layoutX="-1.0" pickOnBounds="true">
-                     <image>
-                        <Image url="@../../2017-10-20.png" />
-                     </image>
-                  </ImageView>
-                  <Button layoutX="189.0" layoutY="309.0" mnemonicParsing="false" style="-fx-background-color: #5b615e;" text="Cancel Booking" textFill="#24b590">
-                     <font>
-                        <Font name="Calibri Bold" size="20.0" />
-                     </font>
-                  </Button>
-                  <Label layoutX="85.0" layoutY="145.0" text="Enter Room Number" textFill="#29322e">
-                     <font>
-                        <Font size="16.0" />
-                     </font>
-                  </Label>
-                  <TextField layoutX="290.0" layoutY="145.0" />
-                  <ChoiceBox layoutX="289.0" layoutY="210.0" prefWidth="150.0" />
-                  <Label layoutX="88.0" layoutY="210.0" prefHeight="25.0" prefWidth="149.0" text="Choose Course" textFill="#29322e">
-                     <font>
-                        <Font size="16.0" />
-                     </font>
-                  </Label>
-                  <Separator layoutX="26.0" layoutY="75.0" prefHeight="17.0" prefWidth="478.0" style="-fx-background-color: #5b615e;" />
-                  <Separator layoutX="26.0" layoutY="411.0" prefHeight="17.0" prefWidth="478.0" style="-fx-background-color: #5b615e;" />
-               </children>
             </Pane>
             <Pane fx:id="ChangePasswordPane" layoutX="-1.0" layoutY="-5.0" prefHeight="504.0" prefWidth="545.0" style="-fx-background-color: #24b590;" visible="false">
                <children>
@@ -158,7 +132,7 @@
                   </ImageView>
                </children>
             </Pane>
-            <Pane fx:id="Default" layoutX="-3.0" layoutY="-4.0" prefHeight="504.0" prefWidth="545.0" style="-fx-background-color: #24b590;" visible="false">
+            <Pane fx:id="Default" layoutX="-3.0" layoutY="-4.0" prefHeight="504.0" prefWidth="545.0" style="-fx-background-color: #24b590;">
                <children>
                   <Label layoutX="143.0" layoutY="177.0" prefHeight="17.0" prefWidth="276.0" text="Hi! Faculty" textFill="#686464">
                      <font>
@@ -223,6 +197,30 @@
                   <TextField fx:id="TXTDay" layoutX="306.0" layoutY="327.0" prefHeight="25.0" prefWidth="124.0" promptText="e.g. Monday" style="-fx-background-color: white;" />
                   <TextField fx:id="TXTTime1" layoutX="116.0" layoutY="296.0" prefHeight="25.0" prefWidth="124.0" promptText="End time (hh:mm)" style="-fx-background-color: white;" />
                   <ComboBox fx:id="TXTRoom" layoutX="279.0" layoutY="220.0" prefWidth="150.0" style="-fx-background-color: white;" />
+               </children>
+            </Pane>
+            <Pane fx:id="CancelPane" layoutX="10.0" layoutY="10.0" prefHeight="490.0" prefWidth="532.0" style="-fx-background-color: #24b590;" visible="false">
+               <children>
+                  <ImageView fitHeight="60.0" fitWidth="532.0" layoutX="-1.0" layoutY="-6.0" pickOnBounds="true">
+                     <image>
+                        <Image url="@../../2017-10-20.png" />
+                     </image>
+                  </ImageView>
+                  <Button fx:id="CancelBtn" layoutX="189.0" layoutY="439.0" mnemonicParsing="false" style="-fx-background-color: #5b615e;" text="Cancel Booking" textFill="#24b590">
+                     <font>
+                        <Font name="Calibri Bold" size="20.0" />
+                     </font>
+                  </Button>
+                  <Separator layoutX="26.0" layoutY="75.0" prefHeight="17.0" prefWidth="478.0" style="-fx-background-color: #5b615e;" />
+                  <Separator layoutX="26.0" layoutY="411.0" prefHeight="17.0" prefWidth="478.0" style="-fx-background-color: #5b615e;" />
+                  <TableView fx:id="TblCancel" layoutX="21.0" layoutY="104.0" prefHeight="283.0" prefWidth="491.0" style="-fx-background-color: #5b615e;">
+                     <columns>
+                        <TableColumn fx:id="Purpose1" prefWidth="203.0" text="Purpose Of Booking" />
+                        <TableColumn fx:id="RoomN1" prefWidth="85.0" text="Room No." />
+                        <TableColumn fx:id="DateN1" prefWidth="95.0" text="Date" />
+                        <TableColumn fx:id="TimeN1" prefWidth="105.0" text="Time" />
+                     </columns>
+                  </TableView>
                </children>
             </Pane>
          </children></AnchorPane>
