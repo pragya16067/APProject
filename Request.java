@@ -47,6 +47,18 @@ public class Request {
 		 
 	}
 	
+	public String getPurpose() {
+		return purpose;
+	}
+	
+	public String getRoom() {
+		return room;
+	}
+	
+	public int getCapacity() {
+		return capacity;
+	}
+	
 	public String getDateTimeRequested() {
 		return DateTimeRequested;
 	}

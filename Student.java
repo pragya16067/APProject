@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 public class Student extends User{
 	
@@ -119,6 +120,44 @@ public class Student extends User{
 		{
 			System.out.println(exp.getMessage());
 		}
+	}
+	
+	public ArrayList<Request> ViewRequests() {
+		ArrayList<Request> requests=new ArrayList<Request> ();
+		ResultSet rs=null;
+		try
+		{
+			Class.forName("java.sql.DriverManager");
+	        Connection con=(Connection) DriverManager.getConnection(
+	                "jdbc:mysql://localhost:3306/project","root","tapeied");
+	        Statement stmt=(Statement) con.createStatement();
+	        String q="Select Requests from students where email='"+this.email+"';";
+	        rs=stmt.executeQuery(q);
+	        if(rs.next())
+	        {
+	        	
+	        	String[] rids = rs.getString("Requests").split(";");
+	        	for(int i=0; i<rids.length; i++)
+	        	{
+	        		String q1="Select * from requests where rid="+Integer.parseInt(rids[i])+";";
+	        		ResultSet r=stmt.executeQuery(q1);
+	        		if(r.next())
+	        		{
+		        		Request req=new Request(r.getInt("rid"),r.getString("purpose"),r.getString("room"),r.getInt("capacity"),
+		        				r.getString("StartDate"),r.getString("dateReq"),r.getString("sTimeReq"),r.getString("eTimeReq"));
+		        		requests.add(req);
+	        		}
+	        	}
+	        	return requests;
+	        }
+	        
+	        
+		}
+		catch(Exception exp)
+		{
+			System.out.println(exp.getMessage());
+		}
+		return requests;
 	}
 	
 	public ResultSet ViewRoomBookings() {

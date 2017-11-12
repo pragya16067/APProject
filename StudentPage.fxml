@@ -285,18 +285,20 @@
                   </Pane>
                    <Pane fx:id="RequestRoomPane" prefHeight="492.0" prefWidth="540.0" style="-fx-background-color: #24b590;" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
-                        <TextField layoutX="54.0" layoutY="129.0" prefHeight="30.0" prefWidth="458.0" promptText="Purpose for Booking" />
-                        <TextField layoutX="54.0" layoutY="174.0" prefHeight="30.0" prefWidth="276.0" promptText="Preffered Room(optional)" />
-                        <TextField layoutX="350.0" layoutY="174.0" prefHeight="30.0" prefWidth="162.0" promptText="Required Capacity(Approx.)" />
+                        <TextField fx:id="TXTpurpose" layoutX="54.0" layoutY="129.0" prefHeight="30.0" prefWidth="458.0" promptText="Purpose for Booking" />
+                        <TextField fx:id="TXTroom" layoutX="54.0" layoutY="174.0" prefHeight="30.0" prefWidth="276.0" promptText="Preffered Room(optional)" />
+                        <TextField fx:id="TXTcapacity" layoutX="350.0" layoutY="174.0" prefHeight="30.0" prefWidth="162.0" promptText="Required Capacity(Approx.)" />
                         <Label layoutX="54.0" layoutY="221.0" prefHeight="25.0" prefWidth="107.0" text="Date (Required on..)" />
-                        <DatePicker layoutX="192.0" layoutY="219.0" prefHeight="30.0" prefWidth="134.0" promptText="DD/MM/YY" />
-                        <Label layoutX="350.0" layoutY="226.0" prefHeight="17.0" prefWidth="56.0" text="Time" />
-                        <TextField layoutX="384.0" layoutY="220.0" prefHeight="30.0" prefWidth="128.0" promptText="hh:mm:ss" />
+                        <DatePicker fx:id="TXTdate" layoutX="192.0" layoutY="219.0" prefHeight="30.0" prefWidth="134.0" promptText="DD/MM/YY" />
+                        <Label layoutX="54.0" layoutY="275.0" prefHeight="17.0" prefWidth="56.0" text="Start Time" />
+                        <TextField fx:id="TXTtimeStart" layoutX="192.0" layoutY="269.0" prefHeight="30.0" prefWidth="128.0" promptText="hh:mm" />
                         <Button fx:id="RequestedR" layoutX="301.0" layoutY="388.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="181.0" style="-fx-background-color: #5b615e;" text="Request Booking" textFill="#eeecec">
                            <font>
                               <Font name="System Bold" size="15.0" />
                            </font>
                         </Button>
+                  <Label layoutX="54.0" layoutY="316.0" prefHeight="17.0" prefWidth="56.0" text="End Time" />
+                  <TextField fx:id="TXTtimeEnd" layoutX="192.0" layoutY="310.0" prefHeight="30.0" prefWidth="128.0" promptText="hh:mm" />
                   
                            </children>
                   </Pane>
@@ -332,13 +334,13 @@
                   </Pane>
                   <Pane fx:id="ViewStatusPane" layoutX="-4.0" layoutY="2.0" prefHeight="492.0" prefWidth="540.0" style="-fx-background-color: #24b590;" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
-                        <TableView layoutX="28.0" layoutY="33.0" prefHeight="359.0" prefWidth="498.0" style="-fx-background-color: #5b615e;">
+                        <TableView fx:id="ReqStatusTable" layoutX="28.0" layoutY="33.0" prefHeight="359.0" prefWidth="498.0" style="-fx-background-color: #5b615e;">
                           <columns>
-                            <TableColumn prefWidth="41.0" text="S.no." />
-                            <TableColumn prefWidth="131.0" text="Room No./Purpose" />
-                              <TableColumn prefWidth="81.0" text="Booked On" />
-                              <TableColumn prefWidth="84.0" text="Booking For" />
-                              <TableColumn prefWidth="160.0" text="Booking Status" />
+                            <TableColumn fx:id="RoomCol" prefWidth="41.0" text="Room" />
+                            <TableColumn fx:id="PurposeCol" prefWidth="131.0" text="Purpose" />
+                              <TableColumn fx:id="CapCol" prefWidth="59.0" text="Capacity" />
+                              <TableColumn fx:id="ReqCol" prefWidth="174.0" text="Requested On" />
+                              <TableColumn fx:id="StatusCol" prefWidth="92.0" text="Status" />
                           </columns>
                         </TableView>
                         <Button fx:id="BackR2" alignment="CENTER" layoutX="388.0" layoutY="424.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="115.0" style="-fx-background-color: #ffffff;" text=" Back" textFill="#24b590">

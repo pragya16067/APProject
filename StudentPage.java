@@ -1,6 +1,7 @@
 package GUIComponents;
 
 import application.Course;
+import application.Request;
 import javafx.scene.Node;
 
 import application.Student;
@@ -10,6 +11,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import javax.swing.JOptionPane;
@@ -80,6 +82,13 @@ public class StudentPage  implements javafx.fxml.Initializable {
 	TableColumn<Course, Integer> Credits;
 	@FXML
 	TableColumn<Course, String> Type;
+	
+	@FXML
+	TableView<Request> ReqStatusTable;
+	@FXML
+	TableColumn<Request, String> RoomCol,PurposeCol,ReqCol,StatusCol;
+	@FXML
+	TableColumn<Request, Integer> CapCol;
 	
 	@Override	
 	public void initialize(URL location, ResourceBundle resources) {
@@ -328,9 +337,9 @@ public class StudentPage  implements javafx.fxml.Initializable {
 				        			
 				        		}
 				                  
-				        		System.out.println(l.get(i).getCourseCode()+" "+l.get(i).getCourseName());
+				        		//System.out.println(l.get(i).getCourseCode()+" "+l.get(i).getCourseName());
 				        	}	
-				        		System.out.println(l.size());
+				        		//System.out.println(l.size());
 				        		ViewCoursesTable.setItems(l);
 				        		
 				        		Code.setCellValueFactory(new PropertyValueFactory<Course,String>("CourseCode"));
@@ -472,7 +481,7 @@ public class StudentPage  implements javafx.fxml.Initializable {
 			
 			@Override
 			public void handle(ActionEvent event) {
-				System.out.println("I m here");
+				
 				ProfilePane.setVisible(false);
 				TimetablePane.setVisible(false);
 				CoursesPane.setVisible(false);
@@ -487,6 +496,32 @@ public class StudentPage  implements javafx.fxml.Initializable {
 				 LogoutPane2.setVisible(false);
 				 Default.setVisible(false);
 				 ChangePasswordPane.setVisible(false);
+				 
+				 try
+				 {
+					 ReqStatusTable.setItems(null);
+					 ReqStatusTable.setEditable(true);
+					 
+					 Class.forName("java.sql.DriverManager");
+				     Connection con=(Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/project","root","tapeied");
+				     Statement stmt=(Statement) con.createStatement();
+				        
+					 ArrayList<Request> r=student.ViewRequests();
+					 ObservableList<Request> l=FXCollections.observableArrayList(r);
+					 
+					 ReqStatusTable.setItems(l);
+					 
+					 RoomCol.setCellValueFactory(new PropertyValueFactory<Request,String>("room"));
+					 PurposeCol.setCellValueFactory(new PropertyValueFactory<Request,String>("purpose"));
+					 CapCol.setCellValueFactory(new PropertyValueFactory<Request,Integer>("capacity"));
+					 ReqCol.setCellValueFactory(new PropertyValueFactory<Request,String>("DateTimeRequested"));
+					 StatusCol.setCellValueFactory(new PropertyValueFactory<Request,String>("Status"));
+					 
+				 }
+				 catch(Exception e)
+				 {
+					 System.out.println(e.getMessage());
+				 }
 			}
 			
 		});	
