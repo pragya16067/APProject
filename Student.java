@@ -109,7 +109,7 @@ public class Student extends User{
 	        
 	        //CODE TO INSERT A NEW REQUEST INTO THE REQUESTS TABLE AND UPDATE THE REQUESTS COL OF THE STUDENT TABLE
 	        
-	        String qReq = "Insert into requests values ("+id+",'"+p+"','"+r+"',"+cap+",'Pending','"+d+"','"+st+"','"+et+"','"+req.getRequestedDateTime()+"');";
+	        String qReq = "Insert into requests values ("+id+",'"+p+"','"+r+"',"+cap+",'Pending','"+d+"','"+st+"','"+et+"','"+req.getDateTimeRequested()+"');";
 	        stmt.executeUpdate(qReq);
 	        
 	        String SReq = "Update students set Requests = CONCAT(Requests,'"+id+";') where email='"+ this.email +"';";

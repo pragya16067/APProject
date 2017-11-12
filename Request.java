@@ -19,6 +19,7 @@ public class Request {
 	private String date;
 	private String sTime;
 	private String eTime;
+	private String Status="Pending";
 	
 	public Request(int id, String p, String r, int cap, String tR, String d, String st, String et ) {
 		Rid=id;
@@ -46,7 +47,7 @@ public class Request {
 		 
 	}
 	
-	public String getRequestedDateTime() {
+	public String getDateTimeRequested() {
 		return DateTimeRequested;
 	}
 	
