@@ -44,11 +44,11 @@ insert into rooms values
 ("S01", 30),
 ("S02", 30);
 
-CREATE TABLE bookings ( RoomNo Varchar(10), CourseCode varchar(10), Day Varchar(10), Start time, End time);
+CREATE TABLE bookings ( RoomNo Varchar(10), CourseCode varchar(150), Day Varchar(10), Start time, End time ,Type Varchar(20));
 
 Insert into bookings values
-("C21", "CSE121", "Monday", "11:00", "12:00"),
-("C21", "CSE121", "Tuesday","11:00", "12:00"),
-("C21", "CSE121", "Thursday", "11:00", "12:00");
+("C21", "CSE121", "Monday", "11:00", "12:00","Admin"),
+("C21", "CSE121", "Tuesday","11:00", "12:00","Admin"),
+("C21", "CSE121", "Thursday", "11:00", "12:00",Faculty");
 
 
