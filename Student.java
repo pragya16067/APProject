@@ -94,6 +94,33 @@ public class Student extends User{
 		return rs;
 	}
 	
+	public void MakeRequest (String p, String r, int cap, String d, String st, String et ) {
+		try
+		{
+			Class.forName("java.sql.DriverManager");
+	        Connection con=(Connection) DriverManager.getConnection(
+	                "jdbc:mysql://localhost:3306/project","root","tapeied");
+	        Statement stmt=(Statement) con.createStatement();
+	        String q="Select Max(rid) from requests;";
+	        ResultSet rs=stmt.executeQuery(q);
+	        rs.next();
+	        int id= rs.getInt("Max(rid)")+1;
+	        Request req = new Request(id,p,r,cap,d,st,et);
+	        
+	        //CODE TO INSERT A NEW REQUEST INTO THE REQUESTS TABLE AND UPDATE THE REQUESTS COL OF THE STUDENT TABLE
+	        
+	        String qReq = "Insert into requests values ("+id+",'"+p+"','"+r+"',"+cap+",'Pending','"+d+"','"+st+"','"+et+"','"+req.getRequestedDateTime()+"');";
+	        stmt.executeUpdate(qReq);
+	        
+	        String SReq = "Update students set Requests = CONCAT(Requests,'"+id+";') where email='"+ this.email +"';";
+	        stmt.executeUpdate(SReq);
+		}
+		catch(Exception exp)
+		{
+			System.out.println(exp.getMessage());
+		}
+	}
+	
 	public ResultSet ViewRoomBookings() {
 		ResultSet rs=null;
 		try

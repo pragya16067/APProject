@@ -24,6 +24,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -57,7 +58,9 @@ public class StudentPage  implements javafx.fxml.Initializable {
 	
 	
 	@FXML
-	TextField TXTnewpwd1,TXTnewpwd2,SearchBox;
+	TextField TXTnewpwd1,TXTnewpwd2,SearchBox,TXTpurpose,TXTroom,TXTcapacity,TXTtimeStart,TXTtimeEnd;
+	@FXML
+	DatePicker TXTdate;
 	@FXML
 	Label LblName, LblBatch, LblRno;
 	@FXML
@@ -559,7 +562,17 @@ public class StudentPage  implements javafx.fxml.Initializable {
 			
 			@Override
 			public void handle(ActionEvent event) {
-				System.out.println("I m here");
+				
+				String purpose=TXTpurpose.getText();
+				String room=TXTroom.getText();
+				int cap=Integer.parseInt(TXTcapacity.getText());
+				String date=TXTdate.getValue().toString();
+				String stime=TXTtimeStart.getText();
+				String etime=TXTtimeEnd.getText();
+				
+				student.MakeRequest(purpose, room, cap, date, stime, etime);
+				System.out.println(date+" "+stime);
+				
 				ProfilePane.setVisible(false);
 				TimetablePane.setVisible(false);
 				CoursesPane.setVisible(false);
