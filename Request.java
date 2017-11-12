@@ -13,18 +13,17 @@ import java.util.Calendar;
 public class Request {
 	private String DateTimeRequested;
 	private int Rid;
-	private String purpose;
-	private String room;
+	private String Purpose;
+	private String RoomN;
 	private int capacity;
 	private String date;
 	private String sTime;
 	private String eTime;
-	private String Status="Pending";
-	
+	private String day;
 	public Request(int id, String p, String r, int cap, String tR, String d, String st, String et ) {
 		Rid=id;
-		purpose=p;
-		room=r;
+		Purpose=p;
+		RoomN=r;
 		capacity=cap;
 		DateTimeRequested=tR;
 		date=d;
@@ -34,8 +33,8 @@ public class Request {
 	
 	public Request(int id, String p, String r, int cap, String d, String st, String et ) {
 		Rid=id;
-		purpose=p;
-		room=r;
+		Purpose=p;
+		RoomN=r;
 		capacity=cap;
 		date=d;
 		sTime=st;
@@ -46,20 +45,44 @@ public class Request {
 		DateTimeRequested = (dateFormat.format(cal.getTime()));
 		 
 	}
-	
-	public String getPurpose() {
-		return purpose;
+	public void setday(int dayn)
+	{
+		
 	}
-	
-	public String getRoom() {
-		return room;
+	public Integer getRid()
+	{
+		return Rid;
 	}
-	
-	public int getCapacity() {
+	public String getPurpose()
+	{
+		return Purpose;
+	}
+	public String getRoomN()
+	{
+		return RoomN;
+	}
+	public Integer getCapacityN()
+	{
 		return capacity;
 	}
+	public String getDateN()
+	{
+		return date;
+	}
+	public String getsTime()
+	{
+		return sTime;
+	}
 	
-	public String getDateTimeRequested() {
+	public String geteTime()
+	{
+		return eTime;
+	}
+	public String getTimeN()
+	{
+		return sTime+"-"+eTime;
+	}
+	public String getRequestedDateTime() {
 		return DateTimeRequested;
 	}
 	
