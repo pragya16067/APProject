@@ -172,6 +172,14 @@
                         <Font size="13.0" />
                      </font>
                   </Label>
+                  <TableView fx:id="AddCoursesTBL" layoutX="22.0" layoutY="203.0" prefHeight="200.0" prefWidth="488.0">
+                    <columns>
+                      <TableColumn fx:id="CCodeCol" prefWidth="86.0" text="CourseCode" />
+                      <TableColumn fx:id="CNameCol" prefWidth="173.0" text="CourseName" />
+                        <TableColumn fx:id="CFacultyCol" prefWidth="152.0" text="Faculty" />
+                        <TableColumn fx:id="CCreditsCol" prefWidth="75.0" text="Credits" />
+                    </columns>
+                  </TableView>
                   
                            </children>
                   </Pane>

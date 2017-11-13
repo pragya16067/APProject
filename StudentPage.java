@@ -71,17 +71,17 @@ public class StudentPage  implements javafx.fxml.Initializable {
 	Button Timetable,Profile,Courses,Classrooms,AddC,ViewC,SearchC,DropC,AddedC,DroppedC,BackC,RequestR,ViewR,AvailableR,RequestedR,BackR1,BackR2,Logout,ChangePassword,Changed,LoginA;
 	
 	@FXML
-	TableView<Course> ViewCoursesTable;
+	TableView<Course> ViewCoursesTable,AddCoursesTBL;
 	@FXML
-	TableColumn<Course, String> Code;
+	TableColumn<Course, String> Code,CCodeCol;
 	@FXML
-	TableColumn<Course, String> Name;
+	TableColumn<Course, String> Name,CNameCol;
 	@FXML
 	TableColumn<Course, String> Acronym;
 	@FXML
-	TableColumn<Course, String> Faculty;
+	TableColumn<Course, String> Faculty,CFacultyCol;
 	@FXML
-	TableColumn<Course, Integer> Credits;
+	TableColumn<Course, Integer> Credits,CCreditsCol;
 	@FXML
 	TableColumn<Course, String> Type;
 	
@@ -302,7 +302,33 @@ public class StudentPage  implements javafx.fxml.Initializable {
 			
 			@Override
 			public void handle(ActionEvent event) {
-				System.out.println(SearchBox.getText());
+				AddCoursesTBL.setItems(null);
+				AddCoursesTBL.setEditable(true);
+				ArrayList<Course> courses=new ArrayList<Course> ();
+				try
+				{
+					
+					String searchKey = (SearchBox.getText());
+					ResultSet rs=student.SearchCourses(searchKey);
+					while(rs.next()) {
+						Course c=new Course(rs.getString("CourseCode"),rs.getString("CourseName"),"a", rs.getString("Faculty"),rs.getInt("Credits"),"Elective");
+						courses.add(c);
+					}
+					
+				
+				}
+				catch(Exception e)
+				{
+					System.out.println(e.getMessage());
+				}
+				
+				ObservableList<Course> l=FXCollections.observableArrayList(courses);
+				AddCoursesTBL.setItems(l);
+        		
+        		CCodeCol.setCellValueFactory(new PropertyValueFactory<Course,String>("CourseCode"));
+        		CNameCol.setCellValueFactory(new PropertyValueFactory<Course,String>("CourseName"));
+        		CFacultyCol.setCellValueFactory(new PropertyValueFactory<Course,String>("Faculty"));
+        		CCreditsCol.setCellValueFactory(new PropertyValueFactory<Course,Integer>("Credits"));
 			}
 			
 		});
@@ -455,7 +481,19 @@ public class StudentPage  implements javafx.fxml.Initializable {
 			
 			@Override
 			public void handle(ActionEvent event) {
-				System.out.println("I m here");
+				Course addC = (Course) AddCoursesTBL.getSelectionModel().getSelectedItem();
+				
+				if(student.okToAddCourse(addC))
+				{
+					student.AddCourse(addC);
+					JOptionPane.showMessageDialog(null, "The selected course was successfully added");
+				}
+				else
+				{
+					JOptionPane.showMessageDialog(null, "Sorry you cannot add selected course due to clashes with Timetable or due to already having 5 courses");
+				}
+				
+				
 				ProfilePane.setVisible(false);
 				TimetablePane.setVisible(false);
 				CoursesPane.setVisible(true);

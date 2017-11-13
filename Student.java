@@ -5,6 +5,9 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 public class Student extends User{
 	
@@ -52,8 +55,100 @@ public class Student extends User{
 		
 	}
 	
-	public void AddCourses() {
-		
+	public boolean okToAddCourse(Course c) {
+		try
+		{
+			Class.forName("java.sql.DriverManager");
+	        Connection con=(Connection) DriverManager.getConnection(
+	                "jdbc:mysql://localhost:3306/project","root","tapeied");
+	        Statement stmt=(Statement) con.createStatement();
+	        //To check if timings are not clashing with any of students existing courses
+	       
+	        String st,et;
+	        
+	        String q="Select CoursesTaken from students where email='"+this.email+"';";
+	        ResultSet rs=stmt.executeQuery(q);
+	        String codes="(";
+	        if(rs.next())
+	        {
+	        	String[] cCode=rs.getString("CoursesTaken").split(";");
+	        	
+	        	if(cCode.length==5)
+	        		return false;
+	        	else if(cCode.length==0)
+	        		return true;
+	        	else
+	        	{
+	        	
+		        	for(int i=0; i<cCode.length-1; i++)
+		        	{
+		        		codes=codes+"'"+cCode[i]+"',";
+		        	}
+		        	codes=codes+"'"+cCode[cCode.length-1]+"')";   
+	        	}
+	        
+	        }
+	        
+	        //if no courses taken by student, den ok
+	        if(codes.equals("("))
+	        {
+	        	return true;
+	        }
+	        else
+	        {
+		        q="Select Day, Start, End from bookings where CourseCode='"+c.getCourseCode()+"';";
+		        rs=stmt.executeQuery(q);
+		        
+		        while(rs.next()){
+		        	String day=rs.getString("Day").toLowerCase();
+		        	
+		        	if(day.equals("monday") || day.equals("tuesday") || day.equals("wednesday") || day.equals("thursday") || day.equals("friday"))
+		        	{
+		        		continue;
+		        	}
+		        	else
+		        	{
+		        		Date date=rs.getDate("Day");
+		        		day = new SimpleDateFormat("EEEE").format(date).toLowerCase();
+		        	}
+		        	st=rs.getString("Start");
+	        		et=rs.getString("End");
+	        		
+	        		//check for clashes
+	        		q="select * from bookings where Day ='"+day+"' and ((Start <= '"+st+"' and End >= '"+st+"') or (Start <= '"+et+"' and End >= '"+et+"')) and CourseCode in "+codes+" ;";
+	        		ResultSet rs2=stmt.executeQuery(q);
+	        		if(!rs2.next())
+	        			continue;
+	        		else
+	        			return false;
+		        }
+	        }
+	        
+		}
+		catch(Exception exp)
+		{
+			System.out.println("okToAddCourse "+exp.getMessage());
+		}
+		return true;
+	}
+	
+	public void AddCourse(Course c) {
+		String e=this.email;
+		try
+		{
+			Class.forName("java.sql.DriverManager");
+	        Connection con=(Connection) DriverManager.getConnection(
+	                "jdbc:mysql://localhost:3306/project","root","tapeied");
+	        Statement stmt=(Statement) con.createStatement();
+	        String code=c.getCourseCode();
+	        String q="update students set CoursesTaken = CONCAT(CoursesTaken,'"+code+";') where email='"+e+"';";
+	        stmt.executeUpdate(q);
+	        
+		}
+		catch(Exception exp)
+		{
+			System.out.println(exp.getMessage());
+		}
 	}
 	
 	public void DropCourse(String CourseName) {
@@ -163,22 +258,43 @@ public class Student extends User{
 	}
 	
 	public ResultSet SearchCourses(String searchCode) {
-		ResultSet rs=null;
+		ResultSet rs2=null;
 		try
 		{
 			Class.forName("java.sql.DriverManager");
 	        Connection con=(Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/project","root","tapeied");
 	        Statement stmt=(Statement) con.createStatement();
-	        String q="Select CourseCode,CourseName,Faculty,Credits from courses where LCase(PostConditions) like '%"+searchCode.toLowerCase()+"%';";
-	        rs=stmt.executeQuery(q);
-	        return rs;
+	        String q="Select CoursesTaken from students where email='"+this.email+"';";
+	        ResultSet rs=stmt.executeQuery(q);
+	        String codes="(";
+	        if(rs.next())
+	        {
+	        	String[] cCode=rs.getString("CoursesTaken").split(";");
+	        	
+	        	for(int i=0; i<cCode.length-1; i++)
+	        	{
+	        		codes=codes+"'"+cCode[i]+"',";
+	        	}
+	        	codes=codes+"'"+cCode[cCode.length-1]+"'";   
+	        
+		        codes=codes+")";
+		        q="Select CourseCode,CourseName,Faculty,Credits from courses where LCase(PostConditions) like '%"+searchCode.toLowerCase()+"%' and CourseCode not in "+codes+" ;";
+		        rs2=stmt.executeQuery(q);
+		        return rs2;
+	        }
+	        else
+	        {
+	        	q="Select CourseCode,CourseName,Faculty,Credits from courses where LCase(PostConditions) like '%"+searchCode.toLowerCase()+"%' ;";
+		        rs2=stmt.executeQuery(q);
+		        return rs2;
+	        }
 	        
 		}
 		catch(Exception exp)
 		{
 			System.out.println(exp.getMessage());
 		}
-		return rs;
+		return rs2;
 	}
 	
 	public ArrayList<Timetable> getTimetable() {
