@@ -64,9 +64,11 @@ public class Admin extends User{
 	        String d[] = rq.getDateN().split("-");
 	        String dates = d[2]+" "+d[1]+" "+d[0];
 	        String date = rq.getDateN();
+	        String time = rq.getsTime();
+	        String etime = rq.geteTime();
 	        LocalDate date1 = LocalDate.of(Integer.parseInt(d[0]),Integer.parseInt(d[1]) , Integer.parseInt(d[2]));
 	        String day = date1.getDayOfWeek().name();
-	        String q = "Select * from bookings where RoomNo = '"+rq.getRoomN()+"' and (Day = '"+dates+"' or Day ='"+day+"');";
+	        String q = "Select * from bookings where RoomNo = '"+rq.getRoomN()+"' and (Day = '"+dates+"' or Day ='"+day+"')((Start <='"+time+"' and End >='"+time+"') or (Start < '"+etime+"' and End >'"+etime+"'));";
 	        System.out.println(q);
 	        ResultSet rs = stmt.executeQuery(q);
 	        if(!rs.next())
@@ -110,7 +112,22 @@ public class Admin extends User{
 		return "";
 	}
 	
-	
+	public void RejectRequest(Request rq)
+	{
+		try
+		{
+			Class.forName("java.sql.DriverManager");
+	        Connection con=(Connection) DriverManager.getConnection(
+	                "jdbc:mysql://localhost:3306/project","root","30july1998");
+	        Statement stmt=(Statement) con.createStatement();
+	        String q = "Update requests set status = 'Rejected' where rid="+rq.getRid()+";";
+	        stmt.executeUpdate(q);
+		}
+		catch(Exception ex)
+		{
+			ex.printStackTrace();
+		}
+	}
 	public boolean BookRoom(String Code, String Room, String STime, String ETime, String Day ,int Capacity,String dayname)
 	{
 		try
@@ -121,7 +138,7 @@ public class Admin extends User{
 	        Statement stmt=(Statement) con.createStatement();
 	        
 	        //Select * from bookings where Roomno = "C21" and Day ="Monday" and Start =11 and End =12;
-	        String q ="Select * from bookings where RoomNo = '"+Room+"' and (Day ='"+Day+"'or Day ='"+dayname+"') and Start <='"+STime+"' and End >='"+STime+"';";
+	        String q ="Select * from bookings where RoomNo = '"+Room+"' and (Day ='"+Day+"'or Day ='"+dayname+"') and((Start <='"+STime+"' and End >='"+STime+"') or (Start < '"+ETime+"' and End >'"+ETime+"'));";
 	       System.out.println(q);
 	        ResultSet rs = stmt.executeQuery(q);
 	        //System.out.println(rs.next());
@@ -357,7 +374,7 @@ public class Admin extends User{
 	            "jdbc:mysql://localhost:3306/project","root","30july1998");
 	    Statement stmt=(Statement) con.createStatement();
 	    String time[] = stime.split("-");
-	    String  q = "Select * from bookings where (Start <= '"+time[0]+"' and End >='"+time[0]+"');";
+	    String  q = "Select * from bookings where ((Start <='"+time[0]+"' and End >='"+time[0]+"') or (Start < '"+time[1]+"' and End >'"+time[1]+"'));";
 	      System.out.println(q);
 	 	   ResultSet rs1 = stmt.executeQuery(q);
 	 	  
@@ -417,7 +434,7 @@ public class Admin extends User{
 	    System.out.println("Cap"+c);
 	    String[] Time = time.split("-");
 	    if(!rs.next())
-	    { q = "Select * from bookings where (Start <= '"+Time[0]+"' and End >='"+Time[0]+"');";
+	    { q = "Select * from bookings where ((Start <='"+Time[0]+"' and End >='"+Time[0]+"') or (Start < '"+Time[1]+"' and End >'"+Time[1]+"'));";
 	      System.out.println(q);
 	 	   ResultSet rs1 = stmt.executeQuery(q);
 	 	   
@@ -463,7 +480,7 @@ public class Admin extends User{
 	    System.out.println("Cap"+c);
 	    String[] Time = time.split("-");
 	    if(!rs.next())
-	    { q = "Select * from bookings where (Start <= '"+Time[0]+"' and End >='"+Time[0]+"') and (Day = '"+Date+"' or Day ='"+Day+"');" ;
+	    { q = "Select * from bookings where ((Start <='"+Time[0]+"' and End >='"+Time[0]+"') or (Start < '"+Time[1]+"' and End >'"+Time[0]+"')) and (Day = '"+Date+"' or Day ='"+Day+"');" ;
 	      System.out.println(q);
 	 	   ResultSet rs1 = stmt.executeQuery(q);
 	 	   
@@ -502,7 +519,7 @@ public class Admin extends User{
 	        Connection con=(Connection) DriverManager.getConnection(
 	                "jdbc:mysql://localhost:3306/project","root","30july1998");
 	        Statement stmt=(Statement) con.createStatement();
-	        String q ="Select * from bookings where type = 'Admin';";
+	        String q ="Select * from bookings where (type = 'Admin' or type = 'Student');";
 	        ResultSet rs = stmt.executeQuery(q);
 	        while(rs.next())
 	        {

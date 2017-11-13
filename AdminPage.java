@@ -40,6 +40,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class AdminPage  implements javafx.fxml.Initializable {
+	
 	@FXML
 	Pane ShowPane;
 	@FXML
@@ -55,10 +56,11 @@ public class AdminPage  implements javafx.fxml.Initializable {
 	Pane ManagePane, Default,ChangePasswordPane;
 	
 	@FXML
-	Button showB,profB,bookB,CancelB,RequestB,ManageB,ChangePassword,Changed,LogoutBtn,BookedB,CheckAvailB, AcceptBtn, RejectBtn,CancelBtn;
+	Button showB,profB,bookB,CancelB,RequestB,ManageB,ChangePassword,Changed,LogoutBtn,BookedB,CheckAvailB, AcceptBtn, RejectBtn,CancelBtn,ViewRoom,RRoom,AddNew;
 	@FXML
-	TextField TXTnewpwd1,TXTnewpwd2, OldPwd,TXTCode,TXTCapacity,TXTTime,TXTTime1,TXTDay,TXTBTime,TXTBDay;
-	
+	TextField TXTnewpwd1,TXTnewpwd2, OldPwd,TXTCode,TXTCapacity,TXTTime,TXTTime1,TXTDay,TXTBTime,TXTBDay,Room3,Room2,Roomget,Capacity1;
+	@FXML
+	Label Capacity2,Courses1;
 	@FXML
 	ComboBox TXTRoom,TXTBRoom;
 	@FXML
@@ -98,6 +100,7 @@ public class AdminPage  implements javafx.fxml.Initializable {
 	@FXML
 	TableColumn<Bookings,String> TimeN1;
 	static Admin admin;
+	
 	public void setAdmin(Admin a)
 	{
 		admin = a;
@@ -207,6 +210,7 @@ public class AdminPage  implements javafx.fxml.Initializable {
 			
 			
 		});	
+		
 		BookedB.setOnAction(new EventHandler<ActionEvent>() {
 			
 			@Override
@@ -408,6 +412,29 @@ public class AdminPage  implements javafx.fxml.Initializable {
 			}
 			
 		});
+		RejectBtn.setOnAction(new EventHandler<ActionEvent>(){
+
+			@Override
+			public void handle(ActionEvent event) {
+				// TODO Auto-generated method stub
+				Request rq = (Request) TblRequest.getSelectionModel().getSelectedItem();
+				//System.out.println(rq.getpurpose());
+				admin.RejectRequest(rq);
+				ArrayList<Request> list =  admin.GetRequests();
+				ObservableList lists = FXCollections.observableArrayList(list);
+				System.out.println(list.size());
+				TblRequest.setItems(lists);
+				Id.setCellValueFactory(new PropertyValueFactory<Request,Integer>("Rid"));
+				Purpose.setCellValueFactory(new PropertyValueFactory<Request,String>("Purpose"));
+				RoomN.setCellValueFactory(new PropertyValueFactory<Request,String>("RoomN"));
+				CapacityN.setCellValueFactory(new PropertyValueFactory<Request,Integer>("CapacityN"));
+				DateN.setCellValueFactory(new PropertyValueFactory<Request,String>("DateN"));
+				TimeN.setCellValueFactory(new PropertyValueFactory<Request,String>("TimeN"));
+				
+				
+			}
+			
+		});
 		CancelBtn.setOnAction(new EventHandler<ActionEvent>(){
 
 			@Override
@@ -527,7 +554,94 @@ public class AdminPage  implements javafx.fxml.Initializable {
 			}
 			
 		});	
-
+		ViewRoom.setOnAction(new EventHandler<ActionEvent>() {
+			
+			@Override
+			public void handle(ActionEvent event) {
+				String room = Room3.getText();
+				try
+				{
+					Class.forName("java.sql.DriverManager");
+			        Connection con=(Connection) DriverManager.getConnection(
+			                "jdbc:mysql://localhost:3306/project","root","30july1998");
+			        Statement stmt=(Statement) con.createStatement();
+			        String q = "Select Capacity from rooms where RoomNo ='"+room+ "';";
+			        System.out.println(q);
+			        ResultSet rs = stmt.executeQuery(q);
+			        if(rs.next())
+			        Capacity2.setText(rs.getInt("Capacity")+"");
+			        else
+			        {
+			        	JOptionPane.showMessageDialog(null, "Room Doesn't Exist!");
+			        }
+			      }
+				catch(Exception ex)
+				{
+					
+				}
+				Room3.setText("");
+		}});
+		AddNew.setOnAction(new EventHandler<ActionEvent>() {
+			
+			@Override
+			public void handle(ActionEvent event) {
+				String room = Room2.getText();
+				String Capacity = Capacity1.getText();
+				try
+				{
+					Class.forName("java.sql.DriverManager");
+			        Connection con=(Connection) DriverManager.getConnection(
+			                "jdbc:mysql://localhost:3306/project","root","30july1998");
+			        Statement stmt=(Statement) con.createStatement();
+			        String q = "Select Capacity from rooms where RoomNo ='"+room+ "';";
+			        System.out.println(q);
+			        ResultSet rs = stmt.executeQuery(q);
+			        if(!rs.next())
+			         {q = "Insert into rooms values ('"+room+"',"+Integer.parseInt(Capacity)+");";
+			        System.out.println(q);
+			         stmt.executeUpdate(q);
+			         }
+			        else
+			        {
+			        	JOptionPane.showMessageDialog(null, "Room Already Exist!");
+			        }
+			        
+			        
+			      }
+				catch(Exception ex)
+				{
+					
+				}
+				Room2.setText("");
+				Capacity1.setText("");
+		}});
+		RRoom.setOnAction(new EventHandler<ActionEvent>() {
+			
+			@Override
+			public void handle(ActionEvent event) {
+				String room = Roomget.getText();
+				try
+				{System.out.println(room);
+					Class.forName("java.sql.DriverManager");
+			        Connection con=(Connection) DriverManager.getConnection(
+			                "jdbc:mysql://localhost:3306/project","root","30july1998");
+			        Statement stmt=(Statement) con.createStatement();
+			        String q = "Delete from rooms where RoomNo ='"+room+ "';";
+			         int k =stmt.executeUpdate(q);
+			         System.out.println(q);
+			         System.out.println("If it exists "+k);
+			         if(k==0)
+			         {
+			        	 JOptionPane.showMessageDialog(null, "Room Doesnot Exist!");
+			         }
+			       
+			      }
+				catch(Exception ex)
+				{
+					
+				}
+				Roomget.setText("");
+		}});
 		LogoutBtn.setOnAction(new EventHandler<ActionEvent>() {
 			
 			@Override

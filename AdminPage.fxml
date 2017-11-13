@@ -68,26 +68,24 @@
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
          <children>
          
-            <Pane fx:id="ManagePane" prefHeight="490.0" prefWidth="532.0" style="-fx-background-color: #24b590;" visible="false">
+            <Pane fx:id="ManagePane" prefHeight="490.0" prefWidth="532.0" style="-fx-background-color: #24b590;">
                <children>
                   <Separator layoutX="219.0" layoutY="242.0" prefHeight="0.0" prefWidth="200.0" visible="false" />
                   <Separator layoutX="-3.0" layoutY="239.0" prefHeight="10.0" prefWidth="538.0" style="-fx-background-color: #5b615e;" />
-                  <Button layoutX="240.0" layoutY="109.0" mnemonicParsing="false" style="-fx-background-color: #5b615e;" text="View" textFill="#24b590">
+                  <Button fx:id="ViewRoom" layoutX="240.0" layoutY="109.0" mnemonicParsing="false" style="-fx-background-color: #5b615e;" text="View" textFill="#24b590">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
                   </Button>
                   <Label layoutX="126.0" layoutY="66.0" text="Enter Room Number " />
-                  <TextField layoutX="281.0" layoutY="62.0" />
+                  <TextField fx:id="Room3" layoutX="281.0" layoutY="62.0" />
                   <Label layoutX="193.0" layoutY="24.0" text="View Room Description">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
                   </Label>
                   <Label layoutX="112.0" layoutY="164.0" text="Capacity Of Room" />
-                  <Label layoutX="112.0" layoutY="196.0" text="Courses Taught" />
-                  <Label layoutX="292.0" layoutY="164.0" text="100" />
-                  <Label layoutX="292.0" layoutY="196.0" text="Course1, Course 2" />
+                  <Label fx:id="Capacity2" layoutX="292.0" layoutY="164.0" prefHeight="17.0" prefWidth="38.0" text="--" />
                   <Label layoutX="72.0" layoutY="259.0" prefHeight="20.0" prefWidth="124.0" text="Add a New Room">
                      <font>
                         <Font name="System Bold" size="14.0" />
@@ -96,25 +94,26 @@
                   <Separator layoutX="267.0" layoutY="249.0" orientation="VERTICAL" prefHeight="243.0" prefWidth="2.0" style="-fx-background-color: #5b615e;" />
                   <Label layoutX="292.0" layoutY="322.0" text="Enter Room Number" />
                   <Label layoutX="14.0" layoutY="362.0" text="Enter seating capacity" />
-                  <TextField layoutX="162.0" layoutY="318.0" prefHeight="25.0" prefWidth="82.0" />
-                  <TextField layoutX="162.0" layoutY="358.0" prefHeight="25.0" prefWidth="82.0" />
+                  <TextField fx:id="Room2" layoutX="162.0" layoutY="318.0" prefHeight="25.0" prefWidth="82.0" />
+                  <TextField fx:id="Capacity1" layoutX="162.0" layoutY="358.0" prefHeight="25.0" prefWidth="82.0" />
                   <Label layoutX="324.0" layoutY="259.0" prefHeight="20.0" prefWidth="155.0" text="Remove existing Room">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
                   </Label>
                   <Label layoutX="17.0" layoutY="322.0" text="Enter Room Number" />
-                  <TextField layoutX="405.0" layoutY="317.0" prefHeight="25.0" prefWidth="82.0" />
-                  <Button layoutX="347.0" layoutY="407.0" mnemonicParsing="false" style="-fx-background-color: #5b615e;" text="Remove Room" textFill="#24b590">
+                  <TextField fx:id="Roomget" layoutX="405.0" layoutY="317.0" prefHeight="25.0" prefWidth="82.0" visible="false" />
+                  <Button fx:id="RRoom" layoutX="347.0" layoutY="407.0" mnemonicParsing="false" style="-fx-background-color: #5b615e;" text="Remove Room" textFill="#24b590">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
                   </Button>
-                  <Button layoutX="72.0" layoutY="407.0" mnemonicParsing="false" style="-fx-background-color: #5b615e;" text="Add New Room" textFill="#24b590">
+                  <Button fx:id="AddNew" layoutX="72.0" layoutY="407.0" mnemonicParsing="false" style="-fx-background-color: #5b615e;" text="Add New Room" textFill="#24b590">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
                   </Button>
+                  <TextField fx:id="Room1" layoutX="419.0" layoutY="317.0" prefHeight="25.0" prefWidth="82.0" visible="false" />
                </children></Pane>
                
             <Pane fx:id="RequestPane" prefHeight="490.0" prefWidth="532.0" style="-fx-background-color: #24b590;" visible="false">
