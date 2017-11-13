@@ -93,15 +93,13 @@
                               <Font size="25.0" />
                            </font>
                         </Label>
-                        <TableView layoutX="34.0" layoutY="95.0" prefHeight="368.0" prefWidth="478.0" style="-fx-background-color: #5b615e;">
+                        <TableView fx:id="TimetableTBL" layoutX="34.0" layoutY="95.0" prefHeight="368.0" prefWidth="478.0" style="-fx-background-color: #5b615e;">
                           <columns>
-                            <TableColumn prefWidth="134.0" text="Course  Name" />
-                            <TableColumn minWidth="0.0" prefWidth="41.0" text="Mon" />
-                        <TableColumn prefWidth="63.0" text="Tue" />
-                        <TableColumn prefWidth="49.0" text="Wed" />
-                        <TableColumn minWidth="0.0" prefWidth="56.0" text="Thu" />
-                        <TableColumn minWidth="5.0" prefWidth="58.0" text="Fri" />
-                        <TableColumn prefWidth="76.0" text="Room No." />
+                            <TableColumn fx:id="CourseNameCol" prefWidth="162.0" text="Course  Name" />
+                            <TableColumn fx:id="DayCol" minWidth="0.0" prefWidth="96.0" text="Day" />
+                        	<TableColumn fx:id="STimeCol" minWidth="7.0" prefWidth="68.0" text="Start Time" />
+                        	<TableColumn fx:id="ETimeCol" prefWidth="66.0" text="End Time" />
+                        	<TableColumn fx:id="TTRoomCol" prefWidth="84.0" text="Room No." />
                           </columns>
                         </TableView>
                  
@@ -210,26 +208,31 @@
                   </Pane>
                   <Pane fx:id="DropCoursesPane" layoutX="1.0" prefHeight="492.0" prefWidth="532.0" style="-fx-background-color: #24b590;" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
-                        <CheckBox layoutX="41.0" layoutY="272.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="115.0" text="Course5">
+                        <CheckBox fx:id="CHKcourse5" layoutX="41.0" layoutY="272.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="115.0" text="Course5">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font>
                         </CheckBox>
-                        <CheckBox layoutX="41.0" layoutY="235.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="115.0" text="Course4">
+                        <CheckBox fx:id="CHKcourse4" layoutX="41.0" layoutY="235.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="115.0" text="Course4">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font>
                         </CheckBox>
-                        <CheckBox layoutX="41.0" layoutY="162.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="115.0" text="Course2">
+                        <CheckBox fx:id="CHKcourse2" layoutX="41.0" layoutY="162.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="115.0" text="Course2">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font>
                         </CheckBox>
-                        <CheckBox layoutX="41.0" layoutY="198.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="115.0" text="Course3">
+                        <CheckBox fx:id="CHKcourse3" layoutX="41.0" layoutY="198.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="115.0" text="Course3">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font>
                         </CheckBox>
+                        <CheckBox fx:id="CHKcourse1" layoutX="41.0" layoutY="124.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="115.0" text="Course1">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </CheckBox>
                         <Button fx:id="DroppedC" layoutX="300.0" layoutY="399.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="183.0" style="-fx-background-color: #5b615e;" text="Drop Selected Course(s)" textFill="#e7ebe7">
                            <font>
                               <Font name="System Bold" size="14.0" />
@@ -240,16 +243,12 @@
                         <Font size="14.0" />
                      </font>
                   </Label>
-                  <CheckBox layoutX="371.0" layoutY="88.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="115.0" text="Select All">
+                  <CheckBox fx:id="CHKselectAll" layoutX="371.0" layoutY="88.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="115.0" text="Select All">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
                   </CheckBox>
-                  <CheckBox layoutX="44.0" layoutY="124.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="115.0" text="Course1">
-                     <font>
-                        <Font name="System Bold" size="14.0" />
-                     </font>
-                  </CheckBox>
+                  
                  
                         
                      </children>

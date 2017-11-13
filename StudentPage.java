@@ -2,6 +2,7 @@ package GUIComponents;
 
 import application.Course;
 import application.Request;
+import application.Timetable;
 import javafx.scene.Node;
 
 import application.Student;
@@ -25,7 +26,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -37,7 +38,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 public class StudentPage  implements javafx.fxml.Initializable {
 	static Student student;
-	//Student student=new Student("pragya16067@iiitd.ac.in","a","Student");
 	
 	public void setStudent(Student s) {
 		student=s;
@@ -66,6 +66,8 @@ public class StudentPage  implements javafx.fxml.Initializable {
 	@FXML
 	Label LblName, LblBatch, LblRno;
 	@FXML
+	CheckBox CHKcourse1,CHKcourse2,CHKcourse3,CHKcourse4,CHKcourse5,CHKselectAll;
+	@FXML
 	Button Timetable,Profile,Courses,Classrooms,AddC,ViewC,SearchC,DropC,AddedC,DroppedC,BackC,RequestR,ViewR,AvailableR,RequestedR,BackR1,BackR2,Logout,ChangePassword,Changed,LoginA;
 	
 	@FXML
@@ -89,6 +91,11 @@ public class StudentPage  implements javafx.fxml.Initializable {
 	TableColumn<Request, String> RoomCol,PurposeCol,ReqCol,StatusCol;
 	@FXML
 	TableColumn<Request, Integer> CapCol;
+	
+	@FXML
+	TableView<Timetable> TimetableTBL;
+	@FXML
+	TableColumn<Timetable,String> CourseNameCol,DayCol,STimeCol,ETimeCol,TTRoomCol;
 	
 	@Override	
 	public void initialize(URL location, ResourceBundle resources) {
@@ -172,6 +179,21 @@ public class StudentPage  implements javafx.fxml.Initializable {
 				 LogoutPane2.setVisible(false);
 				 Default.setVisible(false);
 				 ChangePasswordPane.setVisible(false);
+				 
+				 TimetableTBL.setItems(null);
+				 TimetableTBL.setEditable(true);
+				 
+				 
+				 ArrayList<Timetable> t=student.getTimetable();
+				 ObservableList<Timetable> l=FXCollections.observableArrayList(t);
+				 
+				 TimetableTBL.setItems(l);
+				 
+				 CourseNameCol.setCellValueFactory(new PropertyValueFactory<Timetable,String>("Course"));
+				 DayCol.setCellValueFactory(new PropertyValueFactory<Timetable,String>("Day"));
+				 STimeCol.setCellValueFactory(new PropertyValueFactory<Timetable,String>("Stime"));
+				 ETimeCol.setCellValueFactory(new PropertyValueFactory<Timetable,String>("Etime"));
+				 TTRoomCol.setCellValueFactory(new PropertyValueFactory<Timetable,String>("Room"));
 			}
 			
 		});	
@@ -381,10 +403,54 @@ public class StudentPage  implements javafx.fxml.Initializable {
 				 Default.setVisible(false);
 				 ChangePasswordPane.setVisible(false);
 				
+				 //CODE for correctly labelling all course checkboxes!!
+				 ArrayList<String> c=new ArrayList<String> ();
+				 try
+				 {
+					 c=student.getCourseList();
+					 CHKcourse1.setText(c.get(0));
+					 CHKcourse2.setText(c.get(1));
+					 CHKcourse3.setText(c.get(2));
+					 CHKcourse4.setText(c.get(3));
+					 CHKcourse5.setText(c.get(4));
+					 
+					 
+				 }
+				 catch(IndexOutOfBoundsException e)
+				 {
+					 
+				 }
+				 finally
+				 {
+					 System.out.println(c.size());
+					 if(c.size()==3)
+					 {
+						 System.out.println("I will disable checkboxes now");
+						 CHKcourse4.setDisable(true);
+						 CHKcourse5.setDisable(true);
+					 }
+					 else if(c.size()==4)
+					 {
+						 CHKcourse5.setDisable(true);
+					 }
+				 }
 				
 			}
 			
 		});	
+		
+		CHKselectAll.setOnAction(new EventHandler<ActionEvent>() {
+			
+			@Override
+			public void handle(ActionEvent event) {
+				CHKcourse1.setSelected(true);
+				CHKcourse2.setSelected(true);
+				CHKcourse3.setSelected(true);
+				CHKcourse4.setSelected(true);
+				CHKcourse5.setSelected(true);
+			}
+		});
+		
 		AddedC.setOnAction(new EventHandler<ActionEvent>() {
 			
 			@Override
@@ -413,7 +479,34 @@ public class StudentPage  implements javafx.fxml.Initializable {
 			
 			@Override
 			public void handle(ActionEvent event) {
-				System.out.println("I m here");
+				//Code to Drop the selected courses from database entry
+				
+				if(CHKcourse1.isSelected())
+				{
+					String CourseName=CHKcourse1.getText().toLowerCase();
+					student.DropCourse(CourseName);
+				}
+				if(CHKcourse2.isSelected())
+				{
+					String CourseName=CHKcourse2.getText().toLowerCase();
+					student.DropCourse(CourseName);
+				}
+				if(CHKcourse3.isSelected())
+				{
+					String CourseName=CHKcourse3.getText().toLowerCase();
+					student.DropCourse(CourseName);
+				}
+				if(CHKcourse4.isSelected())
+				{
+					String CourseName=CHKcourse4.getText().toLowerCase();
+					student.DropCourse(CourseName);
+				}
+				if(CHKcourse5.isSelected())
+				{
+					String CourseName=CHKcourse5.getText().toLowerCase();
+					student.DropCourse(CourseName);
+				}
+				
 				ProfilePane.setVisible(false);
 				TimetablePane.setVisible(false);
 				CoursesPane.setVisible(true);

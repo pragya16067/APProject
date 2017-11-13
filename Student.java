@@ -56,6 +56,59 @@ public class Student extends User{
 		
 	}
 	
+	public void DropCourse(String CourseName) {
+		try
+		{
+			Class.forName("java.sql.DriverManager");
+	        Connection con=(Connection) DriverManager.getConnection(
+	                "jdbc:mysql://localhost:3306/project","root","tapeied");
+	        Statement stmt=(Statement) con.createStatement();
+	        String q="Select CourseCode from courses where LCASE(CourseName)='"+ CourseName +"';";
+	        ResultSet rs=stmt.executeQuery(q);
+	        if(rs.next())
+	        {
+	        	String CCode=rs.getString("CourseCode");
+	        	q="Select CoursesTaken from students where email='"+this.email+"';";
+	        	ResultSet list=stmt.executeQuery(q);
+	        	if(list.next()) {
+	        		String[] codes= list.getString("CoursesTaken").split(";");
+	        		///Find the index which has the coursecode as that which has to be dropped, then delete it and update table
+	        		int delIndex=-1;
+	        		for(int i=0; i<codes.length; i++)
+	        		{
+	        			if(codes[i].equals(CCode)) {
+	        				delIndex=i;
+	        				break;
+	        			}
+	        		}
+	        		if(delIndex==-1)
+	        		{
+	        			return;
+	        		}
+	        		else
+	        		{
+	        			String newCourseList= "";
+	        			for(int i=0; i<codes.length; i++)
+		        		{
+		        			if(i!=delIndex) {
+		        				newCourseList=newCourseList+codes[i]+";";
+		        			}
+		        			else
+		        				continue;
+		        		}
+	        			q="Update students set CoursesTaken='"+newCourseList+"' where email='"+this.email+"';";
+	        			stmt.executeUpdate(q);
+	        		}
+	        	}
+	        }
+	        
+		}
+		catch(Exception exp)
+		{
+			System.out.println(exp.getMessage());
+		}
+	}
+	
 	public ResultSet ViewCourses() {
 		ResultSet rs=null;
 		try
@@ -76,6 +129,39 @@ public class Student extends User{
 		return rs;
 	}
 	
+	public ArrayList<String> getCourseList() {
+		ArrayList<String> c=new ArrayList<String> ();
+		ResultSet rs=null;
+		try
+		{
+			Class.forName("java.sql.DriverManager");
+	        Connection con=(Connection) DriverManager.getConnection(
+	                "jdbc:mysql://localhost:3306/project","root","tapeied");
+	        Statement stmt=(Statement) con.createStatement();
+	        String q="Select CoursesTaken from students where email='"+this.email+"';";
+	        rs=stmt.executeQuery(q);
+	        if(rs.next())
+	        {
+	        	String[] cCode=rs.getString("CoursesTaken").split(";");
+	        	for(int i=0; i<cCode.length; i++)
+	        	{
+	        		String q2 = "Select CourseName from courses where CourseCode='"+cCode[i]+"';";
+	        		ResultSet r = stmt.executeQuery(q2);
+	        		if(r.next())
+	        		{
+	        			c.add(r.getString("CourseName"));
+	        		}
+	        	}
+	        }
+	        return c;
+		}
+		catch(Exception exp)
+		{
+			System.out.println(exp.getMessage());
+		}
+		return c;
+	}
+	
 	public ResultSet SearchCourses(String searchCode) {
 		ResultSet rs=null;
 		try
@@ -93,6 +179,42 @@ public class Student extends User{
 			System.out.println(exp.getMessage());
 		}
 		return rs;
+	}
+	
+	public ArrayList<Timetable> getTimetable() {
+		ArrayList<Timetable> timetables=new ArrayList<Timetable> ();
+		try
+		{
+			Class.forName("java.sql.DriverManager");
+	        Connection con=(Connection) DriverManager.getConnection(
+	                "jdbc:mysql://localhost:3306/project","root","tapeied");
+	        Statement stmt=(Statement) con.createStatement();
+	        ResultSet rs=this.ViewCourses();
+	        if(rs.next())
+	        {
+	        	String[] cCode=rs.getString("CoursesTaken").split(";");
+	        	for(int i=0; i<cCode.length; i++)
+	        	{
+	        		String q2 = "Select CourseName from courses where CourseCode='"+cCode[i]+"';";
+	        		ResultSet rs2 = stmt.executeQuery(q2);
+	        		rs2.next();
+	        		String CName= rs2.getString("CourseName");
+	        		q2="Select * from bookings where CourseCode='"+cCode[i]+"';";
+	        		ResultSet rs3= stmt.executeQuery(q2);
+	        		while(rs3.next())
+	        		{
+	        			Timetable t=new Timetable(CName, rs3.getString("Day"),rs3.getString("Start"),rs3.getString("End"),rs3.getString("RoomNo"));
+	        			timetables.add(t);
+	        		}
+	        	}
+	        }
+	        
+		}
+		catch(Exception exp)
+		{
+			System.out.println(exp.getMessage());
+		}
+		return timetables;
 	}
 	
 	public void MakeRequest (String p, String r, int cap, String d, String st, String et ) {
