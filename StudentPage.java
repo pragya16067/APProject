@@ -161,10 +161,12 @@ public class StudentPage  implements javafx.fxml.Initializable {
 		Timetable.setOnAction(new EventHandler<ActionEvent>() {
 			
 			@Override
-			public void handle(ActionEvent event) {
+			
 				
+				
+				 public void handle(ActionEvent event) {
 				ProfilePane.setVisible(false);
-				TimetablePane.setVisible(true);
+				TimetablePane.setVisible(false);
 				CoursesPane.setVisible(false);
 				ClassroomsPane.setVisible(false);
 				AddCoursesPane.setVisible(false);
@@ -175,26 +177,31 @@ public class StudentPage  implements javafx.fxml.Initializable {
 				 AvaibilityPane.setVisible(false);
 				 LogoutPane1.setVisible(false);
 				 LogoutPane2.setVisible(false);
-				 Default.setVisible(false);
+				 Default.setVisible(true);
 				 ChangePasswordPane.setVisible(false);
-				 
 				 TimetableTBL.setItems(null);
 				 TimetableTBL.setEditable(true);
 				 
 				 
-				 ArrayList<Timetable> t=student.getTimetable();
-				 ObservableList<Timetable> l=FXCollections.observableArrayList(t);
+				
+						try
+						{
+						Parent page =  FXMLLoader.load(getClass().getResource("Timetable.fxml"));
+						Scene scene = new Scene(page);
+						Stage page_stage = (Stage) (((Node) event.getSource()).getScene().getWindow());
+						page_stage.setScene(scene);
+						page_stage.show();
+						}
+						catch(Exception exp)
+						{
+							System.out.println(exp.getMessage());
+						}
+					}
+				});
 				 
-				 TimetableTBL.setItems(l);
 				 
-				 CourseNameCol.setCellValueFactory(new PropertyValueFactory<Timetable,String>("Course"));
-				 DayCol.setCellValueFactory(new PropertyValueFactory<Timetable,String>("Day"));
-				 STimeCol.setCellValueFactory(new PropertyValueFactory<Timetable,String>("Stime"));
-				 ETimeCol.setCellValueFactory(new PropertyValueFactory<Timetable,String>("Etime"));
-				 TTRoomCol.setCellValueFactory(new PropertyValueFactory<Timetable,String>("Room"));
-			}
-			
-		});	
+				 
+		
 
 		Profile.setOnAction(new EventHandler<ActionEvent>() {
 			
