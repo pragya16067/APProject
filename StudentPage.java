@@ -1,5 +1,7 @@
 package GUIComponents;
 
+import application.Bookings;
+import application.Classrooms;
 import application.Course;
 import application.Request;
 import application.Timetable;
@@ -12,6 +14,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -27,6 +30,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -60,15 +64,15 @@ public class StudentPage  implements javafx.fxml.Initializable {
 	
 	
 	@FXML
-	TextField TXTnewpwd1,TXTnewpwd2,SearchBox,TXTpurpose,TXTroom,TXTcapacity,TXTtimeStart,TXTtimeEnd;
+	TextField TXTnewpwd1,TXTnewpwd2,SearchBox,TXTpurpose,TXTroom,TXTcapacity,TXTtimeStart,TXTtimeEnd,TXTBTime,TXTBDay;
 	@FXML
-	DatePicker TXTdate;
+	DatePicker TXTdate,TXTBDate;
 	@FXML
 	Label LblName, LblBatch, LblRno;
 	@FXML
 	CheckBox CHKcourse1,CHKcourse2,CHKcourse3,CHKcourse4,CHKcourse5,CHKselectAll;
 	@FXML
-	Button Timetable,Profile,Courses,Classrooms,AddC,ViewC,SearchC,DropC,AddedC,DroppedC,BackC,RequestR,ViewR,AvailableR,RequestedR,BackR1,BackR2,Logout,ChangePassword,Changed,LoginA;
+	Button Timetable,Profile,Courses,Classrooms,AddC,ViewC,SearchC,DropC,AddedC,DroppedC,BackC,RequestR,ViewR,AvailableR,RequestedR,BackR1,BackR2,Logout,ChangePassword,Changed,LoginA,CheckAvailB;
 	
 	@FXML
 	TableView<Course> ViewCoursesTable,AddCoursesTBL;
@@ -88,17 +92,56 @@ public class StudentPage  implements javafx.fxml.Initializable {
 	@FXML
 	TableView<Request> ReqStatusTable;
 	@FXML
+	TableView Tblavail;
+	@FXML
 	TableColumn<Request, String> RoomCol,PurposeCol,ReqCol,StatusCol;
 	@FXML
 	TableColumn<Request, Integer> CapCol;
-	
+	@FXML
+	ComboBox TXTBRoom;
 	@FXML
 	TableView<Timetable> TimetableTBL;
 	@FXML
 	TableColumn<Timetable,String> CourseNameCol,DayCol,STimeCol,ETimeCol,TTRoomCol;
+	@FXML
+	TableColumn<Classrooms,String> RoomNo;
+	@FXML
+	TableColumn<Classrooms,Integer> Capacity;
+	@FXML
+	TableColumn<Classrooms,String> Avail;
+	@FXML
+	TableColumn<Classrooms,String> Time;
+	@FXML
+	TableColumn<Classrooms,String> Course;
 	
-	@Override	
+	public void getrooms()
+	{
+		try
+		{
+			Class.forName("java.sql.DriverManager");
+	        Connection con=(Connection) DriverManager.getConnection(
+	                "jdbc:mysql://localhost:3306/project","root","30july1998");
+	        Statement stmt=(Statement) con.createStatement();
+	        String q = "Select RoomNo from rooms ;";
+	        System.out.println(q);
+	        ResultSet rs = stmt.executeQuery(q);
+	        ArrayList<String> list = new ArrayList<String>();
+	        while(rs.next())
+	        {  //System.out.println(rs.getString("RoomNo"));
+	        	list.add(rs.getString("RoomNo"));
+	        	//options.add("C01");
+	        }
+	        ObservableList<String> options = FXCollections.observableArrayList(list);
+	        TXTBRoom.setItems(options);
+	        
+		}
+		catch(Exception ex)
+		{
+			//System.out.println(ex.getMessage());
+		}
+	}
 	public void initialize(URL location, ResourceBundle resources) {
+		
 		
 		
 		
@@ -357,7 +400,7 @@ public class StudentPage  implements javafx.fxml.Initializable {
 					 ViewCoursesTable.setItems(null);
 					 
 					 Class.forName("java.sql.DriverManager");
-				     Connection con=(Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/project","root","tapeied");
+				     Connection con=(Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/project","root","30july1998");
 				     Statement stmt=(Statement) con.createStatement();
 				        
 					 ResultSet rs=student.ViewCourses();
@@ -634,7 +677,7 @@ public class StudentPage  implements javafx.fxml.Initializable {
 					 ReqStatusTable.setEditable(true);
 					 
 					 Class.forName("java.sql.DriverManager");
-				     Connection con=(Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/project","root","tapeied");
+				     Connection con=(Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/project","root","30july1998");
 				     Statement stmt=(Statement) con.createStatement();
 				        
 					 ArrayList<Request> r=student.ViewRequests();
@@ -653,6 +696,107 @@ public class StudentPage  implements javafx.fxml.Initializable {
 				 {
 					 System.out.println(e.getMessage());
 				 }
+			}
+			
+		});	
+      CheckAvailB.setOnAction(new EventHandler<ActionEvent>() {
+			
+			@Override
+			public void handle(ActionEvent event) {
+				String Room = (String) TXTBRoom.getValue();
+				System.out.println("room"+Room);
+				System.out.println("date"+TXTBDate.getValue());
+				System.out.println("day"+TXTBDay.getText());
+				System.out.println("time"+TXTBTime.getText());
+				ArrayList<Classrooms> list= new ArrayList<Classrooms>();
+				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd LLLL yyyy");
+				if(TXTBDate.getValue()==null && TXTBTime.getText().equals("") && TXTBDay.getText().equals(""))
+				{
+				System.out.println("1a");
+				list = student.accroom(Room);
+				}
+				if((TXTBDate.getValue()!=null || !TXTBDay.getText().equals("")) && TXTBTime.getText().equals(""))
+				{
+					System.out.println("1b");
+					String Date="",Day="";
+					if(TXTBDate.getValue()!=null)
+					{ System.out.println("1f");
+						Date = TXTBDate.getValue().format(formatter);	
+						Day =  TXTBDate.getValue().getDayOfWeek().name();
+					}
+					else
+					{ System.out.println("1g");
+						Day = TXTBDay.getText();
+					}
+				list = student.accroom(Room,Date,Day);
+				}
+				if((TXTBDate.getValue()!=null || !TXTBDay.getText().equals("")) && TXTBTime.getText().equals("") && Room==null)
+				{
+					System.out.println("1c");
+					
+					String Date="",Day="";
+					if(TXTBDate.getValue()!=null)
+					{ //System.out.println("1f");
+						Date = TXTBDate.getValue().format(formatter);	
+						Day =  TXTBDate.getValue().getDayOfWeek().name();
+					}
+					else
+					{ //System.out.println("1g");
+						Day = TXTBDay.getText();
+					}
+				list = student.accroom(Date,Day);
+				}
+				if(TXTBDate.getValue()==null && TXTBDay.getText().equals("") && !TXTBTime.getText().equals("") && Room!=null )
+				{
+					System.out.println("1d");
+				String Times = TXTBTime.getText();
+				list = student.accroomt(Room,Times);
+				}
+				if(TXTBDate.getValue()==null&& TXTBDay.getText().equals("") && !TXTBTime.getText().equals("") && Room==null)
+				{
+					System.out.println("1e");
+				String Times = TXTBTime.getText();
+				list = student.accroomt(Times);
+				}
+				if((TXTBDate.getValue()!=null || !TXTBDay.getText().equals("")) && !TXTBTime.getText().equals(""))
+				{
+					String Date="",Day="";
+				if(TXTBDate.getValue()!=null)
+				{ System.out.println("1f");
+					Date = TXTBDate.getValue().format(formatter);	
+					Day =  TXTBDate.getValue().getDayOfWeek().name();
+				}
+				else
+				{ System.out.println("1g");
+					Day = TXTBDay.getText();
+				}
+				
+				String Times = TXTBTime.getText();
+				list = student.accroom(Room,Date,Day,Times);
+				}
+				if(TXTBDate.getValue()==null && TXTBTime.getText().equals("") && Room==null && TXTBDay.getText().equals(""))
+				{System.out.println("1h");
+					JOptionPane.showMessageDialog(null, "Showing All Available records");
+					list = student.accroom();
+				}
+				//System.out.println(list.get(0).RoomNo+" "+list.get(0).Course);
+				ObservableList lists = FXCollections.observableArrayList(list);
+				
+				 System.out.println(list.size());
+				Tblavail.setItems(lists);
+				RoomNo.setCellValueFactory(new PropertyValueFactory<Classrooms,String>("RoomNo"));
+				Capacity.setCellValueFactory(new PropertyValueFactory<Classrooms,Integer>("Capacity"));
+				Avail.setCellValueFactory(new PropertyValueFactory<Classrooms,String>("Availbility"));
+				Course.setCellValueFactory(new PropertyValueFactory<Classrooms,String>("Course"));
+				Time.setCellValueFactory(new PropertyValueFactory<Classrooms,String>("Time"));
+				
+				TXTBRoom.getSelectionModel().clearSelection();
+				TXTBDate.getEditor().clear();
+				TXTBDay.setText("");
+				TXTBTime.setText("");
+				
+				
+				
 			}
 			
 		});	
@@ -675,6 +819,7 @@ public class StudentPage  implements javafx.fxml.Initializable {
 				 LogoutPane2.setVisible(false);
 				 Default.setVisible(false);
 				 ChangePasswordPane.setVisible(false);
+				 getrooms();
 			}
 			
 		});	
