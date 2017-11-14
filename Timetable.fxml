@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<Pane fx:id="TimetablePane" prefHeight="782.0" prefWidth="1545.0" style="-fx-background-color: #24b590;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUIComponents.ViewTimetable">
+   <children>
+      <Label alignment="CENTER" layoutX="536.0" layoutY="36.0" prefHeight="17.0" prefWidth="312.0" text="MY TIMETABLE" textFill="WHITE" underline="true">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Label>
+      <TableView fx:id="TimetableTBL" layoutY="91.0" prefHeight="376.0" prefWidth="1358.0" style="-fx-background-color: #5b615e;">
+         <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy>
+         <columns>
+            <TableColumn fx:id="CC" prefWidth="52.0" text="CourseCode" />
+            <TableColumn fx:id="M" minWidth="0.0" prefWidth="61.0" text="Monday:Time-Venue" />
+            <TableColumn fx:id="T" minWidth="7.0" prefWidth="58.0" text="Tuesday:Time-Venue" />
+            <TableColumn fx:id="W" prefWidth="63.0" text="Wednesday: Time-Venue" />
+            <TableColumn fx:id="Th" minWidth="7.0" prefWidth="64.0" text="Thursday:Time-Venue" />
+            <TableColumn fx:id="F" prefWidth="63.0" text="Friday: Time-Venue" />
+            <TableColumn fx:id="Tu" prefWidth="74.0" text="Tut: Day-Time-Venue" />
+            <TableColumn fx:id="La" prefWidth="65.0" text="Lab: Day-Time-Venue" />
+         </columns>
+      </TableView>
+      <Button fx:id="BackD" alignment="CENTER" layoutX="103.0" layoutY="516.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="115.0" style="-fx-background-color: #ffffff;" text=" Back" textFill="#24b590">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Button>
+      <ImageView fitHeight="38.0" fitWidth="44.0" layoutX="74.0" layoutY="516.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../images.jpg" />
+         </image>
+      </ImageView>
+   </children>
+</Pane>

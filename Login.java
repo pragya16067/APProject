@@ -60,7 +60,6 @@ public class Login  implements javafx.fxml.Initializable  {
 			UserType.setValue("User Type");
 			UserType.setItems(options);
 			SignUpBtn.setOnAction(new EventHandler<ActionEvent>() {
-			
 			@Override
 			public void handle(ActionEvent event) {
 				
@@ -85,7 +84,7 @@ public class Login  implements javafx.fxml.Initializable  {
 				        {
 				            Class.forName("java.sql.DriverManager");
 				            Connection con=(Connection) DriverManager.getConnection(
-				                    "jdbc:mysql://localhost:3306/project","root","tapeied");
+				                    "jdbc:mysql://localhost:3306/project","root","30july1998");
 				            Statement stmt=(Statement) con.createStatement();
 				            String q="Select * from users where email='"+email+"';";
 				            ResultSet rs=stmt.executeQuery(q);
@@ -114,8 +113,13 @@ public class Login  implements javafx.fxml.Initializable  {
 				            		System.out.println("tt");
 				            		rs1.next();
 				            		int uid = rs1.getInt("max(uid)")+1;
-				            		if(!email.equals("") && !password1.equals("") && !type.equals("Select Type"))
+				            		if(!email.equals("") || !password1.equals("") || !type.equals("Select Type"))
 				            		{String q2 = "Insert into users values ("+uid+",'"+email+"','"+password1+"','"+type+"');" ;
+				            		stmt.executeUpdate(q2);
+				            		if(type.equals("Student"))
+				            		{
+				            			 q2 = "Insert into students values ('"+email+"','"+"CSE112;CSE201;CSE121"+"','');" ;
+				            		}
 				            		stmt.executeUpdate(q2);
 				            		JOptionPane.showMessageDialog(null, "Sucessfully Registered");
 				            		SignUp1.setVisible(false);

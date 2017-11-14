@@ -53,7 +53,7 @@ public class FacultyPage  implements javafx.fxml.Initializable {
 	@FXML
 	TextField TXTnewpwd1,TXTnewpwd2, OldPwd,TXTCode,TXTCapacity,TXTTime,TXTTime1,TXTDay,TXTBTime,TXTBDay;
 	@FXML
-	Label Lblemail, LblName;
+	Label Lblemail, LblName,LblCourse;
 	@FXML
 	ComboBox TXTRoom,TXTBRoom;
 	@FXML
@@ -237,6 +237,8 @@ public class FacultyPage  implements javafx.fxml.Initializable {
 			public void handle(ActionEvent event) {
 				LblName.setText("Hi ! "+faculty.getName()+"!!");
 				Lblemail.setText(faculty.getemail());
+				System.out.println(faculty.Courses()+"mmmm");
+				LblCourse.setText(faculty.Courses());
 				ProfilePane.setVisible(true);
 				ShowPane.setVisible(false);
 				BookPane.setVisible(false);

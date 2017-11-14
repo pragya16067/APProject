@@ -60,7 +60,7 @@ public class Admin extends User{
 	        Connection con=(Connection) DriverManager.getConnection(
 	                "jdbc:mysql://localhost:3306/project","root","30july1998");
 	        Statement stmt=(Statement) con.createStatement();
-	        
+	        System.out.println(rq.getDateN());
 	        String d[] = rq.getDateN().split("-");
 	        String dates = d[2]+" "+d[1]+" "+d[0];
 	        String date = rq.getDateN();
@@ -68,7 +68,7 @@ public class Admin extends User{
 	        String etime = rq.geteTime();
 	        LocalDate date1 = LocalDate.of(Integer.parseInt(d[0]),Integer.parseInt(d[1]) , Integer.parseInt(d[2]));
 	        String day = date1.getDayOfWeek().name();
-	        String q = "Select * from bookings where RoomNo = '"+rq.getRoomN()+"' and (Day = '"+dates+"' or Day ='"+day+"')((Start <='"+time+"' and End >='"+time+"') or (Start < '"+etime+"' and End >'"+etime+"'));";
+	        String q = "Select * from bookings where RoomNo = '"+rq.getRoomN()+"' and (Day = '"+dates+"' or Day ='"+day+"') and ((Start <='"+time+"' and End >='"+time+"') or (Start < '"+etime+"' and End >'"+etime+"'));";
 	        System.out.println(q);
 	        ResultSet rs = stmt.executeQuery(q);
 	        if(!rs.next())

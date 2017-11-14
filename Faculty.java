@@ -18,6 +18,54 @@ public class Faculty extends User{
 		String Name=s[0];
 		return Name.toUpperCase();
 	}
+	public String Courses(){
+		String s ="";
+		try
+		{
+			Class.forName("java.sql.DriverManager");
+	        Connection con=(Connection) DriverManager.getConnection(
+	                "jdbc:mysql://localhost:3306/project","root","30july1998");
+	        Statement stmt=(Statement) con.createStatement();
+	        String q = "Select CourseCode,CourseName from courses where faculty Like Concat ('%','"+getName()+"','%');";
+	        System.out.println(q);
+	        ResultSet rs = stmt.executeQuery(q);
+	        
+	        while(rs.next())
+	        {
+	        	s+=(rs.getString("CourseName")+"("+rs.getString("CourseCode")+");");
+	        }
+		}
+		catch(Exception ex)
+		{
+			
+		}
+		return s;
+		
+	}
+	public ArrayList<String> GetCourse()
+	{
+		ArrayList<String> s = new ArrayList<String>();
+		try
+		{
+			Class.forName("java.sql.DriverManager");
+	        Connection con=(Connection) DriverManager.getConnection(
+	                "jdbc:mysql://localhost:3306/project","root","30july1998");
+	        Statement stmt=(Statement) con.createStatement();
+	        String q = "Select CourseCode from courses where faculty Like Concat ('%','"+getName()+"','%');";
+	        System.out.println(q);
+	        ResultSet rs = stmt.executeQuery(q);
+	        
+	        while(rs.next())
+	        {
+	        	s.add(rs.getString("CourseCode"));
+	        }
+		}
+		catch(Exception ex)
+		{
+			
+		}
+		return s;
+	}
 	public boolean BookRoom(String Code, String Room, String STime, String ETime, String Day ,int Capacity,String dayname)
 	{
 		try
@@ -409,7 +457,18 @@ public class Faculty extends User{
 	        Connection con=(Connection) DriverManager.getConnection(
 	                "jdbc:mysql://localhost:3306/project","root","30july1998");
 	        Statement stmt=(Statement) con.createStatement();
-	        String q ="Select * from bookings where type = 'Faculty' or type ='Student';";
+	        ArrayList<String> a = GetCourse();
+	        String course ="CourseCode ='";
+	        for(int i=0;i<a.size();i++)
+	        {
+	        	course+=(a.get(i)+"'");
+	        	if(i!=a.size()-1)
+	        	{
+	        		course+=("or CourseCode ='");
+	        	}
+	        }
+	        String q ="Select * from bookings where (type = 'Faculty' or type ='Student') and ("+course+");";
+	        System.out.println(q);
 	        ResultSet rs = stmt.executeQuery(q);
 	        while(rs.next())
 	        {
