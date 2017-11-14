@@ -1,7 +1,5 @@
 package GUIComponents;
 
-import application.Bookings;
-import application.Classrooms;
 import application.Course;
 import application.Request;
 import application.Timetable;
@@ -14,7 +12,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -30,7 +27,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -64,84 +60,43 @@ public class StudentPage  implements javafx.fxml.Initializable {
 	
 	
 	@FXML
-	TextField TXTnewpwd1,TXTnewpwd2,SearchBox,TXTpurpose,TXTroom,TXTcapacity,TXTtimeStart,TXTtimeEnd,TXTBTime,TXTBDay;
+	TextField TXTnewpwd1,TXTnewpwd2,SearchBox,TXTpurpose,TXTroom,TXTcapacity,TXTtimeStart,TXTtimeEnd;
 	@FXML
-	DatePicker TXTdate,TXTBDate;
+	DatePicker TXTdate;
 	@FXML
 	Label LblName, LblBatch, LblRno;
 	@FXML
-	CheckBox CHKcourse1,CHKcourse2,CHKcourse3,CHKcourse4,CHKcourse5,CHKselectAll;
-	@FXML
-	Button Timetable,Profile,Courses,Classrooms,AddC,ViewC,SearchC,DropC,AddedC,DroppedC,BackC,RequestR,ViewR,AvailableR,RequestedR,BackR1,BackR2,Logout,ChangePassword,Changed,LoginA,CheckAvailB;
+	Button Timetable,Profile,Courses,Classrooms,AddC,ViewC,SearchC,DropC,AddedC,DroppedC,BackC,RequestR,ViewR,AvailableR,RequestedR,BackR1,BackR2,Logout,ChangePassword,Changed,LoginA;
 	
 	@FXML
-	TableView<Course> ViewCoursesTable,AddCoursesTBL;
+	TableView<Course> ViewCoursesTable,AddCoursesTBL,DropCoursesTable;
 	@FXML
-	TableColumn<Course, String> Code,CCodeCol;
+	TableColumn<Course, String> Code,CCodeCol,CCode;
 	@FXML
-	TableColumn<Course, String> Name,CNameCol;
+	TableColumn<Course, String> Name,CNameCol,CName;
 	@FXML
-	TableColumn<Course, String> Acronym;
+	TableColumn<Course, String> Acronym,CAcronym;
 	@FXML
-	TableColumn<Course, String> Faculty,CFacultyCol;
+	TableColumn<Course, String> Faculty,CFacultyCol,CFaculty;
 	@FXML
-	TableColumn<Course, Integer> Credits,CCreditsCol;
+	TableColumn<Course, Integer> Credits,CCreditsCol,CCredits;
 	@FXML
-	TableColumn<Course, String> Type;
+	TableColumn<Course, String> Type,CType;
 	
 	@FXML
 	TableView<Request> ReqStatusTable;
 	@FXML
-	TableView Tblavail;
-	@FXML
 	TableColumn<Request, String> RoomCol,PurposeCol,ReqCol,StatusCol;
 	@FXML
 	TableColumn<Request, Integer> CapCol;
-	@FXML
-	ComboBox TXTBRoom;
+	
 	@FXML
 	TableView<Timetable> TimetableTBL;
 	@FXML
 	TableColumn<Timetable,String> CourseNameCol,DayCol,STimeCol,ETimeCol,TTRoomCol;
-	@FXML
-	TableColumn<Classrooms,String> RoomNo;
-	@FXML
-	TableColumn<Classrooms,Integer> Capacity;
-	@FXML
-	TableColumn<Classrooms,String> Avail;
-	@FXML
-	TableColumn<Classrooms,String> Time;
-	@FXML
-	TableColumn<Classrooms,String> Course;
 	
-	public void getrooms()
-	{
-		try
-		{
-			Class.forName("java.sql.DriverManager");
-	        Connection con=(Connection) DriverManager.getConnection(
-	                "jdbc:mysql://localhost:3306/project","root","30july1998");
-	        Statement stmt=(Statement) con.createStatement();
-	        String q = "Select RoomNo from rooms ;";
-	        System.out.println(q);
-	        ResultSet rs = stmt.executeQuery(q);
-	        ArrayList<String> list = new ArrayList<String>();
-	        while(rs.next())
-	        {  //System.out.println(rs.getString("RoomNo"));
-	        	list.add(rs.getString("RoomNo"));
-	        	//options.add("C01");
-	        }
-	        ObservableList<String> options = FXCollections.observableArrayList(list);
-	        TXTBRoom.setItems(options);
-	        
-		}
-		catch(Exception ex)
-		{
-			//System.out.println(ex.getMessage());
-		}
-	}
+	@Override	
 	public void initialize(URL location, ResourceBundle resources) {
-		
 		
 		
 		
@@ -400,7 +355,7 @@ public class StudentPage  implements javafx.fxml.Initializable {
 					 ViewCoursesTable.setItems(null);
 					 
 					 Class.forName("java.sql.DriverManager");
-				     Connection con=(Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/project","root","30july1998");
+				     Connection con=(Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/project","root","tapeied");
 				     Statement stmt=(Statement) con.createStatement();
 				        
 					 ResultSet rs=student.ViewCourses();
@@ -473,67 +428,82 @@ public class StudentPage  implements javafx.fxml.Initializable {
 				 ChangePasswordPane.setVisible(false);
 				
 				 //CODE for correctly labelling all course checkboxes!!
-				 ArrayList<String> c=new ArrayList<String> ();
+				 ArrayList<Course> c=new ArrayList<Course> ();
 				 try
 				 {
-					 c=student.getCourseList();
-					 CHKcourse1.setText(c.get(0));
-					 CHKcourse2.setText(c.get(1));
-					 CHKcourse3.setText(c.get(2));
-					 CHKcourse4.setText(c.get(3));
-					 CHKcourse5.setText(c.get(4));
-					 
+					 ResultSet rs=student.ViewCourses();
+					 if(rs.next()) {
+						 String[] s=rs.getString("CoursesTaken").split(";");
+				        	
+				        	for(int i=0; i<s.length; i++)
+				        	{
+				        		Class.forName("java.sql.DriverManager");
+							    Connection con=(Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/project","root","tapeied");
+							    Statement stmt=(Statement) con.createStatement();
+				        		String CourseCode=s[i];
+				        		String q="Select CourseCode,CourseName,Acronym,Faculty,Credits,Type from courses where CourseCode='"+CourseCode+"';";
+				        		ResultSet CData= stmt.executeQuery(q);
+				        		
+				        		while(CData.next())
+				        		{
+				        			
+				        			Course course=new Course(CData.getString("CourseCode"),CData.getString("CourseName"),CData.getString("Acronym"),CData.getString("Faculty"),CData.getInt("Credits"),CData.getString("Type"));
+				        			
+				        			c.add(course);
+				        			
+				        		}
+				                  
+				        		//System.out.println(l.get(i).getCourseCode()+" "+l.get(i).getCourseName());
+				        	}	
+				        		//System.out.println(l.size());
+				        	ObservableList<Course> l=FXCollections.observableArrayList(c);
+			        		DropCoursesTable.setItems(l);
+			        		
+			        		CCode.setCellValueFactory(new PropertyValueFactory<Course,String>("CourseCode"));
+			        		CName.setCellValueFactory(new PropertyValueFactory<Course,String>("CourseName"));
+			        		CAcronym.setCellValueFactory(new PropertyValueFactory<Course,String>("Acronym"));
+			        		CFaculty.setCellValueFactory(new PropertyValueFactory<Course,String>("Faculty"));
+			        		CCredits.setCellValueFactory(new PropertyValueFactory<Course,Integer>("Credits"));
+			        		CType.setCellValueFactory(new PropertyValueFactory<Course,String>("Type"));
+			        		
+					 }
 					 
 				 }
-				 catch(IndexOutOfBoundsException e)
+				 catch(Exception e)
 				 {
-					 
+					 System.out.println(e.getMessage());
 				 }
 				 finally
 				 {
-					 System.out.println(c.size());
-					 if(c.size()==3)
-					 {
-						 System.out.println("I will disable checkboxes now");
-						 CHKcourse4.setDisable(true);
-						 CHKcourse5.setDisable(true);
-					 }
-					 else if(c.size()==4)
-					 {
-						 CHKcourse5.setDisable(true);
-					 }
+					 
 				 }
 				
 			}
 			
 		});	
 		
-		CHKselectAll.setOnAction(new EventHandler<ActionEvent>() {
-			
-			@Override
-			public void handle(ActionEvent event) {
-				CHKcourse1.setSelected(true);
-				CHKcourse2.setSelected(true);
-				CHKcourse3.setSelected(true);
-				CHKcourse4.setSelected(true);
-				CHKcourse5.setSelected(true);
-			}
-		});
 		
 		AddedC.setOnAction(new EventHandler<ActionEvent>() {
 			
 			@Override
 			public void handle(ActionEvent event) {
-				Course addC = (Course) AddCoursesTBL.getSelectionModel().getSelectedItem();
-				
-				if(student.okToAddCourse(addC))
+				try
 				{
-					student.AddCourse(addC);
-					JOptionPane.showMessageDialog(null, "The selected course was successfully added");
+					Course addC = (Course) AddCoursesTBL.getSelectionModel().getSelectedItem();
+					
+					if(student.okToAddCourse(addC))
+					{
+						student.AddCourse(addC);
+						JOptionPane.showMessageDialog(null, "The selected course was successfully added");
+					}
+					else
+					{
+						JOptionPane.showMessageDialog(null, "Sorry you cannot add selected course due to clashes with Timetable or due to already having 5 courses");
+					}
 				}
-				else
+				catch(Exception e)
 				{
-					JOptionPane.showMessageDialog(null, "Sorry you cannot add selected course due to clashes with Timetable or due to already having 5 courses");
+					System.out.println(e.getMessage());
 				}
 				
 				
@@ -561,31 +531,22 @@ public class StudentPage  implements javafx.fxml.Initializable {
 			@Override
 			public void handle(ActionEvent event) {
 				//Code to Drop the selected courses from database entry
-				
-				if(CHKcourse1.isSelected())
-				{
-					String CourseName=CHKcourse1.getText().toLowerCase();
-					student.DropCourse(CourseName);
+				try {
+					Course dropC = (Course) DropCoursesTable.getSelectionModel().getSelectedItem();
+					
+					if(dropC.getType().toLowerCase().equals("mandatory"))
+					{
+						JOptionPane.showMessageDialog(null, "Sorry, this is a mandatory CSE 2nd year Monsoon semester Course!");
+					}
+					else
+					{
+						String CourseName=dropC.getCourseName().toLowerCase();
+						student.DropCourse(CourseName);
+					}
 				}
-				if(CHKcourse2.isSelected())
+				catch(Exception e)
 				{
-					String CourseName=CHKcourse2.getText().toLowerCase();
-					student.DropCourse(CourseName);
-				}
-				if(CHKcourse3.isSelected())
-				{
-					String CourseName=CHKcourse3.getText().toLowerCase();
-					student.DropCourse(CourseName);
-				}
-				if(CHKcourse4.isSelected())
-				{
-					String CourseName=CHKcourse4.getText().toLowerCase();
-					student.DropCourse(CourseName);
-				}
-				if(CHKcourse5.isSelected())
-				{
-					String CourseName=CHKcourse5.getText().toLowerCase();
-					student.DropCourse(CourseName);
+					System.out.println(e.getMessage());
 				}
 				
 				ProfilePane.setVisible(false);
@@ -675,10 +636,6 @@ public class StudentPage  implements javafx.fxml.Initializable {
 				 {
 					 ReqStatusTable.setItems(null);
 					 ReqStatusTable.setEditable(true);
-					 
-					 Class.forName("java.sql.DriverManager");
-				     Connection con=(Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/project","root","30july1998");
-				     Statement stmt=(Statement) con.createStatement();
 				        
 					 ArrayList<Request> r=student.ViewRequests();
 					 ObservableList<Request> l=FXCollections.observableArrayList(r);
@@ -696,107 +653,6 @@ public class StudentPage  implements javafx.fxml.Initializable {
 				 {
 					 System.out.println(e.getMessage());
 				 }
-			}
-			
-		});	
-      CheckAvailB.setOnAction(new EventHandler<ActionEvent>() {
-			
-			@Override
-			public void handle(ActionEvent event) {
-				String Room = (String) TXTBRoom.getValue();
-				System.out.println("room"+Room);
-				System.out.println("date"+TXTBDate.getValue());
-				System.out.println("day"+TXTBDay.getText());
-				System.out.println("time"+TXTBTime.getText());
-				ArrayList<Classrooms> list= new ArrayList<Classrooms>();
-				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd LLLL yyyy");
-				if(TXTBDate.getValue()==null && TXTBTime.getText().equals("") && TXTBDay.getText().equals(""))
-				{
-				System.out.println("1a");
-				list = student.accroom(Room);
-				}
-				if((TXTBDate.getValue()!=null || !TXTBDay.getText().equals("")) && TXTBTime.getText().equals(""))
-				{
-					System.out.println("1b");
-					String Date="",Day="";
-					if(TXTBDate.getValue()!=null)
-					{ System.out.println("1f");
-						Date = TXTBDate.getValue().format(formatter);	
-						Day =  TXTBDate.getValue().getDayOfWeek().name();
-					}
-					else
-					{ System.out.println("1g");
-						Day = TXTBDay.getText();
-					}
-				list = student.accroom(Room,Date,Day);
-				}
-				if((TXTBDate.getValue()!=null || !TXTBDay.getText().equals("")) && TXTBTime.getText().equals("") && Room==null)
-				{
-					System.out.println("1c");
-					
-					String Date="",Day="";
-					if(TXTBDate.getValue()!=null)
-					{ //System.out.println("1f");
-						Date = TXTBDate.getValue().format(formatter);	
-						Day =  TXTBDate.getValue().getDayOfWeek().name();
-					}
-					else
-					{ //System.out.println("1g");
-						Day = TXTBDay.getText();
-					}
-				list = student.accroom(Date,Day);
-				}
-				if(TXTBDate.getValue()==null && TXTBDay.getText().equals("") && !TXTBTime.getText().equals("") && Room!=null )
-				{
-					System.out.println("1d");
-				String Times = TXTBTime.getText();
-				list = student.accroomt(Room,Times);
-				}
-				if(TXTBDate.getValue()==null&& TXTBDay.getText().equals("") && !TXTBTime.getText().equals("") && Room==null)
-				{
-					System.out.println("1e");
-				String Times = TXTBTime.getText();
-				list = student.accroomt(Times);
-				}
-				if((TXTBDate.getValue()!=null || !TXTBDay.getText().equals("")) && !TXTBTime.getText().equals(""))
-				{
-					String Date="",Day="";
-				if(TXTBDate.getValue()!=null)
-				{ System.out.println("1f");
-					Date = TXTBDate.getValue().format(formatter);	
-					Day =  TXTBDate.getValue().getDayOfWeek().name();
-				}
-				else
-				{ System.out.println("1g");
-					Day = TXTBDay.getText();
-				}
-				
-				String Times = TXTBTime.getText();
-				list = student.accroom(Room,Date,Day,Times);
-				}
-				if(TXTBDate.getValue()==null && TXTBTime.getText().equals("") && Room==null && TXTBDay.getText().equals(""))
-				{System.out.println("1h");
-					JOptionPane.showMessageDialog(null, "Showing All Available records");
-					list = student.accroom();
-				}
-				//System.out.println(list.get(0).RoomNo+" "+list.get(0).Course);
-				ObservableList lists = FXCollections.observableArrayList(list);
-				
-				 System.out.println(list.size());
-				Tblavail.setItems(lists);
-				RoomNo.setCellValueFactory(new PropertyValueFactory<Classrooms,String>("RoomNo"));
-				Capacity.setCellValueFactory(new PropertyValueFactory<Classrooms,Integer>("Capacity"));
-				Avail.setCellValueFactory(new PropertyValueFactory<Classrooms,String>("Availbility"));
-				Course.setCellValueFactory(new PropertyValueFactory<Classrooms,String>("Course"));
-				Time.setCellValueFactory(new PropertyValueFactory<Classrooms,String>("Time"));
-				
-				TXTBRoom.getSelectionModel().clearSelection();
-				TXTBDate.getEditor().clear();
-				TXTBDay.setText("");
-				TXTBTime.setText("");
-				
-				
-				
 			}
 			
 		});	
@@ -819,7 +675,6 @@ public class StudentPage  implements javafx.fxml.Initializable {
 				 LogoutPane2.setVisible(false);
 				 Default.setVisible(false);
 				 ChangePasswordPane.setVisible(false);
-				 getrooms();
 			}
 			
 		});	

@@ -107,8 +107,8 @@
                   </Pane>
                    <Pane fx:id="CoursesPane" layoutY="1.0" prefHeight="492.0" prefWidth="532.0" style="-fx-background-color: #24b590;" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
-                        <Separator layoutX="45.0" layoutY="385.0" prefHeight="17.0" prefWidth="463.0" />
                         <Separator layoutX="45.0" layoutY="376.0" prefHeight="17.0" prefWidth="463.0" />
+                        <Separator layoutX="45.0" layoutY="385.0" prefHeight="17.0" prefWidth="463.0" />
                          <Separator layoutX="51.0" layoutY="69.0" prefHeight="17.0" prefWidth="463.0" />
                   <Separator layoutX="51.0" layoutY="78.0" prefHeight="17.0" prefWidth="463.0" />
                         <Button fx:id="AddC" layoutX="170.0" layoutY="159.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="206.0" style="-fx-background-color: #282727;" text="Add Courses" textFill="#f0f8f4" underline="true">
@@ -216,46 +216,26 @@
                   </Pane>
                   <Pane fx:id="DropCoursesPane" layoutX="1.0" prefHeight="492.0" prefWidth="532.0" style="-fx-background-color: #24b590;" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
-                        <CheckBox fx:id="CHKcourse5" layoutX="41.0" layoutY="272.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="115.0" text="Course5">
-                           <font>
-                              <Font name="System Bold" size="14.0" />
-                           </font>
-                        </CheckBox>
-                        <CheckBox fx:id="CHKcourse4" layoutX="41.0" layoutY="235.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="115.0" text="Course4">
-                           <font>
-                              <Font name="System Bold" size="14.0" />
-                           </font>
-                        </CheckBox>
-                        <CheckBox fx:id="CHKcourse2" layoutX="41.0" layoutY="162.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="115.0" text="Course2">
-                           <font>
-                              <Font name="System Bold" size="14.0" />
-                           </font>
-                        </CheckBox>
-                        <CheckBox fx:id="CHKcourse3" layoutX="41.0" layoutY="198.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="115.0" text="Course3">
-                           <font>
-                              <Font name="System Bold" size="14.0" />
-                           </font>
-                        </CheckBox>
-                        <CheckBox fx:id="CHKcourse1" layoutX="41.0" layoutY="124.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="115.0" text="Course1">
-                     <font>
-                        <Font name="System Bold" size="14.0" />
-                     </font>
-                  </CheckBox>
                         <Button fx:id="DroppedC" layoutX="300.0" layoutY="399.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="183.0" style="-fx-background-color: #5b615e;" text="Drop Selected Course(s)" textFill="#e7ebe7">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font>
                         </Button>
-                         <Label layoutX="44.0" layoutY="96.0" prefHeight="17.0" prefWidth="437.0" text="Select the Courses to be dropped">
+                         <Label layoutX="40.0" layoutY="62.0" prefHeight="17.0" prefWidth="437.0" text="Select the Courses to be dropped">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Label>
-                  <CheckBox fx:id="CHKselectAll" layoutX="371.0" layoutY="88.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="115.0" text="Select All">
-                     <font>
-                        <Font name="System Bold" size="14.0" />
-                     </font>
-                  </CheckBox>
+                  <TableView fx:id="DropCoursesTable" layoutX="14.0" layoutY="112.0" prefHeight="259.0" prefWidth="512.0" style="-fx-background-color: #5b615e;">
+                     <columns>
+                        <TableColumn fx:id="CCode" editable="true" prefWidth="81.0" text="Course Code" />
+                        <TableColumn fx:id="CName" editable="true" prefWidth="113.0" text="Name" />
+                        <TableColumn fx:id="CAcronym" editable="true" prefWidth="60.0" text="Acronym" />
+                        <TableColumn fx:id="CFaculty" editable="true" prefWidth="111.0" text="Faculty" />
+                        <TableColumn fx:id="CCredits" editable="true" prefWidth="52.0" text="Credits" />
+                        <TableColumn fx:id="CType" editable="true" prefWidth="93.0" text="Type" />
+                     </columns>
+                  </TableView>
                   
                  
                         
@@ -306,6 +286,36 @@
                         </Button>
                   <Label layoutX="54.0" layoutY="316.0" prefHeight="17.0" prefWidth="56.0" text="End Time" />
                   <TextField fx:id="TXTtimeEnd" layoutX="192.0" layoutY="310.0" prefHeight="30.0" prefWidth="128.0" promptText="hh:mm" />
+                  
+                           </children>
+                  </Pane>
+                  <Pane fx:id="AvaibilityPane" layoutX="-1.0" layoutY="-2.0" prefHeight="492.0" prefWidth="540.0" style="-fx-background-color: #24b590;" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <ImageView fitHeight="30.0" fitWidth="32.0" layoutX="53.0" layoutY="34.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../download%20(7).png" />
+                           </image>
+                        </ImageView>
+                        <ComboBox editable="true" layoutX="84.0" layoutY="34.0" prefHeight="30.0" prefWidth="401.0" promptText="Search By Room No." style="-fx-background-color: #ffffff;" />
+                        <TableView layoutX="47.0" layoutY="110.0" prefHeight="289.0" prefWidth="458.0" style="-fx-background-color: #5b615e;">
+                          <columns>
+                            <TableColumn prefWidth="135.0" text="Room No." />
+                            <TableColumn prefWidth="117.0" text="Capacity" />
+                              <TableColumn prefWidth="205.0" text="Avaibility Status" />
+                          </columns>
+                        </TableView>
+                        <DatePicker layoutX="47.0" layoutY="72.0" prefHeight="30.0" prefWidth="218.0" promptText="Search By Date" />
+                        <TextField layoutX="285.0" layoutY="72.0" prefHeight="30.0" prefWidth="206.0" promptText="Search By Time(hh:mm:ss)" />
+                        <Button fx:id="BackR1" alignment="CENTER" layoutX="403.0" layoutY="421.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="115.0" style="-fx-background-color: #ffffff;" text=" Back" textFill="#24b590">
+                           <font>
+                              <Font name="System Bold" size="16.0" />
+                           </font>
+                        </Button>
+                        <ImageView fitHeight="38.0" fitWidth="44.0" layoutX="369.0" layoutY="421.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../images.jpg" />
+                           </image>
+                        </ImageView>
                   
                            </children>
                   </Pane>
@@ -381,43 +391,6 @@
                   </ImageView>
                      </children>
                   </Pane>
-            <Pane fx:id="AvaibilityPane" layoutX="-2.0" prefHeight="508.0" prefWidth="555.0" style="-fx-background-color: #24b590" visible="false">
-               <children>
-                  <ImageView fitHeight="30.0" fitWidth="32.0" layoutX="33.0" layoutY="34.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../download%20(7).png" />
-                     </image>
-                  </ImageView>
-                  <ComboBox fx:id="TXTBRoom" editable="true" layoutX="64.0" layoutY="34.0" prefHeight="30.0" prefWidth="445.0" promptText="Search By Room No." style="-fx-background-color: #ffffff;" />
-                  <TableView fx:id="Tblavail" layoutX="47.0" layoutY="152.0" prefHeight="264.0" prefWidth="458.0" style="-fx-background-color: #5b615e;">
-                     <columns>
-                        <TableColumn fx:id="RoomNo" prefWidth="70.0" text="Room No." />
-                        <TableColumn fx:id="Capacity" prefWidth="64.0" text="Capacity" />
-                        <TableColumn fx:id="Avail" minWidth="0.0" prefWidth="82.0" text="Day/Date" />
-                        <TableColumn fx:id="Time" minWidth="0.0" prefWidth="94.0" text="Time(from-to)" />
-                        <TableColumn fx:id="Course" prefWidth="147.0" text="Courses /Purpose" />
-                     </columns>
-                  </TableView>
-                  <DatePicker fx:id="TXTBDate" layoutX="33.0" layoutY="72.0" prefHeight="30.0" prefWidth="146.0" promptText="Search By Date" />
-                  <TextField fx:id="TXTBTime" layoutX="355.0" layoutY="72.0" prefHeight="30.0" prefWidth="155.0" promptText="Search By Time(Start-End)" />
-                  <Button fx:id="CheckAvailB" layoutX="195.0" layoutY="112.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="162.0" style="-fx-background-color: #5b615e;" text="Check Avaibility" textFill="#0aeeaa">
-                     <font>
-                        <Font name="System Bold" size="14.0" />
-                     </font>
-                  </Button>
-                  <TextField fx:id="TXTBDay" layoutX="192.0" layoutY="72.0" prefHeight="30.0" prefWidth="149.0" promptText="Search By Day" />
-                  <Button fx:id="BackR1" alignment="CENTER" layoutX="398.0" layoutY="434.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="115.0" style="-fx-background-color: #ffffff;" text=" Back" textFill="#24b590">
-                     <font>
-                        <Font name="System Bold" size="16.0" />
-                     </font>
-                  </Button>
-                  <ImageView fitHeight="38.0" fitWidth="44.0" layoutX="371.0" layoutY="434.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../images.jpg" />
-                     </image>
-                  </ImageView>
-               </children>
-            </Pane>
          </children>
          
       </AnchorPane>
