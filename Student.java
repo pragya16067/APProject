@@ -310,27 +310,26 @@ public class Student extends User{
 		{
 			Class.forName("java.sql.DriverManager");
 	        Connection con=(Connection) DriverManager.getConnection(
-	                "jdbc:mysql://localhost:3306/project","root","tapeied");
+	                "jdbc:mysql://localhost:3306/project","root","30july1998");
 	        Statement stmt=(Statement) con.createStatement();
 	        ResultSet rs=this.ViewCourses();
 	        if(rs.next())
 	        {
 	        	String[] cCode=rs.getString("CoursesTaken").split(";");
-	        	for(int i=0; i<cCode.length; i++)
-	        	{
-	        		String q2 = "Select CourseName from courses where CourseCode='"+cCode[i]+"';";
-	        		ResultSet rs2 = stmt.executeQuery(q2);
-	        		rs2.next();
-	        		String CName= rs2.getString("CourseName");
-	        		q2="Select * from bookings where CourseCode='"+cCode[i]+"';";
-	        		ResultSet rs3= stmt.executeQuery(q2);
-	        		while(rs3.next())
+	        	
+	        	
+	        		for(int i=0;i<cCode.length;i++)
 	        		{
-	        			Timetable t=new Timetable(CName, rs3.getString("Day"),rs3.getString("Start"),rs3.getString("End"),rs3.getString("RoomNo"));
-	        			timetables.add(t);
+	        			String q = "Select * from timetable where CourseCode = '"+cCode[i]+"';";
+	    	        	rs = stmt.executeQuery(q);
+	        			
+	        			if(rs.next())
+	        			timetables.add(new Timetable(cCode[i],rs.getString("MondayTime$Venue"),rs.getString("TuedayTime$Venue"),rs.getString("WednesdayTime$Venue"),rs.getString("ThurdayTime$Venue"),rs.getString("FridayTime$Venue"),rs.getString("TutDay$Time$Venue"),rs.getString("LabDay$Time$Venue")));
+	        		  
 	        		}
-	        	}
+	        		 System.out.println(timetables.size()+" ");
 	        }
+	        
 	        
 		}
 		catch(Exception exp)
