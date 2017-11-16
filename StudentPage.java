@@ -117,7 +117,7 @@ public class StudentPage  implements javafx.fxml.Initializable {
 		{
 			Class.forName("java.sql.DriverManager");
 	        Connection con=(Connection) DriverManager.getConnection(
-	                "jdbc:mysql://localhost:3306/project","root","30july1998");
+	                "jdbc:mysql://localhost:3306/project","root","tapeied");
 	        Statement stmt=(Statement) con.createStatement();
 	        String q = "Select RoomNo from rooms ;";
 	        System.out.println(q);
@@ -325,7 +325,7 @@ public class StudentPage  implements javafx.fxml.Initializable {
 			
 			@Override
 			public void handle(ActionEvent event) {
-				System.out.println("I m here");
+				
 				ProfilePane.setVisible(false);
 				TimetablePane.setVisible(false);
 				CoursesPane.setVisible(false);
@@ -340,6 +340,33 @@ public class StudentPage  implements javafx.fxml.Initializable {
 				 LogoutPane2.setVisible(false);
 				 Default.setVisible(false);
 				 ChangePasswordPane.setVisible(false);
+				 
+				 AddCoursesTBL.setItems(null);
+				AddCoursesTBL.setEditable(true);
+				ArrayList<Course> courses=new ArrayList<Course> ();
+				try
+				{
+					
+					ResultSet rs=student.SearchCourses("");
+					while(rs.next()) {
+						Course c=new Course(rs.getString("CourseCode"),rs.getString("CourseName"),"a", rs.getString("Faculty"),rs.getInt("Credits"),"Elective");
+						courses.add(c);
+					}
+					
+				
+				}
+				catch(Exception e)
+				{
+					System.out.println(e.getMessage());
+				}
+				
+				ObservableList<Course> l=FXCollections.observableArrayList(courses);
+				AddCoursesTBL.setItems(l);
+        		
+        		CCodeCol.setCellValueFactory(new PropertyValueFactory<Course,String>("CourseCode"));
+        		CNameCol.setCellValueFactory(new PropertyValueFactory<Course,String>("CourseName"));
+        		CFacultyCol.setCellValueFactory(new PropertyValueFactory<Course,String>("Faculty"));
+        		CCreditsCol.setCellValueFactory(new PropertyValueFactory<Course,Integer>("Credits"));
 				
 			}
 			
@@ -404,7 +431,7 @@ public class StudentPage  implements javafx.fxml.Initializable {
 					 ViewCoursesTable.setItems(null);
 					 
 					 Class.forName("java.sql.DriverManager");
-				     Connection con=(Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/project","root","30july1998");
+				     Connection con=(Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/project","root","tapeied");
 				     Statement stmt=(Statement) con.createStatement();
 				        
 					 ResultSet rs=student.ViewCourses();
@@ -487,7 +514,7 @@ public class StudentPage  implements javafx.fxml.Initializable {
 				        	for(int i=0; i<s.length; i++)
 				        	{
 				        		Class.forName("java.sql.DriverManager");
-							    Connection con=(Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/project","root","30july1998");
+							    Connection con=(Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/project","root","tapeied");
 							    Statement stmt=(Statement) con.createStatement();
 				        		String CourseCode=s[i];
 				        		String q="Select CourseCode,CourseName,Acronym,Faculty,Credits,Type from courses where CourseCode='"+CourseCode+"';";
