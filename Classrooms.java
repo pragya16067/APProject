@@ -11,12 +11,14 @@ public String RoomNo;
 public int Capacity;
 public String Availbility="Select Date/Day and Time";
 public String Course="-----";
-public Classrooms(String RoomNo, int c,String Available, String Course)
+public String Time;
+public Classrooms(String RoomNo, int c,String Available, String Course,String Time)
 {
 	this.RoomNo = RoomNo;
 	this.Capacity= c;
 	this.Availbility = Available;
 	this.Course=Course;
+	this.Time = Time;
 }
 public String getRoomNo()
 {
@@ -34,6 +36,15 @@ public Integer getCapacity()
 {
 	return Capacity;
 }
-			
+	
+public String getTime()
+{
+	return Time;
+}
+
+public void setCapacity(int Capacity)
+{
+	this.Capacity = Capacity;
+}
 
 }

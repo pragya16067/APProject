@@ -1,3 +1,4 @@
+
 package application;
 
 import java.sql.Connection;
@@ -16,15 +17,18 @@ public abstract class User {
 		this.pwd=pwd;
 		type=t;
 	}
-	
+	public String getemail()
+	{
+		return email;
+	}
 	public boolean AuthenticateUser(String e, String p) {
 		 try
 	        {
 	            Class.forName("java.sql.DriverManager");
 	            Connection con=(Connection) DriverManager.getConnection(
-	                    "jdbc:mysql://localhost:3306/project","root","tapeied");
+	                    "jdbc:mysql://localhost:3306/project","root","30july1998");
 	            Statement stmt=(Statement) con.createStatement();
-	            String q="Select password from users where email='"+e+"';";
+	            String q="Select password from users where BINARY email='"+e+"';";
 	            ResultSet rs=stmt.executeQuery(q);
 	            if(rs.next())
 	            {

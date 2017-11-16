@@ -83,6 +83,7 @@ public class Faculty extends User{
 	        if(!rs.next())
 	        {
 	        	String q2 ="Select Capacity from rooms where RoomNo = '"+Room+"';";
+	        	System.out.println(q2);
 	        	rs = stmt.executeQuery(q2);
 	        	rs.next();
 	        	int cap = rs.getInt("Capacity");

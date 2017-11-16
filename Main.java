@@ -1,39 +1,30 @@
 package GUIComponents;
-
-import java.io.IOException;
-
+	
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Rectangle2D;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
+import javafx.scene.Scene;
+import javafx.scene.control.SplitPane;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
+
 
 public class Main extends Application {
 	@Override
-	public void start(Stage primaryStage) {
-		Parent root;
+	public void start(Stage Stage) {
 		try {
-			root = FXMLLoader.load(getClass().getResource("Login.fxml"));
-		} catch (IOException e) {
+			AnchorPane scene1 = (AnchorPane) FXMLLoader.load(Main.class.getResource("login.fxml"));
+			Scene scene = new Scene(scene1);
+			
+			Stage.setScene(scene);
+			Stage.show();
+			
+		} catch(Exception e) {
 			e.printStackTrace();
-			return;
 		}
-		
-		Scene scene = new Scene(root);
-		//primaryStage.maximizedProperty();
-		//primaryStage.setFullScreen(true);
-		primaryStage.setScene(scene);
-		primaryStage.sizeToScene();
-		
-
-		primaryStage.show();
-
 	}
-
+	
 	public static void main(String[] args) {
 		launch(args);
 	}
-
 }

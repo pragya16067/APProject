@@ -90,20 +90,24 @@ public class Login  implements javafx.fxml.Initializable  {
 				            ResultSet rs=stmt.executeQuery(q);
 				            boolean checkpwd = false;
 				            System.out.println("email:"+email+"ii");
-				            String type = (String) UserType.getValue();
+				            //String type = (String) UserType.getValue();
 				            
 				            if(!rs.next())
 				            {  
 				            	
 				            	String password1 = TXTpwd1.getText();
 				            	String password2 = TXTpwd2.getText();
+				            	String type = (String) UserType.getValue();
 				            	if(password2.equals(password1)== false  )
 				            	{
 				            		JOptionPane.showMessageDialog(null, "Re-entered Password is incorrect! Please try Again");
 				            		TXTpwd1.setText("");
 				    				TXTpwd2.setText("");
+				    				UserType.getSelectionModel().clearSelection();
 				    				TXTWarning.setVisible(true);
-				            		//SignUp1.setVisible(false);
+				            		SignUp1.setVisible(true);
+				            		UserType.setItems(options);
+				      
 				            	}
 				            	
 				            	else
@@ -111,14 +115,15 @@ public class Login  implements javafx.fxml.Initializable  {
 				            		String q1 = "Select max(uid) from users;";
 				            		ResultSet rs1 = stmt.executeQuery(q1);
 				            		System.out.println("tt");
+				            		UserType.setItems(options);
 				            		rs1.next();
 				            		int uid = rs1.getInt("max(uid)")+1;
-				            		if(!email.equals("") || !password1.equals("") || !type.equals("Select Type"))
+				            		if(!email.equals("") && !password1.equals("") && !type.equals("Select Type"))
 				            		{String q2 = "Insert into users values ("+uid+",'"+email+"','"+password1+"','"+type+"');" ;
 				            		stmt.executeUpdate(q2);
 				            		if(type.equals("Student"))
 				            		{
-				            			 q2 = "Insert into students values ('"+email+"','"+"CSE112;CSE201;CSE121"+"','');" ;
+				            			 q2 = "Insert into students values ('"+email+"','"+"CSE112;CSE201;CSE121;"+"','');" ;
 				            		}
 				            		stmt.executeUpdate(q2);
 				            		JOptionPane.showMessageDialog(null, "Sucessfully Registered");

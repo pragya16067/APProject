@@ -400,8 +400,8 @@ public class FacultyPage  implements javafx.fxml.Initializable {
 
 			@Override
 			public void handle(ActionEvent event) {
-				
-				Bookings rq = (Bookings) TblCancel.getSelectionModel().getSelectedItem();
+				try
+				{Bookings rq = (Bookings) TblCancel.getSelectionModel().getSelectedItem();
 				faculty.CancelBooking(rq);
 				ArrayList<Bookings> book = faculty.GetBooking();
 				ObservableList lists = FXCollections.observableArrayList(book);
@@ -411,6 +411,11 @@ public class FacultyPage  implements javafx.fxml.Initializable {
 				RoomN1.setCellValueFactory(new PropertyValueFactory<Bookings,String>("RoomN"));
 				DateN1.setCellValueFactory(new PropertyValueFactory<Bookings,String>("DateN"));
 				TimeN1.setCellValueFactory(new PropertyValueFactory<Bookings,String>("TimeN"));
+				}
+				catch(Exception ex)
+				{
+					
+				}
 				
 				
 			}});

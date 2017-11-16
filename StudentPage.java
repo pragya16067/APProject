@@ -3,6 +3,7 @@ package GUIComponents;
 import application.Course;
 import application.Request;
 import application.Timetable;
+import application.Classrooms;
 import javafx.scene.Node;
 
 import application.Student;
@@ -12,6 +13,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -27,6 +29,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -401,7 +404,7 @@ public class StudentPage  implements javafx.fxml.Initializable {
 					 ViewCoursesTable.setItems(null);
 					 
 					 Class.forName("java.sql.DriverManager");
-				     Connection con=(Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/project","root","tapeied");
+				     Connection con=(Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/project","root","30july1998");
 				     Statement stmt=(Statement) con.createStatement();
 				        
 					 ResultSet rs=student.ViewCourses();
@@ -484,7 +487,7 @@ public class StudentPage  implements javafx.fxml.Initializable {
 				        	for(int i=0; i<s.length; i++)
 				        	{
 				        		Class.forName("java.sql.DriverManager");
-							    Connection con=(Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/project","root","tapeied");
+							    Connection con=(Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/project","root","30july1998");
 							    Statement stmt=(Statement) con.createStatement();
 				        		String CourseCode=s[i];
 				        		String q="Select CourseCode,CourseName,Acronym,Faculty,Credits,Type from courses where CourseCode='"+CourseCode+"';";

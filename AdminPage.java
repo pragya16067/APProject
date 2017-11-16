@@ -389,7 +389,8 @@ public class AdminPage  implements javafx.fxml.Initializable {
 			@Override
 			public void handle(ActionEvent event) {
 				// TODO Auto-generated method stub
-				Request rq = (Request) TblRequest.getSelectionModel().getSelectedItem();
+				try
+				{Request rq = (Request) TblRequest.getSelectionModel().getSelectedItem();
 				//System.out.println(rq.getpurpose());
 				String s = admin.AcceptRequest(rq);
 				if(s.equals(""))
@@ -408,6 +409,11 @@ public class AdminPage  implements javafx.fxml.Initializable {
 				{
 					JOptionPane.showMessageDialog(null, s);
 				}
+				}
+				catch(Exception ex)
+				{
+					JOptionPane.showMessageDialog(null, "No option Selected");
+				}
 				
 			}
 			
@@ -417,7 +423,8 @@ public class AdminPage  implements javafx.fxml.Initializable {
 			@Override
 			public void handle(ActionEvent event) {
 				// TODO Auto-generated method stub
-				Request rq = (Request) TblRequest.getSelectionModel().getSelectedItem();
+				try
+				{Request rq = (Request) TblRequest.getSelectionModel().getSelectedItem();
 				//System.out.println(rq.getpurpose());
 				admin.RejectRequest(rq);
 				ArrayList<Request> list =  admin.GetRequests();
@@ -430,6 +437,11 @@ public class AdminPage  implements javafx.fxml.Initializable {
 				CapacityN.setCellValueFactory(new PropertyValueFactory<Request,Integer>("CapacityN"));
 				DateN.setCellValueFactory(new PropertyValueFactory<Request,String>("DateN"));
 				TimeN.setCellValueFactory(new PropertyValueFactory<Request,String>("TimeN"));
+				}
+				catch(Exception Ex)
+				{
+					JOptionPane.showMessageDialog(null, "No option Selected");
+				}
 				
 				
 			}
@@ -439,8 +451,8 @@ public class AdminPage  implements javafx.fxml.Initializable {
 
 			@Override
 			public void handle(ActionEvent event) {
-				
-				Bookings rq = (Bookings) TblCancel.getSelectionModel().getSelectedItem();
+				try
+				{Bookings rq = (Bookings) TblCancel.getSelectionModel().getSelectedItem();
 				admin.CancelBooking(rq);
 				ArrayList<Bookings> book = admin.GetBooking();
 				ObservableList lists = FXCollections.observableArrayList(book);
@@ -450,6 +462,11 @@ public class AdminPage  implements javafx.fxml.Initializable {
 				RoomN1.setCellValueFactory(new PropertyValueFactory<Bookings,String>("RoomN"));
 				DateN1.setCellValueFactory(new PropertyValueFactory<Bookings,String>("DateN"));
 				TimeN1.setCellValueFactory(new PropertyValueFactory<Bookings,String>("TimeN"));
+				}
+				catch(Exception ex)
+				{
+					JOptionPane.showMessageDialog(null, "No option Selected");
+				}
 				
 				
 			}});
