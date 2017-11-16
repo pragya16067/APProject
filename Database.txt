@@ -17,6 +17,21 @@ CREATE TABLE courses (CourseCode Varchar(10) primary key, CourseName varchar(100
 
 CREATE TABLE rooms (RoomNo varchar(10) primary key, Capacity int);
 
+insert into rooms values
+("C01", 300),
+("C11", 250),
+("C21", 300),
+("LR1", 30),
+("LR2", 30),
+("LR3", 30),
+("C02", 45),
+("C03", 45),
+("C12", 45),
+("C13", 45),
+("C22", 45),
+("C23", 45),
+("S01", 30),
+("S02", 30);
 
 
 CREATE TABLE bookings ( RoomNo Varchar(10), CourseCode varchar(150), Day Varchar(10), Start time, End time ,Type Varchar(20));
