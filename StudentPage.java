@@ -691,9 +691,9 @@ public class StudentPage  implements javafx.fxml.Initializable {
 					 
 					 ReqStatusTable.setItems(l);
 					 
-					 RoomCol.setCellValueFactory(new PropertyValueFactory<Request,String>("room"));
+					 RoomCol.setCellValueFactory(new PropertyValueFactory<Request,String>("RoomN"));
 					 PurposeCol.setCellValueFactory(new PropertyValueFactory<Request,String>("purpose"));
-					 CapCol.setCellValueFactory(new PropertyValueFactory<Request,Integer>("capacity"));
+					 CapCol.setCellValueFactory(new PropertyValueFactory<Request,Integer>("CapacityN"));
 					 ReqCol.setCellValueFactory(new PropertyValueFactory<Request,String>("DateTimeRequested"));
 					 StatusCol.setCellValueFactory(new PropertyValueFactory<Request,String>("Status"));
 					 
