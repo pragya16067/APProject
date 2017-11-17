@@ -712,7 +712,42 @@ public class StudentPage  implements javafx.fxml.Initializable {
 				 {
 					 ReqStatusTable.setItems(null);
 					 ReqStatusTable.setEditable(true);
-				        
+				         try
+						{
+							Class.forName("java.sql.DriverManager");
+					        Connection con=(Connection) DriverManager.getConnection(
+					                "jdbc:mysql://localhost:3306/project","root","30july1998");
+					        Statement stmt=(Statement) con.createStatement();
+					        String q="Select * from requests ;";
+					        ResultSet rs=stmt.executeQuery(q);
+					        if(rs.next()) {
+					        	String status=rs.getString("status");
+					        	
+					        	if(status.equals("Pending"))
+					        	{
+					        		//gets the current date and time
+					        		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+					        		Calendar cal = Calendar.getInstance();
+					        		String curDate = (dateFormat.format(cal.getTime()));
+					        		Date d1=cal.getTime();
+					        		int Rid = rs.getInt("rid");
+					        		Date d2=rs.getDate("StartDate");
+					        		long diff = (d1.getTime() - d2.getTime()) / (1000 * 60 * 60 * 24);
+					        		
+					        		if(diff > 5)
+					        		{
+					        			String q2="Update requests set status='Rejected' where rid="+Rid+";";
+					        			stmt.executeUpdate(q2);
+					        			System.out.println(q2);
+					        		}
+					        		
+					        	}
+					        }
+						}
+						catch(Exception exp)
+						{
+							System.out.println(exp.getMessage());
+						}
 					 ArrayList<Request> r=student.ViewRequests();
 					 ObservableList<Request> l=FXCollections.observableArrayList(r);
 					 
