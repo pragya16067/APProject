@@ -41,7 +41,6 @@
             <Font size="15.0" />
          </font>
       </Label>
-      <Button layoutX="203.0" layoutY="275.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="135.0" style="-fx-background-color: #5b615e;" text="Forgot Password" textFill="#24b88e" underline="true" />
       <Label layoutX="205.0" layoutY="316.0" text="New User? Sign Up here" textFill="#f5eeee" />
       <AnchorPane fx:id="SignUp1" prefHeight="496.0" prefWidth="541.0" style="-fx-background-color: #5b615e;" visible="false">
          <children>
