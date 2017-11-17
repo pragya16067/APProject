@@ -76,7 +76,7 @@ public class Faculty extends User{
 	        Statement stmt=(Statement) con.createStatement();
 	        
 	        //Select * from bookings where Roomno = "C21" and Day ="Monday" and Start =11 and End =12;
-	        String q ="Select * from bookings where RoomNo = '"+Room+"' and (Day ='"+Day+"'or Day ='"+dayname+"') and ((Start <='"+STime+"' and End >='"+STime+"') or (Start < '"+ETime+"' and End >'"+ETime+"'));";
+	        String q ="Select * from bookings where RoomNo = '"+Room+"' and (Day ='"+Day+"'or Day ='"+dayname+"') and ((Start <='"+STime+"' and End >'"+STime+"') or (Start < '"+ETime+"' and End >'"+ETime+"'));";
 	       System.out.println(q);
 	        ResultSet rs = stmt.executeQuery(q);
 	        //System.out.println(rs.next());
@@ -153,7 +153,7 @@ public class Faculty extends User{
 		}
 		catch(Exception ex)
 		{
-			System.out.println("game is on");
+			System.out.println(ex.getMessage());
 		}
 		//System.out.println("useless");
 		avail.add(new Classrooms("---",0,"---","------","00-00"));
@@ -199,7 +199,7 @@ public class Faculty extends User{
 		}
 		catch(Exception ex)
 		{
-			System.out.println("game is on");
+			System.out.println(ex.getMessage());
 		}
 		//System.out.println("useless");
 		avail.add(new Classrooms(Room,0,"---","------","00-00"));
@@ -245,7 +245,7 @@ public class Faculty extends User{
 		}
 		catch(Exception ex)
 		{
-			System.out.println("game is on");
+			System.out.println(ex.getMessage());
 		}
 		//System.out.println("useless");
 		avail.add(new Classrooms(Room,0,"---","------","00-00"));
@@ -298,7 +298,7 @@ public class Faculty extends User{
 	    }
 		catch(Exception ex)
 		{
-			System.out.println("game is on");
+			System.out.println(ex.getMessage());
 		}
 		//System.out.println("useless");
 		avail.add(new Classrooms("---",0,"---","------","00-00"));
@@ -313,7 +313,7 @@ public class Faculty extends User{
 	            "jdbc:mysql://localhost:3306/project","root","30july1998");
 	    Statement stmt=(Statement) con.createStatement();
 	    String time[] = stime.split("-");
-	    String  q = "Select * from bookings where ((Start <='"+time[0]+"' and End >='"+time[0]+"') or (Start < '"+time[1]+"' and End >'"+time[1]+"'));";
+	    String  q = "Select * from bookings where ((Start <='"+time[0]+"' and End >'"+time[0]+"') or (Start < '"+time[1]+"' and End >'"+time[1]+"'));";
 	      System.out.println(q);
 	 	   ResultSet rs1 = stmt.executeQuery(q);
 	 	  
@@ -351,12 +351,17 @@ public class Faculty extends User{
 	    }
 		catch(Exception ex)
 		{
-			System.out.println("game is on");
+			System.out.println(ex.getMessage());
 		}
 		//System.out.println("useless");
 		avail.add(new Classrooms("---",0,"---","------","00-00"));
 		return avail;
 	}
+	/**
+	 * @param Room
+	 * @param time
+	 * @return
+	 */
 	public ArrayList<Classrooms> accroomt(String Room,String time)
 	{
 		ArrayList<Classrooms> avail = new ArrayList<Classrooms>();
@@ -373,7 +378,7 @@ public class Faculty extends User{
 	    System.out.println("Cap"+c);
 	    String[] Time = time.split("-");
 	    if(!rs.next())
-	    { q = "Select * from bookings where ((Start <='"+Time[0]+"' and End >='"+Time[0]+"') or (Start < '"+Time[1]+"' and End >'"+Time[1]+"'));";
+	    { q = "Select * from bookings where ((Start <='"+Time[0]+"' and End >'"+Time[0]+"') or (Start < '"+Time[1]+"' and End >'"+Time[1]+"')) and RoomNo = '"+Room+"';";
 	      System.out.println(q);
 	 	   ResultSet rs1 = stmt.executeQuery(q);
 	 	   
@@ -397,7 +402,7 @@ public class Faculty extends User{
 		}
 		catch(Exception ex)
 		{
-			System.out.println("game is on");
+			System.out.println(ex.getMessage());
 		}
 		//System.out.println("useless");
 		avail.add(new Classrooms(Room,0,"---","------","00-00"));
@@ -419,7 +424,7 @@ public class Faculty extends User{
 	    System.out.println("Cap"+c);
 	    String[] Time = time.split("-");
 	    if(!rs.next())
-	    { q = "Select * from bookings where ((Start <='"+Time[0]+"' and End >='"+Time[0]+"') or (Start < '"+Time[1]+"' and End >'"+Time[1]+"')) and (Day = '"+Date+"' or Day ='"+Day+"');" ;
+	    { q = "Select * from bookings where ((Start <='"+Time[0]+"' and End >'"+Time[0]+"') or (Start < '"+Time[1]+"' and End >'"+Time[0]+"')) and (Day = '"+Date+"' or Day ='"+Day+"') and RoomNo = '"+Room+"';" ;
 	      System.out.println(q);
 	 	   ResultSet rs1 = stmt.executeQuery(q);
 	 	   
@@ -443,7 +448,7 @@ public class Faculty extends User{
 		}
 		catch(Exception ex)
 		{
-			System.out.println("game is on");
+			System.out.println(ex.getMessage());
 		}
 		//System.out.println("useless");
 		avail.add(new Classrooms(Room,0,"---","------","00-00"));

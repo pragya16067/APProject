@@ -12,25 +12,12 @@ import javax.swing.JOptionPane;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
-/**
- * @author Pragya
- * Child Class of User class
- */
 public class Student extends User{
 	
-	/**
-	 * @param e		Email id of student
-	 * @param pwd   Password of student
-	 * @param t		Type is fixed as "Student"
-	 */
 	public Student(String e, String pwd, String t) {
 		super(e,pwd,"Student");
 	}
 	
-	/**
-	 * Getter Function
-	 * @return the Name of student, extracting from email id
-	 */
 	public String getName() {
 		String e=this.email;
 		String[] s=e.split("@");
@@ -38,10 +25,6 @@ public class Student extends User{
 		return Name.toUpperCase();
 	}
 	
-	/**
-	 * Getter Function
-	 * @return the Batch of student, extracting from email id
-	 */
 	public String getBatch() {
 		String e=this.email;
 		String[] s=e.split("@");
@@ -49,10 +32,6 @@ public class Student extends User{
 		return batch;
 	}
 	
-	/**
-	 * Getter Function
-	 * @return the Roll Number of student, extracting from email id
-	 */
 	public String getRno() {
 		String e=this.email;
 		String[] s=e.split("@");
@@ -60,17 +39,13 @@ public class Student extends User{
 		return rno;
 	}
 	
-	/**
-	 * Function to change password of the logged in student
-	 * @param s : New Password string 
-	 */
 	public void changePassword(String s) {
 		String e=this.email;
 		try
 		{
 			Class.forName("java.sql.DriverManager");
 	        Connection con=(Connection) DriverManager.getConnection(
-	                "jdbc:mysql://localhost:3306/project","root","tapeied");
+	                "jdbc:mysql://localhost:3306/project","root","30july1998");
 	        Statement stmt=(Statement) con.createStatement();
 	        String q="update users set password='"+s+"'where email='"+e+"';";
 	        stmt.executeUpdate(q);
@@ -83,16 +58,12 @@ public class Student extends User{
 		
 	}
 	
-	/**
-	 * @param c - Course that is selected by the student to Add
-	 * @return True if this course c has no clashes with the students current timetable, False otherwise
-	 */
 	public boolean okToAddCourse(Course c) {
 		try
 		{
 			Class.forName("java.sql.DriverManager");
 	        Connection con=(Connection) DriverManager.getConnection(
-	                "jdbc:mysql://localhost:3306/project","root","tapeied");
+	                "jdbc:mysql://localhost:3306/project","root","30july1998");
 	        Statement stmt=(Statement) con.createStatement();
 	        //To check if timings are not clashing with any of students existing courses
 	       
@@ -167,17 +138,13 @@ public class Student extends User{
 		return true;
 	}
 	
-	/**
-	 * @param c : Course to be added
-	 * Adds the course in the student's record of student table in the database
-	 */
 	public void AddCourse(Course c) {
 		String e=this.email;
 		try
 		{
 			Class.forName("java.sql.DriverManager");
 	        Connection con=(Connection) DriverManager.getConnection(
-	                "jdbc:mysql://localhost:3306/project","root","tapeied");
+	                "jdbc:mysql://localhost:3306/project","root","30july1998");
 	        Statement stmt=(Statement) con.createStatement();
 	        String code=c.getCourseCode();
 	        String q="update students set CoursesTaken = CONCAT(CoursesTaken,'"+code+";') where email='"+e+"';";
@@ -190,16 +157,12 @@ public class Student extends User{
 		}
 	}
 	
-	/**
-	 * @param CourseName
-	 * Drops the course from the Course List of the student, provided that this is not a mandatory course.
-	 */
 	public void DropCourse(String CourseName) {
 		try
 		{
 			Class.forName("java.sql.DriverManager");
 	        Connection con=(Connection) DriverManager.getConnection(
-	                "jdbc:mysql://localhost:3306/project","root","tapeied");
+	                "jdbc:mysql://localhost:3306/project","root","30july1998");
 	        Statement stmt=(Statement) con.createStatement();
 	        String q="Select CourseCode from courses where LCASE(CourseName)='"+ CourseName +"';";
 	        ResultSet rs=stmt.executeQuery(q);
@@ -248,16 +211,13 @@ public class Student extends User{
 		}
 	}
 	
-	/**
-	 * @return ResultSet of Course List of the student
-	 */
 	public ResultSet ViewCourses() {
 		ResultSet rs=null;
 		try
 		{
 			Class.forName("java.sql.DriverManager");
 	        Connection con=(Connection) DriverManager.getConnection(
-	                "jdbc:mysql://localhost:3306/project","root","tapeied");
+	                "jdbc:mysql://localhost:3306/project","root","30july1998");
 	        Statement stmt=(Statement) con.createStatement();
 	        String q="Select CoursesTaken from students where email='"+this.email+"';";
 	        rs=stmt.executeQuery(q);
@@ -271,9 +231,6 @@ public class Student extends User{
 		return rs;
 	}
 	
-	/**
-	 * @return ArrayList which has the Course Names of each of the course taken by the student
-	 */
 	public ArrayList<String> getCourseList() {
 		ArrayList<String> c=new ArrayList<String> ();
 		ResultSet rs=null;
@@ -281,7 +238,7 @@ public class Student extends User{
 		{
 			Class.forName("java.sql.DriverManager");
 	        Connection con=(Connection) DriverManager.getConnection(
-	                "jdbc:mysql://localhost:3306/project","root","tapeied");
+	                "jdbc:mysql://localhost:3306/project","root","30july1998");
 	        Statement stmt=(Statement) con.createStatement();
 	        String q="Select CoursesTaken from students where email='"+this.email+"';";
 	        rs=stmt.executeQuery(q);
@@ -307,16 +264,12 @@ public class Student extends User{
 		return c;
 	}
 	
-	/**
-	 * @param searchCode
-	 * @return ResultSet of all the courses where the SEarchCode is present in the PostConditions
-	 */
 	public ResultSet SearchCourses(String searchCode) {
 		ResultSet rs2=null;
 		try
 		{
 			Class.forName("java.sql.DriverManager");
-	        Connection con=(Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/project","root","tapeied");
+	        Connection con=(Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/project","root","30july1998");
 	        Statement stmt=(Statement) con.createStatement();
 	        String q="Select CoursesTaken from students where email='"+this.email+"';";
 	        ResultSet rs=stmt.executeQuery(q);
@@ -353,16 +306,13 @@ public class Student extends User{
 		return rs2;
 	}
 	
-	/**
-	 * @return ArrayList of Timetable objects(read from the Timetable table in Database) to display the complete timetable of a student
-	 */
 	public ArrayList<Timetable> getTimetable() {
 		ArrayList<Timetable> timetables=new ArrayList<Timetable> ();
 		try
 		{
 			Class.forName("java.sql.DriverManager");
 	        Connection con=(Connection) DriverManager.getConnection(
-	                "jdbc:mysql://localhost:3306/project","root","tapeied");
+	                "jdbc:mysql://localhost:3306/project","root","30july1998");
 	        Statement stmt=(Statement) con.createStatement();
 	        ResultSet rs=this.ViewCourses();
 	        if(rs.next())
@@ -391,22 +341,12 @@ public class Student extends User{
 		return timetables;
 	}
 	
-	/**
-	 * To allow student to make a request, Add a record in the requests table of the database
-	 * 
-	 * @param p - Purpose of Request
-	 * @param r - Room no. of the requested booking
-	 * @param cap - Capacity required
-	 * @param d - Date required for
-	 * @param st - Start time at which room required
-	 * @param et - End time until which required
-	 */
 	public void MakeRequest (String p, String r, int cap, String d, String st, String et ) {
 		try
 		{
 			Class.forName("java.sql.DriverManager");
 	        Connection con=(Connection) DriverManager.getConnection(
-	                "jdbc:mysql://localhost:3306/project","root","tapeied");
+	                "jdbc:mysql://localhost:3306/project","root","30july1998");
 	        Statement stmt=(Statement) con.createStatement();
 	        String q="Select Max(rid) from requests;";
 	        ResultSet rs=stmt.executeQuery(q);
@@ -428,9 +368,6 @@ public class Student extends User{
 		}
 	}
 	
-	/**
-	 * @return ArrayList of all requests a particular student has made
-	 */
 	public ArrayList<Request> ViewRequests() {
 		ArrayList<Request> requests=new ArrayList<Request> ();
 		ResultSet rs=null;
@@ -438,7 +375,7 @@ public class Student extends User{
 		{
 			Class.forName("java.sql.DriverManager");
 	        Connection con=(Connection) DriverManager.getConnection(
-	                "jdbc:mysql://localhost:3306/project","root","tapeied");
+	                "jdbc:mysql://localhost:3306/project","root","30july1998");
 	        Statement stmt=(Statement) con.createStatement();
 	        String q="Select Requests from students where email='"+this.email+"';";
 	        rs=stmt.executeQuery(q);
@@ -468,18 +405,13 @@ public class Student extends User{
 		}
 		return requests;
 	}
-	
-	
-	/**
-	 * @return Arraylist of classrooms to show all the bookings, i.e. when no search parameter is defined
-	 */
 	public ArrayList<Classrooms> accroom()
 	{
 		ArrayList<Classrooms> avail = new ArrayList<Classrooms>();
 		try
 		{Class.forName("java.sql.DriverManager");
 	    Connection con=(Connection) DriverManager.getConnection(
-	            "jdbc:mysql://localhost:3306/project","root","tapeied");
+	            "jdbc:mysql://localhost:3306/project","root","30july1998");
 	    Statement stmt=(Statement) con.createStatement();
 	    
 	    String q = "Select * from bookings ;";
@@ -512,23 +444,19 @@ public class Student extends User{
 		}
 		catch(Exception ex)
 		{
-			System.out.println("game is on");
+			System.out.println(ex.getMessage());
 		}
 		//System.out.println("useless");
 		avail.add(new Classrooms("---",0,"---","------","00-00"));
 		return avail;
 	}
-	
-	/**
-	 * @return Arraylist of classrooms to show all the bookings, i.e. when search parameter is defined for room no.
-	 */
 	public ArrayList<Classrooms> accroom(String Room)
 	{
 		ArrayList<Classrooms> avail = new ArrayList<Classrooms>();
 		try
 		{Class.forName("java.sql.DriverManager");
 	    Connection con=(Connection) DriverManager.getConnection(
-	            "jdbc:mysql://localhost:3306/project","root","tapeied");
+	            "jdbc:mysql://localhost:3306/project","root","30july1998");
 	    Statement stmt=(Statement) con.createStatement();
 	    String q = "Select * from rooms where RoomNo = '"+Room+"';";
 	    System.out.println(q);
@@ -562,23 +490,19 @@ public class Student extends User{
 		}
 		catch(Exception ex)
 		{
-			System.out.println("game is on");
+			System.out.println(ex.getMessage());
 		}
 		//System.out.println("useless");
 		avail.add(new Classrooms(Room,0,"---","------","00-00"));
 		return avail;
 	}
-	
-	/**
-	 * @return Arraylist of classrooms to show all the bookings, i.e. when search parameter is defined for room no., Date and day
-	 */
 	public ArrayList<Classrooms> accroom(String Room,String Date,String Day)
 	{
 		ArrayList<Classrooms> avail = new ArrayList<Classrooms>();
 		try
 		{Class.forName("java.sql.DriverManager");
 	    Connection con=(Connection) DriverManager.getConnection(
-	            "jdbc:mysql://localhost:3306/project","root","tapeied");
+	            "jdbc:mysql://localhost:3306/project","root","30july1998");
 	    Statement stmt=(Statement) con.createStatement();
 	    String q = "Select * from rooms where RoomNo = '"+Room+"';";
 	    System.out.println(q);
@@ -612,23 +536,19 @@ public class Student extends User{
 		}
 		catch(Exception ex)
 		{
-			System.out.println("game is on");
+			System.out.println(ex.getMessage());
 		}
 		//System.out.println("useless");
 		avail.add(new Classrooms(Room,0,"---","------","00-00"));
 		return avail;
 	}
-	
-	/**
-	 * @return Arraylist of classrooms to show all the bookings, i.e. when search parameter is defined for Date and Day
-	 */
 	public ArrayList<Classrooms> accroom(String Date,String Day)
 	{
 		ArrayList<Classrooms> avail = new ArrayList<Classrooms>();
 		try
 		{Class.forName("java.sql.DriverManager");
 	    Connection con=(Connection) DriverManager.getConnection(
-	            "jdbc:mysql://localhost:3306/project","root","tapeied");
+	            "jdbc:mysql://localhost:3306/project","root","30july1998");
 	    Statement stmt=(Statement) con.createStatement();
 	    
 	    String  q = "Select * from bookings where (Day = '"+Date+"' or Day ='"+Day+"');";
@@ -675,17 +595,13 @@ public class Student extends User{
 		avail.add(new Classrooms("---",0,"---","------","00-00"));
 		return avail;
 	}
-	
-	/**
-	 * @return Arraylist of classrooms to show all the bookings, i.e. when search parameter is defined for time slot
-	 */
 	public ArrayList<Classrooms> accroomt(String stime)
 	{
 		ArrayList<Classrooms> avail = new ArrayList<Classrooms>();
 		try
 		{Class.forName("java.sql.DriverManager");
 	    Connection con=(Connection) DriverManager.getConnection(
-	            "jdbc:mysql://localhost:3306/project","root","tapeied");
+	            "jdbc:mysql://localhost:3306/project","root","30july1998");
 	    Statement stmt=(Statement) con.createStatement();
 	    String time[] = stime.split("-");
 	    String  q = "Select * from bookings where ((Start <='"+time[0]+"' and End >='"+time[0]+"') or (Start < '"+time[1]+"' and End >'"+time[1]+"'));";
@@ -732,17 +648,13 @@ public class Student extends User{
 		avail.add(new Classrooms("---",0,"---","------","00-00"));
 		return avail;
 	}
-	
-	/**
-	 * @return Arraylist of classrooms to show all the bookings, i.e. when search parameter is defined for room no. and time slot
-	 */
 	public ArrayList<Classrooms> accroomt(String Room,String time)
 	{
 		ArrayList<Classrooms> avail = new ArrayList<Classrooms>();
 		try
 		{Class.forName("java.sql.DriverManager");
 	    Connection con=(Connection) DriverManager.getConnection(
-	            "jdbc:mysql://localhost:3306/project","root","tapeied");
+	            "jdbc:mysql://localhost:3306/project","root","30july1998");
 	    Statement stmt=(Statement) con.createStatement();
 	    String q = "Select * from rooms where RoomNo = '"+Room+"';";
 	    System.out.println(q);
@@ -752,7 +664,7 @@ public class Student extends User{
 	    System.out.println("Cap"+c);
 	    String[] Time = time.split("-");
 	    if(!rs.next())
-	    { q = "Select * from bookings where ((Start <='"+Time[0]+"' and End >='"+Time[0]+"') or (Start < '"+Time[1]+"' and End >'"+Time[1]+"'));";
+	    { q = "Select * from bookings where ((Start <='"+Time[0]+"' and End >='"+Time[0]+"') or (Start < '"+Time[1]+"' and End >'"+Time[1]+"')) and RoomNo ='"+Room+"';";
 	      System.out.println(q);
 	 	   ResultSet rs1 = stmt.executeQuery(q);
 	 	   
@@ -782,17 +694,13 @@ public class Student extends User{
 		avail.add(new Classrooms(Room,0,"---","------","00-00"));
 		return avail;
 	}
-	
-	/**
-	 * @return Arraylist of classrooms to show all the bookings, i.e. when search parameter is defined for room no., date and time
-	 */
 	public ArrayList<Classrooms> accroom(String Room,String Date, String Day,String time)
 	{
 		ArrayList<Classrooms> avail = new ArrayList<Classrooms>();
 		try
 		{Class.forName("java.sql.DriverManager");
 	    Connection con=(Connection) DriverManager.getConnection(
-	            "jdbc:mysql://localhost:3306/project","root","tapeied");
+	            "jdbc:mysql://localhost:3306/project","root","30july1998");
 	    Statement stmt=(Statement) con.createStatement();
 	    String q = "Select * from rooms where RoomNo = '"+Room+"';";
 	    System.out.println(q);
@@ -802,7 +710,7 @@ public class Student extends User{
 	    System.out.println("Cap"+c);
 	    String[] Time = time.split("-");
 	    if(!rs.next())
-	    { q = "Select * from bookings where ((Start <='"+Time[0]+"' and End >='"+Time[0]+"') or (Start < '"+Time[1]+"' and End >'"+Time[0]+"')) and (Day = '"+Date+"' or Day ='"+Day+"');" ;
+	    { q = "Select * from bookings where ((Start <='"+Time[0]+"' and End >='"+Time[0]+"') or (Start < '"+Time[1]+"' and End >'"+Time[0]+"')) and (Day = '"+Date+"' or Day ='"+Day+"') and RoomNo ='"+Room+"';" ;
 	      System.out.println(q);
 	 	   ResultSet rs1 = stmt.executeQuery(q);
 	 	   
@@ -832,6 +740,22 @@ public class Student extends User{
 		avail.add(new Classrooms(Room,0,"---","------","00-00"));
 		return avail;
 	}
-	
-	
+	public ResultSet ViewRoomBookings() {
+		ResultSet rs=null;
+		try
+		{
+			Class.forName("java.sql.DriverManager");
+	        Connection con=(Connection) DriverManager.getConnection(
+	                "jdbc:mysql://localhost:3306/project","root","30july1998");
+	        Statement stmt=(Statement) con.createStatement();
+	        String q="Select * from users where email='"+this.email+"';";
+	        rs=stmt.executeQuery(q);
+	        return rs;
+		}
+		catch(Exception exp)
+		{
+			System.out.println(exp.getMessage());
+		}
+		return rs;
+	}
 }
