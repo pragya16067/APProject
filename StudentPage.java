@@ -13,8 +13,12 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.ResourceBundle;
 
 import javax.swing.JOptionPane;
@@ -39,9 +43,21 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.scene.control.cell.PropertyValueFactory;
 
+/**
+ * @author Pragya
+ *
+ */
 public class StudentPage  implements javafx.fxml.Initializable {
+	/*
+	 * Implementing Singleton design pattern 
+	 */
 	static Student student;
 	
+	/**
+	 * To set the static Student object of this page
+	 * 
+	 * @param s - Student object 
+	 */
 	public void setStudent(Student s) {
 		student=s;
 	}
@@ -111,6 +127,10 @@ public class StudentPage  implements javafx.fxml.Initializable {
 	TableView<Timetable> TimetableTBL;
 	@FXML
 	TableColumn<Timetable,String> CourseNameCol,DayCol,STimeCol,ETimeCol,TTRoomCol;
+	
+	/**
+	 * To get all the room nos. in the institute from the rooms table in database
+	 */
 	public void getrooms()
 	{
 		try
@@ -120,7 +140,7 @@ public class StudentPage  implements javafx.fxml.Initializable {
 	                "jdbc:mysql://localhost:3306/project","root","tapeied");
 	        Statement stmt=(Statement) con.createStatement();
 	        String q = "Select RoomNo from rooms ;";
-	        System.out.println(q);
+	        //System.out.println(q);
 	        ResultSet rs = stmt.executeQuery(q);
 	        ArrayList<String> list = new ArrayList<String>();
 	        while(rs.next())
@@ -137,11 +157,16 @@ public class StudentPage  implements javafx.fxml.Initializable {
 			//System.out.println(ex.getMessage());
 		}
 	}
+	
+	
+	
 	@Override	
 	public void initialize(URL location, ResourceBundle resources) {
 		
 		
-		
+		/**
+		 * Change panes to show the Change password pane
+		 */
 		ChangePassword.setOnAction(new EventHandler<ActionEvent>() {
 			
 			@Override
@@ -165,6 +190,9 @@ public class StudentPage  implements javafx.fxml.Initializable {
 			
 		});	
 	
+		/**
+		 * Change password in the database and go back to profile pane
+		 */
 		Changed.setOnAction(new EventHandler<ActionEvent>() {
 			
 			@Override
@@ -203,7 +231,9 @@ public class StudentPage  implements javafx.fxml.Initializable {
 		Timetable.setOnAction(new EventHandler<ActionEvent>() {
 			
 			@Override
-			
+			/**
+			 * Change panes and go to Timetable.fxml
+			 */
 				
 				
 				 public void handle(ActionEvent event) {
@@ -244,7 +274,9 @@ public class StudentPage  implements javafx.fxml.Initializable {
 				 
 				 
 		
-
+		/**
+		 * Change to profile pane 
+		 */
 		Profile.setOnAction(new EventHandler<ActionEvent>() {
 			
 			@Override
@@ -297,6 +329,10 @@ public class StudentPage  implements javafx.fxml.Initializable {
 			}
 			
 		});	
+		
+		/**
+		 * Change to display the Manage Room Bookings pane
+		 */
 		Classrooms.setOnAction(new EventHandler<ActionEvent>() {
 			
 			@Override
@@ -321,6 +357,10 @@ public class StudentPage  implements javafx.fxml.Initializable {
 			
 		});
 		
+		/**
+		 * Change to the Add courses pane to allow student to choose and add a new course
+		 * Display in a table all the courses of the semester that a student can join
+		 */
 		AddC.setOnAction(new EventHandler<ActionEvent>() {
 			
 			@Override
@@ -372,6 +412,9 @@ public class StudentPage  implements javafx.fxml.Initializable {
 			
 		});	
 		
+		/**
+		 * Code for the Action performed on the click of the search button in searching a new course by postconditions specifies by the user
+		 */
 		SearchC.setOnAction(new EventHandler<ActionEvent> () {
 			
 			@Override
@@ -407,6 +450,9 @@ public class StudentPage  implements javafx.fxml.Initializable {
 			
 		});
 		
+		/**
+		 * Move to a new pane to View all details of the courses enrolled by a student
+		 */
 		ViewC.setOnAction(new EventHandler<ActionEvent>() {
 			
 			@Override
@@ -483,6 +529,10 @@ public class StudentPage  implements javafx.fxml.Initializable {
 			}
 			
 		});	
+		
+		/**
+		 * Change to Drop Courses pane and display all courses that a student is enrolled in
+		 */
 		DropC.setOnAction(new EventHandler<ActionEvent>() {
 			
 			@Override
@@ -558,7 +608,9 @@ public class StudentPage  implements javafx.fxml.Initializable {
 			
 		});	
 		
-		
+		/**
+		 * Add the course selected by a student from a table in the database, and move back to home pane
+		 */
 		AddedC.setOnAction(new EventHandler<ActionEvent>() {
 			
 			@Override
@@ -602,7 +654,11 @@ public class StudentPage  implements javafx.fxml.Initializable {
 			}
 			
 		});	
-      DroppedC.setOnAction(new EventHandler<ActionEvent>() {
+		
+		/**
+		 * Drop the course from database, selected by the student from a TableView, and move back to home page
+		 */
+       DroppedC.setOnAction(new EventHandler<ActionEvent>() {
 			
 			@Override
 			public void handle(ActionEvent event) {
@@ -643,11 +699,15 @@ public class StudentPage  implements javafx.fxml.Initializable {
 			}
 			
 		});	
+       
+       /**
+		 * Change back to Course-related-action pane
+		 */
       BackC.setOnAction(new EventHandler<ActionEvent>() {
 			
 			@Override
 			public void handle(ActionEvent event) {
-				System.out.println("I m here");
+				
 				ProfilePane.setVisible(false);
 				TimetablePane.setVisible(false);
 				CoursesPane.setVisible(true);
@@ -665,7 +725,11 @@ public class StudentPage  implements javafx.fxml.Initializable {
 				
 			}
 			
-		});	
+		});
+      
+      /**
+		 * Change to the RequestRoom Pane to request for a room booking
+		 */
       RequestR.setOnAction(new EventHandler<ActionEvent>() {
 			
 			@Override
@@ -688,6 +752,10 @@ public class StudentPage  implements javafx.fxml.Initializable {
 			}
 			
 		});	
+      
+      /**
+		 * Move to the ViewStatus Pane to see the status of all previous requests requested by the student, i.e. whether it has been accepted, rejected by admin or is still pending action.
+		 */
       ViewR.setOnAction(new EventHandler<ActionEvent>() {
 			
 			@Override
@@ -716,7 +784,7 @@ public class StudentPage  implements javafx.fxml.Initializable {
 						{
 							Class.forName("java.sql.DriverManager");
 					        Connection con=(Connection) DriverManager.getConnection(
-					                "jdbc:mysql://localhost:3306/project","root","30july1998");
+					                "jdbc:mysql://localhost:3306/project","root","tapeied");
 					        Statement stmt=(Statement) con.createStatement();
 					        String q="Select * from requests ;";
 					        ResultSet rs=stmt.executeQuery(q);
@@ -766,12 +834,16 @@ public class StudentPage  implements javafx.fxml.Initializable {
 				 }
 			}
 			
-		});	
+		});
+      
+      /**
+		 * Change to AvailabilityPane where user can see all room bookings details
+		 */
       AvailableR.setOnAction(new EventHandler<ActionEvent>() {
 			
 			@Override
 			public void handle(ActionEvent event) {
-				System.out.println("I m here");
+				
 				ProfilePane.setVisible(false);
 				TimetablePane.setVisible(false);
 				CoursesPane.setVisible(false);
@@ -790,6 +862,10 @@ public class StudentPage  implements javafx.fxml.Initializable {
 			}
 			
 		});	
+      
+      /**
+		 * Check availability of room bookings according to search parameters given by the student
+		 */
 		CheckAvailB.setOnAction(new EventHandler<ActionEvent>() {
 			
 			@Override
@@ -891,6 +967,10 @@ public class StudentPage  implements javafx.fxml.Initializable {
 			}
 			
 		});	
+		
+		/**
+		 * Change back to Course-related-action pane
+		 */
       BackR1.setOnAction(new EventHandler<ActionEvent>() {
 			
 			@Override
@@ -913,11 +993,15 @@ public class StudentPage  implements javafx.fxml.Initializable {
 			}
 			
 		});	
+      
+      /**
+		 * Change back to Course-related-action pane
+		 */
       BackR2.setOnAction(new EventHandler<ActionEvent>() {
 			
 			@Override
 			public void handle(ActionEvent event) {
-				System.out.println("I m here");
+				
 				ProfilePane.setVisible(false);
 				TimetablePane.setVisible(false);
 				CoursesPane.setVisible(false);
@@ -937,21 +1021,35 @@ public class StudentPage  implements javafx.fxml.Initializable {
 			}
 			
 		});	
+      
+      /**
+		 * Change back to home page and make the required changes in the database to accommodate a new request
+		 */
       RequestedR.setOnAction(new EventHandler<ActionEvent>() {
 			
 			@Override
 			public void handle(ActionEvent event) {
-				
-				String purpose=TXTpurpose.getText();
-				String room=TXTroom.getText();
-				int cap=Integer.parseInt(TXTcapacity.getText());
-				String date=TXTdate.getValue().toString();
-				String stime=TXTtimeStart.getText();
-				String etime=TXTtimeEnd.getText();
-				
-				student.MakeRequest(purpose, room, cap, date, stime, etime);
-				System.out.println(date+" "+stime);
-				
+				try {
+					String purpose=TXTpurpose.getText();
+					String room=TXTroom.getText();
+					
+					String date=TXTdate.getValue().toString();
+					String stime=TXTtimeStart.getText();
+					String etime=TXTtimeEnd.getText();
+					
+					if(purpose.equals("") || room.equals("") || TXTcapacity.getText().equals("") || date.equals("") || stime.equals("") || etime.equals(""))
+					{
+						JOptionPane.showMessageDialog(null, "Please fill all required input fields!!");
+					}
+					else {
+						int cap=Integer.parseInt(TXTcapacity.getText());
+						student.MakeRequest(purpose, room, cap, date, stime, etime);
+						System.out.println(date+" "+stime);
+					}
+				}
+				catch(Exception e) {
+					System.out.println(e.getMessage());
+				}
 				ProfilePane.setVisible(false);
 				TimetablePane.setVisible(false);
 				CoursesPane.setVisible(false);
@@ -970,6 +1068,9 @@ public class StudentPage  implements javafx.fxml.Initializable {
 			
 		});	
       
+      /**
+		 * Logout from the application and ask whether user wishes to login again or exit the application
+		 */
       Logout.setOnAction(new EventHandler<ActionEvent>() {
 			
 			@Override
