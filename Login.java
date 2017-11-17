@@ -109,7 +109,10 @@ public class Login  implements javafx.fxml.Initializable  {
 				            		UserType.setItems(options);
 				      
 				            	}
-				            	
+				            	if(!email.contains("@iiitd.ac.in"))
+				            	{
+				            		JOptionPane.showMessageDialog(null, "Invalid email-Id! Please try Again");
+				            	}
 				            	else
 				            	{   System.out.println(password1);
 				            		String q1 = "Select max(uid) from users;";
@@ -118,9 +121,10 @@ public class Login  implements javafx.fxml.Initializable  {
 				            		UserType.setItems(options);
 				            		rs1.next();
 				            		int uid = rs1.getInt("max(uid)")+1;
-				            		if(!email.equals("") && !password1.equals("") && !type.equals("Select Type"))
+				            		if(!email.equals("") && !password1.equals("") && !type.equals("User Type"))
 				            		{String q2 = "Insert into users values ("+uid+",'"+email+"','"+password1+"','"+type+"');" ;
 				            		stmt.executeUpdate(q2);
+				            		
 				            		if(type.equals("Student"))
 				            		{
 				            			 q2 = "Insert into students values ('"+email+"','"+"CSE112;CSE201;CSE121;"+"','');" ;
