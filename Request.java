@@ -10,6 +10,10 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.Calendar;
 
+/**
+ * @author Pragya
+ *
+ */
 public class Request {
 	private String DateTimeRequested;
 	private int Rid;
@@ -20,6 +24,20 @@ public class Request {
 	private String sTime;
 	private String eTime;
 	private String day;
+	
+	
+	/**
+	 * Constructor
+	 * 
+	 * @param id - Request id
+	 * @param p - Purpose
+	 * @param r - RoomNumber
+	 * @param cap - Capacity Required for
+	 * @param tR - Date and Time when the request was made by student
+	 * @param d - Date requested for
+	 * @param st - Start Time for the requested room
+	 * @param et - End Time for the requested room
+	 */
 	public Request(int id, String p, String r, int cap, String tR, String d, String st, String et ) {
 		Rid=id;
 		Purpose=p;
@@ -31,6 +49,19 @@ public class Request {
 		eTime=et;
 	}
 	
+	/**
+	 * Overriden Constructor
+	 * 
+	 * @param id - Request id
+	 * @param p - Purpose
+	 * @param r - RoomNumber
+	 * @param cap - Capacity Required for
+	 * @param d - Date requested for
+	 * @param st - Start Time for the requested room
+	 * @param et - End Time for the requested room
+	 * 
+	 * Date and Time when the request was made is calculated by the current System time
+	 */
 	public Request(int id, String p, String r, int cap, String d, String st, String et ) {
 		Rid=id;
 		Purpose=p;
@@ -49,6 +80,12 @@ public class Request {
 	{
 		
 	}
+	
+	/** Getter methods
+	 * 
+	 * @return integer/String instance
+	 */
+	
 	public Integer getRid()
 	{
 		return Rid;
@@ -93,7 +130,7 @@ public class Request {
 		{
 			Class.forName("java.sql.DriverManager");
 	        Connection con=(Connection) DriverManager.getConnection(
-	                "jdbc:mysql://localhost:3306/project","root","30july1998");
+	                "jdbc:mysql://localhost:3306/project","root","tapeied");
 	        Statement stmt=(Statement) con.createStatement();
 	        String q="Select * from requests where rid='"+this.Rid+"';";
 	        rs=stmt.executeQuery(q);

@@ -2,16 +2,32 @@ package application;
 
 import java.util.regex.Pattern;
 
+/**
+ * @author Pragya
+ *
+ */
 public class Timetable {
 	private String Course;
-	private String M;
-	private String T;
-	private String W;
-	private String Th;
-	private String F;
-	private String Tu;
-	private String La;
+	private String M; //Monday Timetable
+	private String T; //Tuesday
+	private String W; //Wednesday
+	private String Th; //Thursday
+	private String F; //Friday
+	private String Tu; //Tutorials
+	private String La; //Labs
 	
+	/**
+	 * Constructor
+	 * 
+	 * @param c : Course Code
+	 * @param j : Monday Time slot
+	 * @param d : Tuesday Time slot
+	 * @param e : Wed Time slot
+	 * @param f : Thursday Time slot
+	 * @param g : Friday Time slot
+	 * @param h : Tutorials Time slot
+	 * @param i : Labs Time slot
+	 */
 	public Timetable(String c,String j, String d, String e, String f, String g, String h , String i) {
 		Course=c;
 		M=j;
@@ -26,6 +42,12 @@ public class Timetable {
 	public String getCourse() {
 		return Course;
 	}
+	
+	/**
+	 * Getter function
+	 * Get the timings of class for this course on Monday, if any
+	 * @return String of the format "Start time - End time"
+	 */
 	public String getM()
 	{
 		if(!M.equals(""))
@@ -35,6 +57,12 @@ public class Timetable {
 		else
 		return M;
 	}
+	
+	/**
+	 * Getter function
+	 * Get the timings of class for this course on Tuesday, if any
+	 * @return String of the format "Start time - End time"
+	 */
 	public String getT()
 	{
 		if(!T.equals(""))
@@ -44,6 +72,12 @@ public class Timetable {
 		else
 			return T;
 	}
+	
+	/**
+	 * Getter function
+	 * Get the timings of class for this course on Wednesday, if any
+	 * @return String of the format "Start time - End time"
+	 */
 	public String getW()
 	{
 		if(!W.equals(""))
@@ -53,6 +87,12 @@ public class Timetable {
 		else
 			return W;
 	}
+	
+	/**
+	 * Getter function
+	 * Get the timings of class for this course on Thursday, if any
+	 * @return String of the format "Start time - End time"
+	 */
 	public String getTh()
 	{
 		if(!Th.equals(""))
@@ -62,6 +102,12 @@ public class Timetable {
 		else
 			return Th;
 	}
+	
+	/**
+	 * Getter function
+	 * Get the timings of class for this course on Friday, if any
+	 * @return String of the format "Start time - End time"
+	 */
 	public String getF()
 	{
 		if(!F.equals(""))
@@ -71,6 +117,12 @@ public class Timetable {
 		else
 			return F;
 	}
+	
+	/**
+	 * Getter function
+	 * Get the timings of class for this course's tutorials, if any
+	 * @return String of the format "Start time - End time"
+	 */
 	public String getTu()
 	{
 		if(!Tu.equals(""))
@@ -85,6 +137,12 @@ public class Timetable {
 			return Tu;
 		
 	}
+	
+	/**
+	 * Getter function
+	 * Get the timings of class for this course's labs, if any
+	 * @return String of the format "Start time - End time"
+	 */
 	public String getLa()
 	{
 		if(!La.equals(""))
