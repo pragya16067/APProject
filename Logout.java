@@ -28,6 +28,11 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextField;
 import javafx.scene.Node;
+/**
+ * @author Tanya Raj
+ * This classis the controller for logout.fxml and is used to login back again if u logged out
+ *
+ */
 public class Logout implements javafx.fxml.Initializable {
 
 	
@@ -38,6 +43,9 @@ public class Logout implements javafx.fxml.Initializable {
 		// TODO Auto-generated method stub
 		LoginA.setOnAction(new EventHandler<ActionEvent>() {
 			
+			/* 
+			 *Login button takes the user back to login option such that he can login again.
+			 */
 			@Override
 			public void handle(ActionEvent event) {
 				try

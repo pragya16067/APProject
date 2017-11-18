@@ -42,6 +42,11 @@ class Reader{
 	      return Long.parseLong( next() );
 	  }
 }
+/**
+ * @author Tanya Raj
+ * This class is for converting the csv file into our required sql database
+ *
+ */
 public class Main1
 {
 	public static void main(String args[]) throws IOException
@@ -62,7 +67,7 @@ public class Main1
 			        Connection con=(Connection) DriverManager.getConnection(
 			                "jdbc:mysql://localhost:3306/project","root","30july1998");
 			        Statement stmt=(Statement) con.createStatement();
-			        
+			        //Insert all the CSE monsoon semester courses into our courses table
 			        String q = "Insert into Courses values ('"+Array[2]+"','"+Array[1]+"','"+Array[5]+"','"+Integer.parseInt(Array[4])+"','"+Array[0]+"','"+Array[3]+"','"+""+"');";
 			        System.out.println(q);
 			        stmt.executeUpdate(q);
@@ -78,6 +83,7 @@ public class Main1
 			        		String room = RT[1];
 			        		String stime = RT[0].split("-")[0];
 			        		String etime = RT[0].split("-")[1];
+			        		//Inserts all the bookings to these coourses into the bookings table and hence making those slots unavailable for booking.
 			        		q ="Insert into Bookings values ('"+room+"','"+Array[2]+"','"+days[i]+"','"+stime+"','"+etime+"', 'Student');";
 			        		stmt.executeUpdate(q);
 			        		}

@@ -39,6 +39,10 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+/**
+ * @author Tanya Raj
+ *
+ */
 public class AdminPage  implements javafx.fxml.Initializable {
 	
 	@FXML
@@ -99,12 +103,22 @@ public class AdminPage  implements javafx.fxml.Initializable {
 	TableColumn<Bookings,String> DateN1;
 	@FXML
 	TableColumn<Bookings,String> TimeN1;
+	/*
+	 * Implementing Singleton design pattern 
+	 */
 	static Admin admin;
-	
+	/**
+	 * To set the static Admin object of this page
+	 * 
+	 * @param s - admin object 
+	 */
 	public void setAdmin(Admin a)
 	{
 		admin = a;
 	}	
+	/**
+	 * To get all the room nos. in the institute from the rooms table in database
+	 */
 	public void getrooms()
 	{
 		try
@@ -129,15 +143,21 @@ public class AdminPage  implements javafx.fxml.Initializable {
 		}
 		catch(Exception ex)
 		{
-			//System.out.println(ex.getMessage());
+			System.out.println(ex.getMessage());
 		}
 	}
+	/* 
+	 * @see javafx.fxml.Initializable#initialize(java.net.URL, java.util.ResourceBundle)
+	 */
 	public void initialize(URL location, ResourceBundle resources) {
 		
 		
 		
 		showB.setOnAction(new EventHandler<ActionEvent>() {
 			
+			/* 
+			 * To see bookings pane/See Room Avaibility
+			 */
 			@Override
 			public void handle(ActionEvent event) {
 				BookPane.setVisible(false);
@@ -156,6 +176,9 @@ public class AdminPage  implements javafx.fxml.Initializable {
 		
 		ManageB.setOnAction(new EventHandler<ActionEvent>() {
 			
+			/* 
+			 * To set manage rooms pane too visible
+			 */
 			@Override 
 			public void handle(ActionEvent event) {
 				BookPane.setVisible(false);
@@ -174,6 +197,10 @@ public class AdminPage  implements javafx.fxml.Initializable {
 		profB.setOnAction(new EventHandler<ActionEvent>() {
 			
 			@Override
+			/* 
+			 * To set profile of admin  pane to visible and call the required details from
+			 * the admin.java
+			 */
 			public void handle(ActionEvent event) {
 				LblName.setText("Hi ! "+admin.getName()+"!!");
 				Lblemail.setText(admin.getemail());
@@ -193,7 +220,10 @@ public class AdminPage  implements javafx.fxml.Initializable {
 		});
 		
 		bookB.setOnAction(new EventHandler<ActionEvent>() {
-			
+			/* 
+			 * To set booking  pane to visible and call the required details from
+			 * the admin.java
+			 */
 			@Override
 			public void handle(ActionEvent event) {
 				ProfilePane.setVisible(false);
@@ -212,7 +242,10 @@ public class AdminPage  implements javafx.fxml.Initializable {
 		});	
 		
 		BookedB.setOnAction(new EventHandler<ActionEvent>() {
-			
+			/* 
+			 * To Book the course after selection from the list of courses provided
+			 * and call the required functions from admin.java
+			 */
 			@Override
 			public void handle(ActionEvent event) {
 				ProfilePane.setVisible(false);
@@ -280,7 +313,10 @@ public class AdminPage  implements javafx.fxml.Initializable {
 		});	
 		
 		CancelB.setOnAction(new EventHandler<ActionEvent>() {
-			
+			/* 
+			 * To set Cancel booking  pane to visible and call the required details from
+			 * the admin.java and populate the table
+			 */
 			@Override
 			public void handle(ActionEvent event) {
 				BookPane.setVisible(false);
@@ -304,7 +340,10 @@ public class AdminPage  implements javafx.fxml.Initializable {
 		});
 		
 		RequestB.setOnAction(new EventHandler<ActionEvent>() {
-			
+			/* 
+			 * To set See Requests of students  pane to visible and call the required details from
+			 * the admin.java
+			 */
 			@Override
 			public void handle(ActionEvent event) {
 				BookPane.setVisible(false);
@@ -315,6 +354,7 @@ public class AdminPage  implements javafx.fxml.Initializable {
 				ChangePasswordPane.setVisible(false);
 				RequestPane.setVisible(true);
 				ManagePane.setVisible(false);
+				admin.Checkdays();
 				ArrayList<Request> list =  admin.GetRequests();
 				ObservableList lists = FXCollections.observableArrayList(list);
 				System.out.println(list.size());
@@ -331,7 +371,10 @@ public class AdminPage  implements javafx.fxml.Initializable {
 		});
 		
 		ChangePassword.setOnAction(new EventHandler<ActionEvent>() {
-			
+			/* 
+			 * To  Change Password pane to visible and call the required details from
+			 * the admin.java
+			 */
 			@Override
 			public void handle(ActionEvent event) {
 				BookPane.setVisible(false);
@@ -348,7 +391,10 @@ public class AdminPage  implements javafx.fxml.Initializable {
 		
 		
 		Changed.setOnAction(new EventHandler<ActionEvent>() {
-			
+			/* 
+			 * To change the password as per entered input and call the required details from
+			 * the admin.java
+			 */
 			@Override
 			public void handle(ActionEvent event) {
 				String np1=TXTnewpwd1.getText();
@@ -385,7 +431,10 @@ public class AdminPage  implements javafx.fxml.Initializable {
 			}
 		});
 		AcceptBtn.setOnAction(new EventHandler<ActionEvent>(){
-
+			/* 
+			 *Button to Accept the student's booking request and call the required details from
+			 * the admin.java
+			 */
 			@Override
 			public void handle(ActionEvent event) {
 				// TODO Auto-generated method stub
@@ -419,7 +468,10 @@ public class AdminPage  implements javafx.fxml.Initializable {
 			
 		});
 		RejectBtn.setOnAction(new EventHandler<ActionEvent>(){
-
+			/* 
+			 * To reject the room booking request by the student and call the required details from
+			 * the admin.java
+			 */
 			@Override
 			public void handle(ActionEvent event) {
 				// TODO Auto-generated method stub
@@ -447,8 +499,12 @@ public class AdminPage  implements javafx.fxml.Initializable {
 			}
 			
 		});
+		
 		CancelBtn.setOnAction(new EventHandler<ActionEvent>(){
-
+			/* 
+			 * To cancel the room bookings made by admin or student and call the required details from
+			 * the admin.java
+			 */
 			@Override
 			public void handle(ActionEvent event) {
 				try
@@ -473,6 +529,10 @@ public class AdminPage  implements javafx.fxml.Initializable {
 		CheckAvailB.setOnAction(new EventHandler<ActionEvent>() {
 			
 			@Override
+			/* 
+			 * To set Check Avaibility of room  pane to visible and call the required details from
+			 * the admin.java
+			 */
 			public void handle(ActionEvent event) {
 				String Room = (String) TXTBRoom.getValue();
 				System.out.println("room"+Room);
@@ -571,8 +631,12 @@ public class AdminPage  implements javafx.fxml.Initializable {
 			}
 			
 		});	
+		
 		ViewRoom.setOnAction(new EventHandler<ActionEvent>() {
-			
+			/* 
+			 * To view the details about room and call the required details from
+			 * the admin.java
+			 */
 			@Override
 			public void handle(ActionEvent event) {
 				String room = Room3.getText();
@@ -599,7 +663,10 @@ public class AdminPage  implements javafx.fxml.Initializable {
 				Room3.setText("");
 		}});
 		AddNew.setOnAction(new EventHandler<ActionEvent>() {
-			
+			/* 
+			 * To add new rooms and call the required details from
+			 * the admin.java
+			 */
 			@Override
 			public void handle(ActionEvent event) {
 				String room = Room2.getText();
@@ -635,6 +702,10 @@ public class AdminPage  implements javafx.fxml.Initializable {
 		RRoom.setOnAction(new EventHandler<ActionEvent>() {
 			
 			@Override
+			/* 
+			 * To remove room and call the required details from
+			 * the admin.java
+			 */
 			public void handle(ActionEvent event) {
 				String room = Roomget.getText();
 				try
@@ -659,6 +730,9 @@ public class AdminPage  implements javafx.fxml.Initializable {
 				}
 				Roomget.setText("");
 		}});
+		 /**
+		 * Logout from the application and ask whether user wishes to login again or exit the application
+		 */
 		LogoutBtn.setOnAction(new EventHandler<ActionEvent>() {
 			
 			@Override

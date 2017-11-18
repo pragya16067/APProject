@@ -4,12 +4,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.sql.Time;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -21,16 +17,21 @@ import java.util.Date;
 public class Admin extends User{
 	
 	/**
-	 * @param e
-	 * @param pwd
-	 * @param t
+	 * Constructor
+	 * @param e email
+	 * @param pwd password
+	 * @param t = "admin"
 	 */
 	public Admin(String e, String pwd, String t) {
 		super(e,pwd,"Admin");
 	}
 	
 	/**
+	 * Returns Name 
 	 * @return
+	 */
+	/* 
+	 * @see application.User#getName()
 	 */
 	public String getName() {
 		String e=this.email;
@@ -39,6 +40,7 @@ public class Admin extends User{
 		return Name.toUpperCase();
 	}
 	/**
+	 * Get Student Requests which are Pending
 	 * @return
 	 */
 	public ArrayList<Request> GetRequests()
@@ -72,6 +74,10 @@ public class Admin extends User{
 		}
 		return req;
 	}
+	
+	/**
+	 * Checks if a request is not pending for more than 5 days, if yes then reject request.
+	 */
 	public void Checkdays()
 	{
 		try
@@ -87,10 +93,7 @@ public class Admin extends User{
 	        	
 	        	if(status.equals("Pending"))
 	        	{
-	        		//gets the current date and time
-	        		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 	        		Calendar cal = Calendar.getInstance();
-	        		String curDate = (dateFormat.format(cal.getTime()));
 	        		Date d1=cal.getTime();
 	        		int Rid = rs.getInt("rid");
 	        		Date d2=rs.getDate("StartDate");
@@ -112,6 +115,12 @@ public class Admin extends User{
 		}
 		
 	}
+	/**
+	 * Accept Pending Request of the Student
+	 * Also Checks if the request coincides with any previous bookings
+	 * @param rq
+	 * @return
+	 */
 	public String AcceptRequest(Request rq)
 	{
 		try
@@ -173,6 +182,11 @@ public class Admin extends User{
 		return "";
 	}
 	
+	/**
+	 * Reject Pending Requests of the student
+	 * @param rq
+	 * 
+	 */
 	public void RejectRequest(Request rq)
 	{
 		try
@@ -189,6 +203,18 @@ public class Admin extends User{
 			System.out.println(ex.getMessage());
 		}
 	}
+	/**
+	 * Room Booking by the Admin, also checks if the booking coincides with any previous bookings, if no then adds
+	 * to the booking table.
+	 * @param Code
+	 * @param Room
+	 * @param STime
+	 * @param ETime
+	 * @param Day
+	 * @param Capacity
+	 * @param dayname
+	 * @return
+	 */
 	public boolean BookRoom(String Code, String Room, String STime, String ETime, String Day ,int Capacity,String dayname)
 	{
 		try
@@ -236,346 +262,11 @@ public class Admin extends User{
 		return false;
 		
 	}
-	public ArrayList<Classrooms> accroom()
-	{
-		ArrayList<Classrooms> avail = new ArrayList<Classrooms>();
-		try
-		{Class.forName("java.sql.DriverManager");
-	    Connection con=(Connection) DriverManager.getConnection(
-	            "jdbc:mysql://localhost:3306/project","root","30july1998");
-	    Statement stmt=(Statement) con.createStatement();
-	    
-	    String q = "Select * from bookings ;";
-	      System.out.println(q);
-	 	  ResultSet rs1 = stmt.executeQuery(q);
-	 	   
-	    	
-	    	while(rs1.next())
-	    	{
-	    		avail.add(new Classrooms(rs1.getString("RoomNo"),0,rs1.getString("Day"),rs1.getString("CourseCode"),rs1.getTime("Start")+"-"+rs1.getTime("End")));
-	    	
-	    	}
-	    	for(int i=0;i<avail.size();i++)
-	    	{
-	    		String q1 = "Select Capacity from rooms where RoomNo ='"+avail.get(i).RoomNo+"';";
-	    		rs1 = stmt.executeQuery(q1);
-	    		if(rs1.next())
-	    		{
-	    			avail.get(i).setCapacity(rs1.getInt("Capacity"));
-	    		}
-	    		else
-	    		{
-	    			avail.get(i).setCapacity(0);
-	    		}
-	    		rs1.next();
-	    	}
-	    	return avail;
-	    
-	    
-		}
-		catch(Exception ex)
-		{
-			System.out.println(ex.getMessage());
-		}
-		//System.out.println("useless");
-		avail.add(new Classrooms("---",0,"---","------","00-00"));
-		return avail;
-	}
-	public ArrayList<Classrooms> accroom(String Room)
-	{
-		ArrayList<Classrooms> avail = new ArrayList<Classrooms>();
-		try
-		{Class.forName("java.sql.DriverManager");
-	    Connection con=(Connection) DriverManager.getConnection(
-	            "jdbc:mysql://localhost:3306/project","root","30july1998");
-	    Statement stmt=(Statement) con.createStatement();
-	    String q = "Select * from rooms where RoomNo = '"+Room+"';";
-	    System.out.println(q);
-	    ResultSet rs = stmt.executeQuery(q);
-	    rs.next();
-	    int c = rs.getInt("Capacity");
-	    System.out.println("Cap"+c);
-	    
-	    if(!rs.next())
-	    { q = "Select * from bookings where RoomNo = '"+Room+"';";
-	      System.out.println(q);
-	 	   ResultSet rs1 = stmt.executeQuery(q);
-	 	   
-	    	if(!rs1.next())
-	    {  
-	    	Classrooms cl =new Classrooms(Room,c,"Available","------","00-00");
-	    	avail.add(cl);
-	    	return avail;
-	    }
-	    else
-	    {
-	    	do
-	    	{
-	    		avail.add(new Classrooms(Room,c,rs1.getString("Day"),rs1.getString("CourseCode"),rs1.getTime("Start")+"-"+rs1.getTime("End")));
-	    	
-	    	}
-	    	while(rs1.next());
-	    	return avail;
-	    }
-	    }
-		}
-		catch(Exception ex)
-		{
-			System.out.println(ex.getMessage());
-		}
-		//System.out.println("useless");
-		avail.add(new Classrooms(Room,0,"---","------","00-00"));
-		return avail;
-	}
-	public ArrayList<Classrooms> accroom(String Room,String Date,String Day)
-	{
-		ArrayList<Classrooms> avail = new ArrayList<Classrooms>();
-		try
-		{Class.forName("java.sql.DriverManager");
-	    Connection con=(Connection) DriverManager.getConnection(
-	            "jdbc:mysql://localhost:3306/project","root","30july1998");
-	    Statement stmt=(Statement) con.createStatement();
-	    String q = "Select * from rooms where RoomNo = '"+Room+"';";
-	    System.out.println(q);
-	    ResultSet rs = stmt.executeQuery(q);
-	    rs.next();
-	    int c = rs.getInt("Capacity");
-	    System.out.println("Cap"+c);
-	    
-	    if(!rs.next())
-	    { q = "Select * from bookings where RoomNo = '"+Room+"' and (Day = '"+Date+"' or Day ='"+Day+"');";
-	      System.out.println(q);
-	 	   ResultSet rs1 = stmt.executeQuery(q);
-	 	   
-	    	if(!rs1.next())
-	    {  
-	    	Classrooms cl =new Classrooms(Room,c,"Available","------","00-00");
-	    	avail.add(cl);
-	    	return avail;
-	    }
-	    else
-	    {
-	    	do
-	    	{
-	    		avail.add(new Classrooms(Room,c,Date,rs1.getString("CourseCode"),rs1.getTime("Start")+"-"+rs1.getTime("End")));
-	    	
-	    	}
-	    	while(rs1.next());
-	    	return avail;
-	    }
-	    }
-		}
-		catch(Exception ex)
-		{
-			System.out.println(ex.getMessage());
-		}
-		//System.out.println("useless");
-		avail.add(new Classrooms(Room,0,"---","------","00-00"));
-		return avail;
-	}
-	public ArrayList<Classrooms> accroom(String Date,String Day)
-	{
-		ArrayList<Classrooms> avail = new ArrayList<Classrooms>();
-		try
-		{Class.forName("java.sql.DriverManager");
-	    Connection con=(Connection) DriverManager.getConnection(
-	            "jdbc:mysql://localhost:3306/project","root","30july1998");
-	    Statement stmt=(Statement) con.createStatement();
-	    
-	    String  q = "Select * from bookings where (Day = '"+Date+"' or Day ='"+Day+"');";
-	      System.out.println(q);
-	 	   ResultSet rs1 = stmt.executeQuery(q);
-	 	   
-	    if(!rs1.next())
-	    {  
-	    	Classrooms cl =new Classrooms("---",0,"Available","------","00-00");
-	    	avail.add(cl);
-	    	return avail;
-	    }
-	    else
-	    {
-	    	do
-	    	{
-	    		avail.add(new Classrooms(rs1.getString("RoomNo"),0,Date,rs1.getString("CourseCode"),rs1.getInt("Start")+"-"+rs1.getInt("End")));
-	    	
-	    	}
-	    	while(rs1.next());
-	    	for(int i=0;i<avail.size();i++)
-	    	{
-	    		String q1 = "Select Capacity from rooms where RoomNo ='"+avail.get(i).RoomNo+"';";
-	    		rs1 = stmt.executeQuery(q1);
-	    		if(rs1.next())
-	    		{
-	    			avail.get(i).setCapacity(rs1.getInt("Capacity"));
-	    		}
-	    		else
-	    		{
-	    			avail.get(i).setCapacity(0);
-	    		}
-	    		
-	    	}
-	    	return avail;
-	    	
-	    }
-	    }
-		catch(Exception ex)
-		{
-			System.out.println(ex.getMessage());
-		}
-		//System.out.println("useless");
-		avail.add(new Classrooms("---",0,"---","------","00-00"));
-		return avail;
-	}
-	public ArrayList<Classrooms> accroomt(String stime)
-	{
-		ArrayList<Classrooms> avail = new ArrayList<Classrooms>();
-		try
-		{Class.forName("java.sql.DriverManager");
-	    Connection con=(Connection) DriverManager.getConnection(
-	            "jdbc:mysql://localhost:3306/project","root","30july1998");
-	    Statement stmt=(Statement) con.createStatement();
-	    String time[] = stime.split("-");
-	    String  q = "Select * from bookings where ((Start <='"+time[0]+"' and End >'"+time[0]+"') or (Start < '"+time[1]+"' and End >'"+time[1]+"'));";
-	      System.out.println(q);
-	 	   ResultSet rs1 = stmt.executeQuery(q);
-	 	  
-	    if(!rs1.next())
-	    {  
-	    	Classrooms cl =new Classrooms("---",0,"Available","------",stime);
-	    	avail.add(cl);
-	    	return avail;
-	    }
-	    else
-	    {
-	    	do
-	    	{
-	    		avail.add(new Classrooms(rs1.getString("RoomNo"),0,rs1.getString("Day"),rs1.getString("CourseCode"),rs1.getTime("Start")+"-"+rs1.getTime("End")));
-	    	
-	    	}
-	    	while(rs1.next());
-	    	for(int i=0;i<avail.size();i++)
-	    	{
-	    		String q1 = "Select Capacity from rooms where RoomNo ='"+avail.get(i).RoomNo+"';";
-	    		rs1 = stmt.executeQuery(q1);
-	    		if(rs1.next())
-	    		{
-	    			avail.get(i).setCapacity(rs1.getInt("Capacity"));
-	    		}
-	    		else
-	    		{
-	    			avail.get(i).setCapacity(0);
-	    		}
-	    		
-	    	}
-	    	return avail;
-	    	
-	    }
-	    }
-		catch(Exception ex)
-		{
-			System.out.println(ex.getMessage());
-		}
-		//System.out.println("useless");
-		avail.add(new Classrooms("---",0,"---","------","00-00"));
-		return avail;
-	}
+	
 	/**
-	 * @param Room
-	 * @param time
+	 * Returns an arraylist of all the bookings made by the admin or the student.
 	 * @return
 	 */
-	public ArrayList<Classrooms> accroomt(String Room,String time)
-	{
-		ArrayList<Classrooms> avail = new ArrayList<Classrooms>();
-		try
-		{Class.forName("java.sql.DriverManager");
-	    Connection con=(Connection) DriverManager.getConnection(
-	            "jdbc:mysql://localhost:3306/project","root","30july1998");
-	    Statement stmt=(Statement) con.createStatement();
-	    String q = "Select * from rooms where RoomNo = '"+Room+"';";
-	    System.out.println(q);
-	    ResultSet rs = stmt.executeQuery(q);
-	    rs.next();
-	    int c = rs.getInt("Capacity");
-	    System.out.println("Cap"+c);
-	    String[] Time = time.split("-");
-	    if(!rs.next())
-	    { q = "Select * from bookings where ((Start <='"+Time[0]+"' and End >'"+Time[0]+"') or (Start < '"+Time[1]+"' and End >'"+Time[1]+"')) and RoomNo = '"+Room+"';";
-	      System.out.println(q);
-	 	   ResultSet rs1 = stmt.executeQuery(q);
-	 	   
-	    	if(!rs1.next())
-	    {  
-	    	Classrooms cl =new Classrooms(Room,c,"Available","------",time);
-	    	avail.add(cl);
-	    	return avail;
-	    }
-	    else
-	    {
-	    	do
-	    	{
-	    		avail.add(new Classrooms(Room,c,rs1.getString("Day"),rs1.getString("CourseCode"),rs1.getTime("Start")+"-"+rs1.getTime("End")));
-	    	
-	    	}
-	    	while(rs1.next());
-	    	return avail;
-	    }
-	    }
-		}
-		catch(Exception ex)
-		{
-			System.out.println(ex.getMessage());
-		}
-		//System.out.println("useless");
-		avail.add(new Classrooms(Room,0,"---","------","00-00"));
-		return avail;
-	}
-	public ArrayList<Classrooms> accroom(String Room,String Date, String Day,String time)
-	{
-		ArrayList<Classrooms> avail = new ArrayList<Classrooms>();
-		try
-		{Class.forName("java.sql.DriverManager");
-	    Connection con=(Connection) DriverManager.getConnection(
-	            "jdbc:mysql://localhost:3306/project","root","30july1998");
-	    Statement stmt=(Statement) con.createStatement();
-	    String q = "Select * from rooms where RoomNo = '"+Room+"';";
-	    System.out.println(q);
-	    ResultSet rs = stmt.executeQuery(q);
-	    rs.next();
-	    int c = rs.getInt("Capacity");
-	    System.out.println("Cap"+c);
-	    String[] Time = time.split("-");
-	    if(!rs.next())
-	    { q = "Select * from bookings where ((Start <='"+Time[0]+"' and End >'"+Time[0]+"') or (Start < '"+Time[1]+"' and End >'"+Time[0]+"')) and (Day = '"+Date+"' or Day ='"+Day+"') and RoomNo = '"+Room+"';" ;
-	      System.out.println(q);
-	 	   ResultSet rs1 = stmt.executeQuery(q);
-	 	   
-	    	if(!rs1.next())
-	    {  
-	    	Classrooms cl =new Classrooms(Room,c,"Available","------",time);
-	    	avail.add(cl);
-	    	return avail;
-	    }
-	    else
-	    {
-	    	do
-	    	{
-	    		avail.add(new Classrooms(Room,c,rs1.getString("Day"),rs1.getString("CourseCode"),rs1.getTime("Start")+"-"+rs1.getTime("End")));
-	    	
-	    	}
-	    	while(rs1.next());
-	    	return avail;
-	    }
-	    }
-		}
-		catch(Exception ex)
-		{
-			System.out.println(ex.getMessage());
-		}
-		//System.out.println("useless");
-		avail.add(new Classrooms(Room,0,"---","------","00-00"));
-		return avail;
-	}
 	public ArrayList<Bookings> GetBooking()
 	{
 		ArrayList<Bookings> book = new ArrayList<Bookings>();
@@ -599,6 +290,11 @@ public class Admin extends User{
 		}
 		return book;
 	}
+	/**
+	 * This functions cancels any selected booking passed as parameter by the admin and
+	 *  hence remove it from the database.
+	 * @param b
+	 */
 	public void CancelBooking(Bookings b)
 	{
 		try
@@ -616,25 +312,12 @@ public class Admin extends User{
 			System.out.println(ex.getMessage());
 		}
 	}
-	public void changePassword(String s) {
-		String e=this.email;
-		try
-		{
-			Class.forName("java.sql.DriverManager");
-	        Connection con=(Connection) DriverManager.getConnection(
-	                "jdbc:mysql://localhost:3306/project","root","30july1998");
-	        Statement stmt=(Statement) con.createStatement();
-	        String q="update users set password='"+s+"'where email='"+e+"';";
-	        stmt.executeUpdate(q);
-	        
-		}
-		catch(Exception exp)
-		{
-			System.out.println(exp.getMessage());
-		}
-		
-	}
 	
+	
+	/* 
+	 * Abstract class definition
+	 * @see application.User#ViewRoomBookings()
+	 */
 	public ResultSet ViewRoomBookings() {
 		ResultSet rs=null;
 		try

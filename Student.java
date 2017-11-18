@@ -6,18 +6,29 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
-
 import javax.swing.JOptionPane;
-
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
+/**
+ * @author Tanya Raj
+ *
+ */
 public class Student extends User{
 	
+	/**
+	 * Constructor of Student
+	 * @param e
+	 * @param pwd
+	 * @param t
+	 */
 	public Student(String e, String pwd, String t) {
 		super(e,pwd,"Student");
 	}
 	
+	/**
+	 * Returns name of the student
+	 * @return
+	 */
 	public String getName() {
 		String e=this.email;
 		String[] s=e.split("@");
@@ -25,6 +36,10 @@ public class Student extends User{
 		return Name.toUpperCase();
 	}
 	
+	/**
+	 * Returns batch from student's rollno provided in their e-mail-id
+	 * @return
+	 */
 	public String getBatch() {
 		String e=this.email;
 		String[] s=e.split("@");
@@ -32,6 +47,10 @@ public class Student extends User{
 		return batch;
 	}
 	
+	/**
+	 * Returns Roll no of student
+	 * @return
+	 */
 	public String getRno() {
 		String e=this.email;
 		String[] s=e.split("@");
@@ -39,25 +58,14 @@ public class Student extends User{
 		return rno;
 	}
 	
-	public void changePassword(String s) {
-		String e=this.email;
-		try
-		{
-			Class.forName("java.sql.DriverManager");
-	        Connection con=(Connection) DriverManager.getConnection(
-	                "jdbc:mysql://localhost:3306/project","root","30july1998");
-	        Statement stmt=(Statement) con.createStatement();
-	        String q="update users set password='"+s+"'where email='"+e+"';";
-	        stmt.executeUpdate(q);
-	        
-		}
-		catch(Exception exp)
-		{
-			System.out.println(exp.getMessage());
-		}
-		
-	}
 	
+	
+	/**
+	 * Check selected course by student to its courses taken table if it doesn't coincides with any of their
+	 * already taken courses.
+	 * @param c
+	 * @return
+	 */
 	public boolean okToAddCourse(Course c) {
 		try
 		{
@@ -138,6 +146,10 @@ public class Student extends User{
 		return true;
 	}
 	
+	/**
+	 * AddCourses to the respective students table of courses.
+	 * @param c
+	 */
 	public void AddCourse(Course c) {
 		String e=this.email;
 		try
@@ -157,6 +169,11 @@ public class Student extends User{
 		}
 	}
 	
+	/**
+	 * Drop the selected course in parameter if it is not one of  the mandatory courses and also remove
+	 * it from the courses taken by respective students table.
+	 * @param CourseName
+	 */
 	public void DropCourse(String CourseName) {
 		try
 		{
@@ -211,6 +228,10 @@ public class Student extends User{
 		}
 	}
 	
+	/**
+	 * Returns the result set of all the courses taken by the student.
+	 * @return
+	 */
 	public ResultSet ViewCourses() {
 		ResultSet rs=null;
 		try
@@ -231,6 +252,10 @@ public class Student extends User{
 		return rs;
 	}
 	
+	/**
+	 * Retruns the arraylist of all the added courses to the students courses table.
+	 * @return
+	 */
 	public ArrayList<String> getCourseList() {
 		ArrayList<String> c=new ArrayList<String> ();
 		ResultSet rs=null;
@@ -264,6 +289,11 @@ public class Student extends User{
 		return c;
 	}
 	
+	/**
+	 * Returns the resultset of all the searched courses by the passed keyword as oarameter by the user.
+	 * @param searchCode
+	 * @return
+	 */
 	public ResultSet SearchCourses(String searchCode) {
 		ResultSet rs2=null;
 		try
@@ -306,6 +336,10 @@ public class Student extends User{
 		return rs2;
 	}
 	
+	/**
+	 * Returns personalized timetable of the student, time-venue and day and labs and tuts.
+	 * @return
+	 */
 	public ArrayList<Timetable> getTimetable() {
 		ArrayList<Timetable> timetables=new ArrayList<Timetable> ();
 		try
@@ -341,6 +375,15 @@ public class Student extends User{
 		return timetables;
 	}
 	
+	/**
+	 * CODE TO INSERT A NEW REQUEST INTO THE REQUESTS TABLE AND UPDATE THE REQUESTS COL OF THE STUDENT TABLE
+	 * @param p
+	 * @param r
+	 * @param cap
+	 * @param d
+	 * @param st
+	 * @param et
+	 */
 	public void MakeRequest (String p, String r, int cap, String d, String st, String et ) {
 		try
 		{
@@ -354,7 +397,7 @@ public class Student extends User{
 	        int id= rs.getInt("Max(rid)")+1;
 	        Request req = new Request(id,p,r,cap,d,st,et);
 	        
-	        //CODE TO INSERT A NEW REQUEST INTO THE REQUESTS TABLE AND UPDATE THE REQUESTS COL OF THE STUDENT TABLE
+	        
 	        
 	        String qReq = "Insert into requests values ("+id+",'"+p+"','"+r+"',"+cap+",'Pending','"+d+"','"+st+"','"+et+"','"+req.getDateTimeRequested()+"');";
 	        stmt.executeUpdate(qReq);
@@ -368,6 +411,10 @@ public class Student extends User{
 		}
 	}
 	
+	/**
+	 * Student can view the status of their requests, returns an arraylist with these requests
+	 * @return
+	 */
 	public ArrayList<Request> ViewRequests() {
 		ArrayList<Request> requests=new ArrayList<Request> ();
 		ResultSet rs=null;
@@ -405,341 +452,11 @@ public class Student extends User{
 		}
 		return requests;
 	}
-	public ArrayList<Classrooms> accroom()
-	{
-		ArrayList<Classrooms> avail = new ArrayList<Classrooms>();
-		try
-		{Class.forName("java.sql.DriverManager");
-	    Connection con=(Connection) DriverManager.getConnection(
-	            "jdbc:mysql://localhost:3306/project","root","30july1998");
-	    Statement stmt=(Statement) con.createStatement();
-	    
-	    String q = "Select * from bookings ;";
-	      System.out.println(q);
-	 	  ResultSet rs1 = stmt.executeQuery(q);
-	 	   
-	    	
-	    	while(rs1.next())
-	    	{
-	    		avail.add(new Classrooms(rs1.getString("RoomNo"),0,rs1.getString("Day"),rs1.getString("CourseCode"),rs1.getTime("Start")+"-"+rs1.getTime("End")));
-	    	
-	    	}
-	    	for(int i=0;i<avail.size();i++)
-	    	{
-	    		String q1 = "Select Capacity from rooms where RoomNo ='"+avail.get(i).RoomNo+"';";
-	    		rs1 = stmt.executeQuery(q1);
-	    		if(rs1.next())
-	    		{
-	    			avail.get(i).setCapacity(rs1.getInt("Capacity"));
-	    		}
-	    		else
-	    		{
-	    			avail.get(i).setCapacity(0);
-	    		}
-	    		rs1.next();
-	    	}
-	    	return avail;
-	    
-	    
-		}
-		catch(Exception ex)
-		{
-			System.out.println(ex.getMessage());
-		}
-		//System.out.println("useless");
-		avail.add(new Classrooms("---",0,"---","------","00-00"));
-		return avail;
-	}
-	public ArrayList<Classrooms> accroom(String Room)
-	{
-		ArrayList<Classrooms> avail = new ArrayList<Classrooms>();
-		try
-		{Class.forName("java.sql.DriverManager");
-	    Connection con=(Connection) DriverManager.getConnection(
-	            "jdbc:mysql://localhost:3306/project","root","30july1998");
-	    Statement stmt=(Statement) con.createStatement();
-	    String q = "Select * from rooms where RoomNo = '"+Room+"';";
-	    System.out.println(q);
-	    ResultSet rs = stmt.executeQuery(q);
-	    rs.next();
-	    int c = rs.getInt("Capacity");
-	    System.out.println("Cap"+c);
-	    
-	    if(!rs.next())
-	    { q = "Select * from bookings where RoomNo = '"+Room+"';";
-	      System.out.println(q);
-	 	   ResultSet rs1 = stmt.executeQuery(q);
-	 	   
-	    	if(!rs1.next())
-	    {  
-	    	Classrooms cl =new Classrooms(Room,c,"Available","------","00-00");
-	    	avail.add(cl);
-	    	return avail;
-	    }
-	    else
-	    {
-	    	do
-	    	{
-	    		avail.add(new Classrooms(Room,c,rs1.getString("Day"),rs1.getString("CourseCode"),rs1.getTime("Start")+"-"+rs1.getTime("End")));
-	    	
-	    	}
-	    	while(rs1.next());
-	    	return avail;
-	    }
-	    }
-		}
-		catch(Exception ex)
-		{
-			System.out.println(ex.getMessage());
-		}
-		//System.out.println("useless");
-		avail.add(new Classrooms(Room,0,"---","------","00-00"));
-		return avail;
-	}
-	public ArrayList<Classrooms> accroom(String Room,String Date,String Day)
-	{
-		ArrayList<Classrooms> avail = new ArrayList<Classrooms>();
-		try
-		{Class.forName("java.sql.DriverManager");
-	    Connection con=(Connection) DriverManager.getConnection(
-	            "jdbc:mysql://localhost:3306/project","root","30july1998");
-	    Statement stmt=(Statement) con.createStatement();
-	    String q = "Select * from rooms where RoomNo = '"+Room+"';";
-	    System.out.println(q);
-	    ResultSet rs = stmt.executeQuery(q);
-	    rs.next();
-	    int c = rs.getInt("Capacity");
-	    System.out.println("Cap"+c);
-	    
-	    if(!rs.next())
-	    { q = "Select * from bookings where RoomNo = '"+Room+"' and (Day = '"+Date+"' or Day ='"+Day+"');";
-	      System.out.println(q);
-	 	   ResultSet rs1 = stmt.executeQuery(q);
-	 	   
-	    	if(!rs1.next())
-	    {  
-	    	Classrooms cl =new Classrooms(Room,c,"Available","------","00-00");
-	    	avail.add(cl);
-	    	return avail;
-	    }
-	    else
-	    {
-	    	do
-	    	{
-	    		avail.add(new Classrooms(Room,c,Date,rs1.getString("CourseCode"),rs1.getTime("Start")+"-"+rs1.getTime("End")));
-	    	
-	    	}
-	    	while(rs1.next());
-	    	return avail;
-	    }
-	    }
-		}
-		catch(Exception ex)
-		{
-			System.out.println(ex.getMessage());
-		}
-		//System.out.println("useless");
-		avail.add(new Classrooms(Room,0,"---","------","00-00"));
-		return avail;
-	}
-	public ArrayList<Classrooms> accroom(String Date,String Day)
-	{
-		ArrayList<Classrooms> avail = new ArrayList<Classrooms>();
-		try
-		{Class.forName("java.sql.DriverManager");
-	    Connection con=(Connection) DriverManager.getConnection(
-	            "jdbc:mysql://localhost:3306/project","root","30july1998");
-	    Statement stmt=(Statement) con.createStatement();
-	    
-	    String  q = "Select * from bookings where (Day = '"+Date+"' or Day ='"+Day+"');";
-	      System.out.println(q);
-	 	   ResultSet rs1 = stmt.executeQuery(q);
-	 	   
-	    if(!rs1.next())
-	    {  
-	    	Classrooms cl =new Classrooms("---",0,"Available","------","00-00");
-	    	avail.add(cl);
-	    	return avail;
-	    }
-	    else
-	    {
-	    	do
-	    	{
-	    		avail.add(new Classrooms(rs1.getString("RoomNo"),0,Date,rs1.getString("CourseCode"),rs1.getInt("Start")+"-"+rs1.getInt("End")));
-	    	
-	    	}
-	    	while(rs1.next());
-	    	for(int i=0;i<avail.size();i++)
-	    	{
-	    		String q1 = "Select Capacity from rooms where RoomNo ='"+avail.get(i).RoomNo+"';";
-	    		rs1 = stmt.executeQuery(q1);
-	    		if(rs1.next())
-	    		{
-	    			avail.get(i).setCapacity(rs1.getInt("Capacity"));
-	    		}
-	    		else
-	    		{
-	    			avail.get(i).setCapacity(0);
-	    		}
-	    		
-	    	}
-	    	return avail;
-	    	
-	    }
-	    }
-		catch(Exception ex)
-		{
-			System.out.println("game is on");
-		}
-		//System.out.println("useless");
-		avail.add(new Classrooms("---",0,"---","------","00-00"));
-		return avail;
-	}
-	public ArrayList<Classrooms> accroomt(String stime)
-	{
-		ArrayList<Classrooms> avail = new ArrayList<Classrooms>();
-		try
-		{Class.forName("java.sql.DriverManager");
-	    Connection con=(Connection) DriverManager.getConnection(
-	            "jdbc:mysql://localhost:3306/project","root","30july1998");
-	    Statement stmt=(Statement) con.createStatement();
-	    String time[] = stime.split("-");
-	    String  q = "Select * from bookings where ((Start <='"+time[0]+"' and End >='"+time[0]+"') or (Start < '"+time[1]+"' and End >'"+time[1]+"'));";
-	      System.out.println(q);
-	 	   ResultSet rs1 = stmt.executeQuery(q);
-	 	  
-	    if(!rs1.next())
-	    {  
-	    	Classrooms cl =new Classrooms("---",0,"Available","------",stime);
-	    	avail.add(cl);
-	    	return avail;
-	    }
-	    else
-	    {
-	    	do
-	    	{
-	    		avail.add(new Classrooms(rs1.getString("RoomNo"),0,rs1.getString("Day"),rs1.getString("CourseCode"),rs1.getTime("Start")+"-"+rs1.getTime("End")));
-	    	
-	    	}
-	    	while(rs1.next());
-	    	for(int i=0;i<avail.size();i++)
-	    	{
-	    		String q1 = "Select Capacity from rooms where RoomNo ='"+avail.get(i).RoomNo+"';";
-	    		rs1 = stmt.executeQuery(q1);
-	    		if(rs1.next())
-	    		{
-	    			avail.get(i).setCapacity(rs1.getInt("Capacity"));
-	    		}
-	    		else
-	    		{
-	    			avail.get(i).setCapacity(0);
-	    		}
-	    		
-	    	}
-	    	return avail;
-	    	
-	    }
-	    }
-		catch(Exception ex)
-		{
-			System.out.println("game is on");
-		}
-		//System.out.println("useless");
-		avail.add(new Classrooms("---",0,"---","------","00-00"));
-		return avail;
-	}
-	public ArrayList<Classrooms> accroomt(String Room,String time)
-	{
-		ArrayList<Classrooms> avail = new ArrayList<Classrooms>();
-		try
-		{Class.forName("java.sql.DriverManager");
-	    Connection con=(Connection) DriverManager.getConnection(
-	            "jdbc:mysql://localhost:3306/project","root","30july1998");
-	    Statement stmt=(Statement) con.createStatement();
-	    String q = "Select * from rooms where RoomNo = '"+Room+"';";
-	    System.out.println(q);
-	    ResultSet rs = stmt.executeQuery(q);
-	    rs.next();
-	    int c = rs.getInt("Capacity");
-	    System.out.println("Cap"+c);
-	    String[] Time = time.split("-");
-	    if(!rs.next())
-	    { q = "Select * from bookings where ((Start <='"+Time[0]+"' and End >='"+Time[0]+"') or (Start < '"+Time[1]+"' and End >'"+Time[1]+"')) and RoomNo ='"+Room+"';";
-	      System.out.println(q);
-	 	   ResultSet rs1 = stmt.executeQuery(q);
-	 	   
-	    	if(!rs1.next())
-	    {  
-	    	Classrooms cl =new Classrooms(Room,c,"Available","------",time);
-	    	avail.add(cl);
-	    	return avail;
-	    }
-	    else
-	    {
-	    	do
-	    	{
-	    		avail.add(new Classrooms(Room,c,rs1.getString("Day"),rs1.getString("CourseCode"),rs1.getTime("Start")+"-"+rs1.getTime("End")));
-	    	
-	    	}
-	    	while(rs1.next());
-	    	return avail;
-	    }
-	    }
-		}
-		catch(Exception ex)
-		{
-			System.out.println("game is on");
-		}
-		//System.out.println("useless");
-		avail.add(new Classrooms(Room,0,"---","------","00-00"));
-		return avail;
-	}
-	public ArrayList<Classrooms> accroom(String Room,String Date, String Day,String time)
-	{
-		ArrayList<Classrooms> avail = new ArrayList<Classrooms>();
-		try
-		{Class.forName("java.sql.DriverManager");
-	    Connection con=(Connection) DriverManager.getConnection(
-	            "jdbc:mysql://localhost:3306/project","root","30july1998");
-	    Statement stmt=(Statement) con.createStatement();
-	    String q = "Select * from rooms where RoomNo = '"+Room+"';";
-	    System.out.println(q);
-	    ResultSet rs = stmt.executeQuery(q);
-	    rs.next();
-	    int c = rs.getInt("Capacity");
-	    System.out.println("Cap"+c);
-	    String[] Time = time.split("-");
-	    if(!rs.next())
-	    { q = "Select * from bookings where ((Start <='"+Time[0]+"' and End >='"+Time[0]+"') or (Start < '"+Time[1]+"' and End >'"+Time[0]+"')) and (Day = '"+Date+"' or Day ='"+Day+"') and RoomNo ='"+Room+"';" ;
-	      System.out.println(q);
-	 	   ResultSet rs1 = stmt.executeQuery(q);
-	 	   
-	    	if(!rs1.next())
-	    {  
-	    	Classrooms cl =new Classrooms(Room,c,"Available","------",time);
-	    	avail.add(cl);
-	    	return avail;
-	    }
-	    else
-	    {
-	    	do
-	    	{
-	    		avail.add(new Classrooms(Room,c,rs1.getString("Day"),rs1.getString("CourseCode"),rs1.getTime("Start")+"-"+rs1.getTime("End")));
-	    	
-	    	}
-	    	while(rs1.next());
-	    	return avail;
-	    }
-	    }
-		}
-		catch(Exception ex)
-		{
-			System.out.println("game is on");
-		}
-		//System.out.println("useless");
-		avail.add(new Classrooms(Room,0,"---","------","00-00"));
-		return avail;
-	}
+	
+	/* 
+	 * Abstract method
+	 * @see application.User#ViewRoomBookings()
+	 */
 	public ResultSet ViewRoomBookings() {
 		ResultSet rs=null;
 		try

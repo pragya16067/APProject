@@ -79,7 +79,7 @@ public class StudentPage  implements javafx.fxml.Initializable {
 	
 	
 	@FXML
-	TextField TXTnewpwd1,TXTnewpwd2,SearchBox,TXTpurpose,TXTroom,TXTcapacity,TXTtimeStart,TXTtimeEnd,TXTBTime,TXTBDay;
+	TextField Old,TXTnewpwd1,TXTnewpwd2,SearchBox,TXTpurpose,TXTroom,TXTcapacity,TXTtimeStart,TXTtimeEnd,TXTBTime,TXTBDay;
 	@FXML
 	DatePicker TXTdate,TXTBDate;
 	@FXML
@@ -137,7 +137,7 @@ public class StudentPage  implements javafx.fxml.Initializable {
 		{
 			Class.forName("java.sql.DriverManager");
 	        Connection con=(Connection) DriverManager.getConnection(
-	                "jdbc:mysql://localhost:3306/project","root","tapeied");
+	                "jdbc:mysql://localhost:3306/project","root","30july1998");
 	        Statement stmt=(Statement) con.createStatement();
 	        String q = "Select RoomNo from rooms ;";
 	        //System.out.println(q);
@@ -154,7 +154,7 @@ public class StudentPage  implements javafx.fxml.Initializable {
 		}
 		catch(Exception ex)
 		{
-			//System.out.println(ex.getMessage());
+			System.out.println(ex.getMessage());
 		}
 	}
 	
@@ -199,9 +199,19 @@ public class StudentPage  implements javafx.fxml.Initializable {
 			public void handle(ActionEvent event) {
 				String np1=TXTnewpwd1.getText();
 				String np2=TXTnewpwd2.getText();
-				if(np1.equals(np2))
+				String op = Old.getText();
+				if(np1.equals(np2) && student.AuthenticateUser(student.getemail(), op))
 				{
 					student.changePassword(np1);
+					JOptionPane.showMessageDialog(null, "Password Changed Succesfully");
+				}
+				else
+				if(!student.AuthenticateUser(student.getemail(), op))
+				{
+					JOptionPane.showMessageDialog(null, "Your Old Password is incorrect. Please Try Again!");
+					Old.setText("");
+					TXTnewpwd1.setText("");
+					TXTnewpwd2.setText("");
 				}
 				else
 				{
@@ -477,7 +487,7 @@ public class StudentPage  implements javafx.fxml.Initializable {
 					 ViewCoursesTable.setItems(null);
 					 
 					 Class.forName("java.sql.DriverManager");
-				     Connection con=(Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/project","root","tapeied");
+				     Connection con=(Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/project","root","30july1998");
 				     Statement stmt=(Statement) con.createStatement();
 				        
 					 ResultSet rs=student.ViewCourses();
@@ -564,7 +574,7 @@ public class StudentPage  implements javafx.fxml.Initializable {
 				        	for(int i=0; i<s.length; i++)
 				        	{
 				        		Class.forName("java.sql.DriverManager");
-							    Connection con=(Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/project","root","tapeied");
+							    Connection con=(Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/project","root","30july1998");
 							    Statement stmt=(Statement) con.createStatement();
 				        		String CourseCode=s[i];
 				        		String q="Select CourseCode,CourseName,Acronym,Faculty,Credits,Type from courses where CourseCode='"+CourseCode+"';";
@@ -784,7 +794,7 @@ public class StudentPage  implements javafx.fxml.Initializable {
 						{
 							Class.forName("java.sql.DriverManager");
 					        Connection con=(Connection) DriverManager.getConnection(
-					                "jdbc:mysql://localhost:3306/project","root","tapeied");
+					                "jdbc:mysql://localhost:3306/project","root","30july1998");
 					        Statement stmt=(Statement) con.createStatement();
 					        String q="Select * from requests ;";
 					        ResultSet rs=stmt.executeQuery(q);

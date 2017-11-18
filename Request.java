@@ -130,7 +130,7 @@ public class Request {
 		{
 			Class.forName("java.sql.DriverManager");
 	        Connection con=(Connection) DriverManager.getConnection(
-	                "jdbc:mysql://localhost:3306/project","root","tapeied");
+	                "jdbc:mysql://localhost:3306/project","root","30july1998");
 	        Statement stmt=(Statement) con.createStatement();
 	        String q="Select * from requests where rid='"+this.Rid+"';";
 	        rs=stmt.executeQuery(q);

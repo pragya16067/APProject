@@ -20,6 +20,11 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
+/**
+ * @author Tanya Raj
+ * This class opens the personalised timetable of the student with required courses
+ *
+ */
 public class ViewTimetable implements javafx.fxml.Initializable {
 
 	@FXML
@@ -54,6 +59,9 @@ public class ViewTimetable implements javafx.fxml.Initializable {
 		 La.setCellValueFactory(new PropertyValueFactory<Timetable,String>("La"));
 		 BackD.setOnAction(new EventHandler<ActionEvent>() {
 				
+				/* 
+				 * On clicking on Back button it will go back to the student's page and close the timetable
+				 */
 				@Override
 				public void handle(ActionEvent event) {
 					try

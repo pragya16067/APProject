@@ -30,6 +30,10 @@ import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextField;
 import javafx.scene.Node;
 
+/**
+ * @author Tanya Raj
+ *
+ */
 public class Login  implements javafx.fxml.Initializable  {
 	ObservableList<String> options = 
 		    FXCollections.observableArrayList(
@@ -53,6 +57,10 @@ public class Login  implements javafx.fxml.Initializable  {
 		
 		
     
+	/* 
+	 * @see javafx.fxml.Initializable
+	 * #initialize(java.net.URL, java.util.ResourceBundle)
+	 */
 	@Override
 	
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -74,7 +82,9 @@ public class Login  implements javafx.fxml.Initializable  {
 			
 		});	
 			SignedUpBtn.setOnAction(new EventHandler<ActionEvent>() {
-				
+				 /**
+				 * First time required registration for newusers
+				 */
 				@Override
 				public void handle(ActionEvent event) {
 					
@@ -165,6 +175,9 @@ public class Login  implements javafx.fxml.Initializable  {
 				
 				
 			});	
+			 /**
+			 * Login Button actions (login) for already existing users
+			 */
 			LoginBtn.setOnAction(new EventHandler<ActionEvent>() {
 				
 				@Override

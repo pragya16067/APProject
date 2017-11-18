@@ -78,12 +78,22 @@ public class FacultyPage  implements javafx.fxml.Initializable {
 	TableColumn<Bookings,String> DateN1;
 	@FXML
 	TableColumn<Bookings,String> TimeN1;
+	/*
+	 * Implementing Singleton design pattern 
+	 */
 	static Faculty faculty;
+	/**
+	 * To set the static faculty object of this page
+	 * 
+	 * @param s - faculty object 
+	 */
 	public void setFaculty(Faculty f)
 	{
 		faculty = f;
 	}
-	
+	/**
+	 * To get all the room nos. in the institute from the rooms table in database
+	 */
 	public void getrooms()
 	{
 		try
@@ -114,7 +124,9 @@ public class FacultyPage  implements javafx.fxml.Initializable {
 	
 	@Override	
 	public void initialize(URL location, ResourceBundle resources) {
-		
+		/* 
+		 * To see bookings pane/See Room Avaibility
+		 */
 		showB.setOnAction(new EventHandler<ActionEvent>() {
 			
 			@Override
@@ -129,7 +141,10 @@ public class FacultyPage  implements javafx.fxml.Initializable {
 			
 		});	
 		CheckAvailB.setOnAction(new EventHandler<ActionEvent>() {
-			
+			/* 
+			 * To set Check Avaibility of room  pane to visible and call the required details from
+			 * the faculty.java
+			 */
 			@Override
 			public void handle(ActionEvent event) {
 				String Room = (String) TXTBRoom.getValue();
@@ -230,7 +245,10 @@ public class FacultyPage  implements javafx.fxml.Initializable {
 			
 		});	
 
-
+		/* 
+		 * To set profile of faculty pane to visible and call the required details from
+		 * the faculty.java
+		 */
 		profB.setOnAction(new EventHandler<ActionEvent>() {
 			
 			@Override
@@ -250,7 +268,10 @@ public class FacultyPage  implements javafx.fxml.Initializable {
 		});
 		
 		bookB.setOnAction(new EventHandler<ActionEvent>() {
-			
+			/* 
+			 * To set booking  pane to visible and call the required details from
+			 * the faculty.java
+			 */
 			@Override
 			public void handle(ActionEvent event) {
 				ProfilePane.setVisible(false);
@@ -264,7 +285,10 @@ public class FacultyPage  implements javafx.fxml.Initializable {
 		});	
 		
 		CancelB.setOnAction(new EventHandler<ActionEvent>() {
-			
+			/* 
+			 * To cancel the room bookings made by faculty or student and call the required details from
+			 * the faculty.java
+			 */
 			@Override
 			public void handle(ActionEvent event) {
 				BookPane.setVisible(false);
@@ -285,7 +309,10 @@ public class FacultyPage  implements javafx.fxml.Initializable {
 			}
 		});
 		ChangePassword.setOnAction(new EventHandler<ActionEvent>() {
-			
+			/* 
+			 * To  Change Password pane to visible and call the required details from
+			 * the faculty.java
+			 */
 			@Override
 			public void handle(ActionEvent event) {
 				BookPane.setVisible(false);
@@ -299,7 +326,10 @@ public class FacultyPage  implements javafx.fxml.Initializable {
 			}
 		});
 		Changed.setOnAction(new EventHandler<ActionEvent>() {
-			
+			/* 
+			 * To change the password as per entered input and call the required details from
+			 * thefaculty.java
+			 */
 			@Override
 			public void handle(ActionEvent event) {
 				String np1=TXTnewpwd1.getText();
@@ -335,7 +365,10 @@ public class FacultyPage  implements javafx.fxml.Initializable {
 			}
 		});
 		BookedB.setOnAction(new EventHandler<ActionEvent>() {
-			
+			/* 
+			 * To Book the course after selection from the list of courses provided
+			 * and call the required functions from faculty.java
+			 */
 			@Override
 			public void handle(ActionEvent event) {
 				ProfilePane.setVisible(false);
@@ -397,7 +430,10 @@ public class FacultyPage  implements javafx.fxml.Initializable {
 			
 		});	
 		CancelBtn.setOnAction(new EventHandler<ActionEvent>(){
-
+			/* 
+			 * To set Cancel booking  pane to visible and call the required details from
+			 * the facullty.java and populate the table
+			 */
 			@Override
 			public void handle(ActionEvent event) {
 				try
@@ -419,6 +455,9 @@ public class FacultyPage  implements javafx.fxml.Initializable {
 				
 				
 			}});
+		 /**
+		 * Logout from the application and ask whether user wishes to login again or exit the application
+		 */
 		LogoutBtn.setOnAction(new EventHandler<ActionEvent>() {
 			
 			@Override

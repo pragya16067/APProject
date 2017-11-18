@@ -9,6 +9,11 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 
 
+/**
+ * @author Tanya Raj
+ * Launches the stage in which the scene contains the fxml file, hence it launches the fxml file.
+ *
+ */
 public class Main extends Application {
 	@Override
 	public void start(Stage Stage) {
