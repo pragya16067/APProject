@@ -65,7 +65,7 @@ public class Main1
 				{
 					Class.forName("java.sql.DriverManager");
 			        Connection con=(Connection) DriverManager.getConnection(
-			                "jdbc:mysql://localhost:3306/project","root","30july1998");
+			                "jdbc:mysql://localhost:3306/project","root","tapeied");
 			        Statement stmt=(Statement) con.createStatement();
 			        //Insert all the CSE monsoon semester courses into our courses table
 			        String q = "Insert into Courses values ('"+Array[2]+"','"+Array[1]+"','"+Array[5]+"','"+Integer.parseInt(Array[4])+"','"+Array[0]+"','"+Array[3]+"','"+""+"');";

@@ -125,7 +125,7 @@ public class AdminPage  implements javafx.fxml.Initializable {
 		{
 			Class.forName("java.sql.DriverManager");
 	        Connection con=(Connection) DriverManager.getConnection(
-	                "jdbc:mysql://localhost:3306/project","root","30july1998");
+	                "jdbc:mysql://localhost:3306/project","root","tapeied");
 	        Statement stmt=(Statement) con.createStatement();
 	        String q = "Select RoomNo from rooms ;";
 	        System.out.println(q);
@@ -644,7 +644,7 @@ public class AdminPage  implements javafx.fxml.Initializable {
 				{
 					Class.forName("java.sql.DriverManager");
 			        Connection con=(Connection) DriverManager.getConnection(
-			                "jdbc:mysql://localhost:3306/project","root","30july1998");
+			                "jdbc:mysql://localhost:3306/project","root","tapeied");
 			        Statement stmt=(Statement) con.createStatement();
 			        String q = "Select Capacity from rooms where RoomNo ='"+room+ "';";
 			        System.out.println(q);
@@ -675,7 +675,7 @@ public class AdminPage  implements javafx.fxml.Initializable {
 				{
 					Class.forName("java.sql.DriverManager");
 			        Connection con=(Connection) DriverManager.getConnection(
-			                "jdbc:mysql://localhost:3306/project","root","30july1998");
+			                "jdbc:mysql://localhost:3306/project","root","tapeied");
 			        Statement stmt=(Statement) con.createStatement();
 			        String q = "Select Capacity from rooms where RoomNo ='"+room+ "';";
 			        System.out.println(q);
@@ -712,7 +712,7 @@ public class AdminPage  implements javafx.fxml.Initializable {
 				{System.out.println(room);
 					Class.forName("java.sql.DriverManager");
 			        Connection con=(Connection) DriverManager.getConnection(
-			                "jdbc:mysql://localhost:3306/project","root","30july1998");
+			                "jdbc:mysql://localhost:3306/project","root","tapeied");
 			        Statement stmt=(Statement) con.createStatement();
 			        String q = "Delete from rooms where RoomNo ='"+room+ "';";
 			         int k =stmt.executeUpdate(q);

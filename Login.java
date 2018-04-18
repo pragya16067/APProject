@@ -94,7 +94,7 @@ public class Login  implements javafx.fxml.Initializable  {
 				        {
 				            Class.forName("java.sql.DriverManager");
 				            Connection con=(Connection) DriverManager.getConnection(
-				                    "jdbc:mysql://localhost:3306/project","root","30july1998");
+				                    "jdbc:mysql://localhost:3306/project","root","tapeied");
 				            Statement stmt=(Statement) con.createStatement();
 				            String q="Select * from users where email='"+email+"';";
 				            ResultSet rs=stmt.executeQuery(q);
@@ -192,7 +192,7 @@ public class Login  implements javafx.fxml.Initializable  {
 				        {
 				            Class.forName("java.sql.DriverManager");
 				            Connection con=(Connection) DriverManager.getConnection(
-				                    "jdbc:mysql://localhost:3306/project","root","30july1998");
+				                    "jdbc:mysql://localhost:3306/project","root","tapeied");
 				            Statement stmt=(Statement) con.createStatement();
 				            String q="Select type from users where email='"+email+"';";
 				            ResultSet rs=stmt.executeQuery(q);

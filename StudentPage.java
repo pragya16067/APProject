@@ -4,10 +4,10 @@ import application.Course;
 import application.Request;
 import application.Timetable;
 import application.Classrooms;
+import application.Project;
 import javafx.scene.Node;
 
 import application.Student;
-import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -32,7 +32,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
@@ -71,6 +70,8 @@ public class StudentPage  implements javafx.fxml.Initializable {
 	@FXML
 	Pane ClassroomsPane;
 	@FXML
+	Pane ProjectPane;
+	@FXML
 	Pane AddCoursesPane,DropCoursesPane,ViewCoursesPane;
 	@FXML
 	Pane RequestRoomPane,ViewStatusPane,AvaibilityPane;
@@ -86,6 +87,24 @@ public class StudentPage  implements javafx.fxml.Initializable {
 	Label LblName, LblBatch, LblRno;
 	@FXML
 	Button Timetable,Profile,Courses,Classrooms,AddC,ViewC,SearchC,DropC,AddedC,DroppedC,BackC,RequestR,ViewR,AvailableR,RequestedR,BackR1,BackR2,Logout,ChangePassword,Changed,LoginA,CheckAvailB;
+	@FXML
+	Button Projects, AddProjectB,DisplayProjectB;
+	@FXML
+	TextField TXTfaculty, TXTtopic, TXTtype, TXTfield;
+	
+	@FXML
+	TableView<Project> TBLProjects;
+	@FXML
+	TableColumn<Project, String> Topic;
+	@FXML
+	TableColumn<Project, Integer> ProjFaculty;
+	@FXML
+	TableColumn<Project, String> ProjType;
+	@FXML
+	TableColumn<Project, String> Field;
+	@FXML
+	TableColumn<Project, String> Status;
+	
 	
 	@FXML
 	TableView<Course> ViewCoursesTable,AddCoursesTBL,DropCoursesTable;
@@ -101,6 +120,7 @@ public class StudentPage  implements javafx.fxml.Initializable {
 	TableColumn<Course, Integer> Credits,CCreditsCol,CCredits;
 	@FXML
 	TableColumn<Course, String> Type,CType;
+	
 	@FXML
 	TableView Tblavail;
 	@FXML
@@ -137,7 +157,7 @@ public class StudentPage  implements javafx.fxml.Initializable {
 		{
 			Class.forName("java.sql.DriverManager");
 	        Connection con=(Connection) DriverManager.getConnection(
-	                "jdbc:mysql://localhost:3306/project","root","30july1998");
+	                "jdbc:mysql://localhost:3306/project","root","tapeied");
 	        Statement stmt=(Statement) con.createStatement();
 	        String q = "Select RoomNo from rooms ;";
 	        //System.out.println(q);
@@ -163,6 +183,156 @@ public class StudentPage  implements javafx.fxml.Initializable {
 	@Override	
 	public void initialize(URL location, ResourceBundle resources) {
 		
+		//Change panes to show only the ProjectPane visible
+		Projects.setOnAction(new EventHandler<ActionEvent> () {
+			
+			@Override
+			public void handle(ActionEvent event) {
+				ProfilePane.setVisible(false);
+				TimetablePane.setVisible(false);
+				CoursesPane.setVisible(false);
+				ClassroomsPane.setVisible(false);
+				AddCoursesPane.setVisible(false);
+				 DropCoursesPane.setVisible(false);
+				 ViewCoursesPane.setVisible(false);
+				 RequestRoomPane.setVisible(false);
+				 ViewStatusPane.setVisible(false);
+				 AvaibilityPane.setVisible(false);
+				 LogoutPane1.setVisible(false);
+				 LogoutPane2.setVisible(false);
+				 Default.setVisible(false);
+				 ChangePasswordPane.setVisible(false);
+				 ProjectPane.setVisible(true);
+			}
+		});
+		
+		AddProjectB.setOnAction(new EventHandler<ActionEvent> () {
+			
+			@Override
+			public void handle(ActionEvent event) {
+				String facultyemail, topic, type, field;
+				
+				facultyemail = TXTfaculty.getText();
+				topic = TXTtopic.getText();
+				field = TXTfield.getText();
+				type = TXTtype.getText();
+				
+				if(facultyemail.equals("") || topic.equals("") || field.equals("") || type.equals(""))
+				{
+					JOptionPane.showMessageDialog(null, "Please enter text in all fields!");
+				}
+				else {
+					try {
+						String semail = student.getemail();
+						int sid=-1 , fid= -1;
+						Class.forName("java.sql.DriverManager");
+				        Connection con=(Connection) DriverManager.getConnection(
+				                "jdbc:mysql://localhost:3306/project","root","tapeied");
+				        Statement stmt=(Statement) con.createStatement();
+				        String q = "Select uid from users where email ='"+ semail + "';";
+				        ResultSet rs = stmt.executeQuery(q);
+				        if(rs.next())
+				        {
+				        	sid = rs.getInt("uid");
+				        }
+				        q = "Select uid from users where email ='"+ facultyemail + "';";
+				        rs = stmt.executeQuery(q);
+				        if(rs.next())
+				        {
+				        	fid = rs.getInt("uid");
+				        }
+				        if(fid == -1)
+				        {
+				        	JOptionPane.showMessageDialog(null, "This Faculty email id is incorrect!");
+				        }
+				        else
+				        {
+				        
+					        q = "SELECT MAX(pid)+1 from Projects;";
+					        rs = stmt.executeQuery(q);
+					        rs.next();
+					        int pid = rs.getInt("MAX(pid)+1");
+					        if(pid == 0)
+					        	pid = 1;
+					        System.out.println("value of pid is " + pid);
+					        q = "Insert into Projects values ("+pid+", "+sid+", "+fid+", '"+topic+"', '"+field+"', 'Pending', '"+type+"');";
+					        System.out.println(stmt.executeUpdate(q));
+				        }
+					}
+					catch(Exception e)
+					{
+						System.out.println(e.getMessage());
+					}
+				}
+				
+				ProfilePane.setVisible(false);
+				TimetablePane.setVisible(false);
+				CoursesPane.setVisible(false);
+				ClassroomsPane.setVisible(false);
+				AddCoursesPane.setVisible(false);
+				DropCoursesPane.setVisible(false);
+				ViewCoursesPane.setVisible(false);
+				 RequestRoomPane.setVisible(false);
+				 ViewStatusPane.setVisible(false);
+				 AvaibilityPane.setVisible(false);
+				 LogoutPane1.setVisible(false);
+				 LogoutPane2.setVisible(false);
+				 Default.setVisible(false);
+				 ChangePasswordPane.setVisible(false);
+				 ProjectPane.setVisible(true);
+			}
+		});
+		
+		DisplayProjectB.setOnAction(new EventHandler<ActionEvent> () {
+			
+			@Override
+			public void handle(ActionEvent event) {
+				
+				TBLProjects.setItems(null);
+				TBLProjects.setEditable(true);
+				ArrayList<Project> projects=new ArrayList<Project> ();
+				try
+				{
+					
+					ResultSet rs=student.getProjects();
+					while(rs.next()) {
+						Project p = new Project(rs.getString("Topic"), rs.getInt("FacultyID"), rs.getInt("StudentID"), rs.getString("Fields"), 
+								 rs.getString("type"), rs.getString("status"));
+						projects.add(p);
+					}
+					
+				}
+				catch(Exception e)
+				{
+					System.out.println(e.getMessage());
+				}
+				
+				ObservableList<Project> l=FXCollections.observableArrayList(projects);
+				TBLProjects.setItems(l);
+        		
+        		Topic.setCellValueFactory(new PropertyValueFactory<Project,String>("Name"));
+        		ProjFaculty.setCellValueFactory(new PropertyValueFactory<Project,Integer>("fid"));
+        		ProjType.setCellValueFactory(new PropertyValueFactory<Project,String>("Type"));
+        		Field.setCellValueFactory(new PropertyValueFactory<Project,String>("Field"));
+        		Status.setCellValueFactory(new PropertyValueFactory<Project,String>("Status"));
+        		
+				ProfilePane.setVisible(false);
+				TimetablePane.setVisible(false);
+				CoursesPane.setVisible(false);
+				ClassroomsPane.setVisible(false);
+				AddCoursesPane.setVisible(false);
+				DropCoursesPane.setVisible(false);
+				ViewCoursesPane.setVisible(false);
+				 RequestRoomPane.setVisible(false);
+				 ViewStatusPane.setVisible(false);
+				 AvaibilityPane.setVisible(false);
+				 LogoutPane1.setVisible(false);
+				 LogoutPane2.setVisible(false);
+				 Default.setVisible(false);
+				 ChangePasswordPane.setVisible(false);
+				 ProjectPane.setVisible(true);
+			}
+		});
 		
 		/**
 		 * Change panes to show the Change password pane
@@ -186,6 +356,7 @@ public class StudentPage  implements javafx.fxml.Initializable {
 				 LogoutPane2.setVisible(false);
 				 Default.setVisible(false);
 				 ChangePasswordPane.setVisible(true);
+				 ProjectPane.setVisible(false);
 			}
 			
 		});	
@@ -234,6 +405,7 @@ public class StudentPage  implements javafx.fxml.Initializable {
 				 LogoutPane2.setVisible(false);
 				 Default.setVisible(false);
 				 ChangePasswordPane.setVisible(false);
+				 ProjectPane.setVisible(false);
 			}
 			
 		});	
@@ -263,6 +435,7 @@ public class StudentPage  implements javafx.fxml.Initializable {
 				 ChangePasswordPane.setVisible(false);
 				 TimetableTBL.setItems(null);
 				 TimetableTBL.setEditable(true);
+				 ProjectPane.setVisible(false);
 				 
 				 
 				
@@ -309,6 +482,7 @@ public class StudentPage  implements javafx.fxml.Initializable {
 				 LogoutPane2.setVisible(false);
 				 Default.setVisible(false);
 				 ChangePasswordPane.setVisible(false);
+				 ProjectPane.setVisible(false);
 				
 				
 			}
@@ -335,6 +509,7 @@ public class StudentPage  implements javafx.fxml.Initializable {
 				 LogoutPane2.setVisible(false);
 				 Default.setVisible(false);
 				 ChangePasswordPane.setVisible(false);
+				 ProjectPane.setVisible(false);
 				
 			}
 			
@@ -362,6 +537,7 @@ public class StudentPage  implements javafx.fxml.Initializable {
 				 LogoutPane2.setVisible(false);
 				 Default.setVisible(false);
 				 ChangePasswordPane.setVisible(false);
+				 ProjectPane.setVisible(false);
 				
 			}
 			
@@ -390,6 +566,7 @@ public class StudentPage  implements javafx.fxml.Initializable {
 				 LogoutPane2.setVisible(false);
 				 Default.setVisible(false);
 				 ChangePasswordPane.setVisible(false);
+				 ProjectPane.setVisible(false);
 				 
 				 AddCoursesTBL.setItems(null);
 				AddCoursesTBL.setEditable(true);
@@ -481,13 +658,14 @@ public class StudentPage  implements javafx.fxml.Initializable {
 				 LogoutPane2.setVisible(false);
 				 Default.setVisible(false);
 				 ChangePasswordPane.setVisible(false);
+				 ProjectPane.setVisible(false);
 				 
 				 try
 				 {
 					 ViewCoursesTable.setItems(null);
 					 
 					 Class.forName("java.sql.DriverManager");
-				     Connection con=(Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/project","root","30july1998");
+				     Connection con=(Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/project","root","tapeied");
 				     Statement stmt=(Statement) con.createStatement();
 				        
 					 ResultSet rs=student.ViewCourses();
@@ -562,6 +740,7 @@ public class StudentPage  implements javafx.fxml.Initializable {
 				 LogoutPane2.setVisible(false);
 				 Default.setVisible(false);
 				 ChangePasswordPane.setVisible(false);
+				 ProjectPane.setVisible(false);
 				
 				 //CODE for correctly labelling all course checkboxes!!
 				 ArrayList<Course> c=new ArrayList<Course> ();
@@ -574,7 +753,7 @@ public class StudentPage  implements javafx.fxml.Initializable {
 				        	for(int i=0; i<s.length; i++)
 				        	{
 				        		Class.forName("java.sql.DriverManager");
-							    Connection con=(Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/project","root","30july1998");
+							    Connection con=(Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/project","root","tapeied");
 							    Statement stmt=(Statement) con.createStatement();
 				        		String CourseCode=s[i];
 				        		String q="Select CourseCode,CourseName,Acronym,Faculty,Credits,Type from courses where CourseCode='"+CourseCode+"';";
@@ -659,6 +838,7 @@ public class StudentPage  implements javafx.fxml.Initializable {
 				 LogoutPane2.setVisible(false);
 				 Default.setVisible(false);
 				 ChangePasswordPane.setVisible(false);
+				 ProjectPane.setVisible(false);
 				
 				
 			}
@@ -705,6 +885,7 @@ public class StudentPage  implements javafx.fxml.Initializable {
 				 LogoutPane2.setVisible(false);
 				 Default.setVisible(false);
 				 ChangePasswordPane.setVisible(false);
+				 ProjectPane.setVisible(false);
 				
 			}
 			
@@ -732,6 +913,7 @@ public class StudentPage  implements javafx.fxml.Initializable {
 				 LogoutPane2.setVisible(false);
 				 Default.setVisible(false);
 				 ChangePasswordPane.setVisible(false);
+				 ProjectPane.setVisible(false);
 				
 			}
 			
@@ -759,6 +941,7 @@ public class StudentPage  implements javafx.fxml.Initializable {
 				 LogoutPane2.setVisible(false);
 				 Default.setVisible(false);
 				 ChangePasswordPane.setVisible(false);
+				 ProjectPane.setVisible(false);
 			}
 			
 		});	
@@ -785,6 +968,7 @@ public class StudentPage  implements javafx.fxml.Initializable {
 				 LogoutPane2.setVisible(false);
 				 Default.setVisible(false);
 				 ChangePasswordPane.setVisible(false);
+				 ProjectPane.setVisible(false);
 				 
 				 try
 				 {
@@ -794,7 +978,7 @@ public class StudentPage  implements javafx.fxml.Initializable {
 						{
 							Class.forName("java.sql.DriverManager");
 					        Connection con=(Connection) DriverManager.getConnection(
-					                "jdbc:mysql://localhost:3306/project","root","30july1998");
+					                "jdbc:mysql://localhost:3306/project","root","tapeied");
 					        Statement stmt=(Statement) con.createStatement();
 					        String q="Select * from requests ;";
 					        ResultSet rs=stmt.executeQuery(q);
@@ -868,6 +1052,7 @@ public class StudentPage  implements javafx.fxml.Initializable {
 				 LogoutPane2.setVisible(false);
 				 Default.setVisible(false);
 				 ChangePasswordPane.setVisible(false);
+				 ProjectPane.setVisible(false);
 				 getrooms();
 			}
 			
@@ -1000,6 +1185,7 @@ public class StudentPage  implements javafx.fxml.Initializable {
 				 LogoutPane2.setVisible(false);
 				 Default.setVisible(false);
 				 ChangePasswordPane.setVisible(false);
+				 ProjectPane.setVisible(false);
 			}
 			
 		});	
@@ -1026,6 +1212,7 @@ public class StudentPage  implements javafx.fxml.Initializable {
 				 LogoutPane2.setVisible(false);
 				 Default.setVisible(false);
 				 ChangePasswordPane.setVisible(false);
+				 ProjectPane.setVisible(false);
 				
 				
 			}
@@ -1074,6 +1261,7 @@ public class StudentPage  implements javafx.fxml.Initializable {
 				 LogoutPane2.setVisible(false);
 				 Default.setVisible(false);
 				 ChangePasswordPane.setVisible(false);
+				 ProjectPane.setVisible(false);
 			}
 			
 		});	

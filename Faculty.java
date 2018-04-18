@@ -27,6 +27,50 @@ public class Faculty extends User{
 		String Name=s[0];
 		return Name.toUpperCase();
 	}
+	
+	
+	public int getFacultyID(String facultyemail) {
+		int fid=-1;
+		try {
+			Class.forName("java.sql.DriverManager");
+	        Connection con=(Connection) DriverManager.getConnection(
+	                "jdbc:mysql://localhost:3306/project","root","tapeied");
+	        Statement stmt=(Statement) con.createStatement();
+	        String q = "Select uid from users where email ='"+ facultyemail + "';";
+	        ResultSet rs = stmt.executeQuery(q);
+	        if(rs.next())
+	        {
+	        	fid = rs.getInt("uid");
+	        }
+		}
+		catch(Exception e)
+		{
+			System.out.println(e.getMessage());
+		}
+        return fid;
+	}
+	
+	
+	public ResultSet getProjects() {
+		ResultSet rs = null;
+		try {
+			Class.forName("java.sql.DriverManager");
+	        Connection con=(Connection) DriverManager.getConnection(
+	                "jdbc:mysql://localhost:3306/project","root","tapeied");
+	        Statement stmt=(Statement) con.createStatement();
+	        String q = "Select * from Projects where FacultyID ="+ this.getFacultyID(this.email) + " and status != 'Pending';";
+	        rs = stmt.executeQuery(q);
+	        return rs;
+	        
+		}
+		catch(Exception e)
+		{
+			System.out.println(e.getMessage());
+		}
+        return rs;
+	}
+
+	
 	/**
 	 * get the name of the courses taught by faculty
 	 * @return
@@ -37,7 +81,7 @@ public class Faculty extends User{
 		{
 			Class.forName("java.sql.DriverManager");
 	        Connection con=(Connection) DriverManager.getConnection(
-	                "jdbc:mysql://localhost:3306/project","root","30july1998");
+	                "jdbc:mysql://localhost:3306/project","root","tapeied");
 	        Statement stmt=(Statement) con.createStatement();
 	        String q = "Select CourseCode,CourseName from courses where faculty Like Concat ('%','"+getName()+"','%');";
 	        System.out.println(q);
@@ -66,7 +110,7 @@ public class Faculty extends User{
 		{
 			Class.forName("java.sql.DriverManager");
 	        Connection con=(Connection) DriverManager.getConnection(
-	                "jdbc:mysql://localhost:3306/project","root","30july1998");
+	                "jdbc:mysql://localhost:3306/project","root","tapeied");
 	        Statement stmt=(Statement) con.createStatement();
 	        String q = "Select CourseCode from courses where faculty Like Concat ('%','"+getName()+"','%');";
 	        System.out.println(q);
@@ -100,7 +144,7 @@ public class Faculty extends User{
 		{
 			Class.forName("java.sql.DriverManager");
 	        Connection con=(Connection) DriverManager.getConnection(
-	                "jdbc:mysql://localhost:3306/project","root","30july1998");
+	                "jdbc:mysql://localhost:3306/project","root","tapeied");
 	        Statement stmt=(Statement) con.createStatement();
 	        
 	        //Select * from bookings where Roomno = "C21" and Day ="Monday" and Start =11 and End =12;
@@ -150,7 +194,7 @@ public class Faculty extends User{
 		{
 			Class.forName("java.sql.DriverManager");
 	        Connection con=(Connection) DriverManager.getConnection(
-	                "jdbc:mysql://localhost:3306/project","root","30july1998");
+	                "jdbc:mysql://localhost:3306/project","root","tapeied");
 	        Statement stmt=(Statement) con.createStatement();
 	        ArrayList<String> a = GetCourse();
 	        String course ="CourseCode ='";
@@ -188,7 +232,7 @@ public class Faculty extends User{
 		{
 			Class.forName("java.sql.DriverManager");
 	        Connection con=(Connection) DriverManager.getConnection(
-	                "jdbc:mysql://localhost:3306/project","root","30july1998");
+	                "jdbc:mysql://localhost:3306/project","root","tapeied");
 	        Statement stmt=(Statement) con.createStatement();
 	        String q = "Delete from Bookings where CourseCode = '"+b.getPurpose1()+"' and RoomNo ='"+b.getRoomN()+"' and Day ='"+b.getDateN()+"' and Start = '"+b.getTimeN().split("-")[0]+"' and End ='"+b.getTimeN().split("-")[1]+"';";
 	        System.out.println(q);
@@ -209,7 +253,7 @@ public class Faculty extends User{
 		{
 			Class.forName("java.sql.DriverManager");
 	        Connection con=(Connection) DriverManager.getConnection(
-	                "jdbc:mysql://localhost:3306/project","root","30july1998");
+	                "jdbc:mysql://localhost:3306/project","root","tapeied");
 	        Statement stmt=(Statement) con.createStatement();
 	        String q="Select password from users where email='"+this.email+"';";
 	        rs=stmt.executeQuery(q);

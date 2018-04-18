@@ -71,10 +71,10 @@ public class Student extends User{
 		{
 			Class.forName("java.sql.DriverManager");
 	        Connection con=(Connection) DriverManager.getConnection(
-	                "jdbc:mysql://localhost:3306/project","root","30july1998");
+	                "jdbc:mysql://localhost:3306/project","root","tapeied");
 	        Statement stmt=(Statement) con.createStatement();
 	        //To check if timings are not clashing with any of students existing courses
-	       
+	        
 	        String st,et;
 	        
 	        String q="Select CoursesTaken from students where email='"+this.email+"';";
@@ -105,7 +105,7 @@ public class Student extends User{
 		        q="Select Day, Start, End from bookings where CourseCode='"+c.getCourseCode()+"';";
 		        rs=stmt.executeQuery(q);
 		        
-		        while(rs.next()){
+		        while(rs.next()) {
 		        	System.out.println("I got a record");
 		        	String day=rs.getString("Day").toLowerCase();
 		        	
@@ -156,7 +156,7 @@ public class Student extends User{
 		{
 			Class.forName("java.sql.DriverManager");
 	        Connection con=(Connection) DriverManager.getConnection(
-	                "jdbc:mysql://localhost:3306/project","root","30july1998");
+	                "jdbc:mysql://localhost:3306/project","root","tapeied");
 	        Statement stmt=(Statement) con.createStatement();
 	        String code=c.getCourseCode();
 	        String q="update students set CoursesTaken = CONCAT(CoursesTaken,'"+code+";') where email='"+e+"';";
@@ -179,7 +179,7 @@ public class Student extends User{
 		{
 			Class.forName("java.sql.DriverManager");
 	        Connection con=(Connection) DriverManager.getConnection(
-	                "jdbc:mysql://localhost:3306/project","root","30july1998");
+	                "jdbc:mysql://localhost:3306/project","root","tapeied");
 	        Statement stmt=(Statement) con.createStatement();
 	        String q="Select CourseCode from courses where LCASE(CourseName)='"+ CourseName +"';";
 	        ResultSet rs=stmt.executeQuery(q);
@@ -238,7 +238,7 @@ public class Student extends User{
 		{
 			Class.forName("java.sql.DriverManager");
 	        Connection con=(Connection) DriverManager.getConnection(
-	                "jdbc:mysql://localhost:3306/project","root","30july1998");
+	                "jdbc:mysql://localhost:3306/project","root","tapeied");
 	        Statement stmt=(Statement) con.createStatement();
 	        String q="Select CoursesTaken from students where email='"+this.email+"';";
 	        rs=stmt.executeQuery(q);
@@ -263,7 +263,7 @@ public class Student extends User{
 		{
 			Class.forName("java.sql.DriverManager");
 	        Connection con=(Connection) DriverManager.getConnection(
-	                "jdbc:mysql://localhost:3306/project","root","30july1998");
+	                "jdbc:mysql://localhost:3306/project","root","tapeied");
 	        Statement stmt=(Statement) con.createStatement();
 	        String q="Select CoursesTaken from students where email='"+this.email+"';";
 	        rs=stmt.executeQuery(q);
@@ -299,7 +299,7 @@ public class Student extends User{
 		try
 		{
 			Class.forName("java.sql.DriverManager");
-	        Connection con=(Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/project","root","30july1998");
+	        Connection con=(Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/project","root","tapeied");
 	        Statement stmt=(Statement) con.createStatement();
 	        String q="Select CoursesTaken from students where email='"+this.email+"';";
 	        ResultSet rs=stmt.executeQuery(q);
@@ -346,7 +346,7 @@ public class Student extends User{
 		{
 			Class.forName("java.sql.DriverManager");
 	        Connection con=(Connection) DriverManager.getConnection(
-	                "jdbc:mysql://localhost:3306/project","root","30july1998");
+	                "jdbc:mysql://localhost:3306/project","root","tapeied");
 	        Statement stmt=(Statement) con.createStatement();
 	        ResultSet rs=this.ViewCourses();
 	        if(rs.next())
@@ -375,6 +375,46 @@ public class Student extends User{
 		return timetables;
 	}
 	
+	public int getStudentID(String semail) {
+		int sid=-1;
+		try {
+			Class.forName("java.sql.DriverManager");
+	        Connection con=(Connection) DriverManager.getConnection(
+	                "jdbc:mysql://localhost:3306/project","root","tapeied");
+	        Statement stmt=(Statement) con.createStatement();
+	        String q = "Select uid from users where email ='"+ semail + "';";
+	        ResultSet rs = stmt.executeQuery(q);
+	        if(rs.next())
+	        {
+	        	sid = rs.getInt("uid");
+	        }
+		}
+		catch(Exception e)
+		{
+			System.out.println(e.getMessage());
+		}
+        return sid;
+	}
+	
+	public ResultSet getProjects() {
+		ResultSet rs = null;
+		try {
+			Class.forName("java.sql.DriverManager");
+	        Connection con=(Connection) DriverManager.getConnection(
+	                "jdbc:mysql://localhost:3306/project","root","tapeied");
+	        Statement stmt=(Statement) con.createStatement();
+	        String q = "Select * from Projects where StudentID ="+ this.getStudentID(this.email) + ";";
+	        rs = stmt.executeQuery(q);
+	        return rs;
+	        
+		}
+		catch(Exception e)
+		{
+			System.out.println(e.getMessage());
+		}
+        return rs;
+	}
+	
 	/**
 	 * CODE TO INSERT A NEW REQUEST INTO THE REQUESTS TABLE AND UPDATE THE REQUESTS COL OF THE STUDENT TABLE
 	 * @param p
@@ -389,7 +429,7 @@ public class Student extends User{
 		{
 			Class.forName("java.sql.DriverManager");
 	        Connection con=(Connection) DriverManager.getConnection(
-	                "jdbc:mysql://localhost:3306/project","root","30july1998");
+	                "jdbc:mysql://localhost:3306/project","root","tapeied");
 	        Statement stmt=(Statement) con.createStatement();
 	        String q="Select Max(rid) from requests;";
 	        ResultSet rs=stmt.executeQuery(q);
@@ -422,7 +462,7 @@ public class Student extends User{
 		{
 			Class.forName("java.sql.DriverManager");
 	        Connection con=(Connection) DriverManager.getConnection(
-	                "jdbc:mysql://localhost:3306/project","root","30july1998");
+	                "jdbc:mysql://localhost:3306/project","root","tapeied");
 	        Statement stmt=(Statement) con.createStatement();
 	        String q="Select Requests from students where email='"+this.email+"';";
 	        rs=stmt.executeQuery(q);
@@ -463,7 +503,7 @@ public class Student extends User{
 		{
 			Class.forName("java.sql.DriverManager");
 	        Connection con=(Connection) DriverManager.getConnection(
-	                "jdbc:mysql://localhost:3306/project","root","30july1998");
+	                "jdbc:mysql://localhost:3306/project","root","tapeied");
 	        Statement stmt=(Statement) con.createStatement();
 	        String q="Select * from users where email='"+this.email+"';";
 	        rs=stmt.executeQuery(q);

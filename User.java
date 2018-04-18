@@ -54,7 +54,7 @@ public abstract class User {
 	        {
 	            Class.forName("java.sql.DriverManager");
 	            Connection con=(Connection) DriverManager.getConnection(
-	                    "jdbc:mysql://localhost:3306/project","root","30july1998");
+	                    "jdbc:mysql://localhost:3306/project","root","tapeied");
 	            Statement stmt=(Statement) con.createStatement();
 	            String q="Select password from users where BINARY email='"+e+"';";
 	            ResultSet rs=stmt.executeQuery(q);
@@ -86,7 +86,7 @@ public abstract class User {
 		{
 			Class.forName("java.sql.DriverManager");
 	        Connection con=(Connection) DriverManager.getConnection(
-	                "jdbc:mysql://localhost:3306/project","root","30july1998");
+	                "jdbc:mysql://localhost:3306/project","root","tapeied");
 	        Statement stmt=(Statement) con.createStatement();
 	        String q="update users set password='"+s+"'where email='"+e+"';";
 	        stmt.executeUpdate(q);
@@ -108,7 +108,7 @@ public abstract class User {
 		try
 		{Class.forName("java.sql.DriverManager");
 	    Connection con=(Connection) DriverManager.getConnection(
-	            "jdbc:mysql://localhost:3306/project","root","30july1998");
+	            "jdbc:mysql://localhost:3306/project","root","tapeied");
 	    Statement stmt=(Statement) con.createStatement();
 	    
 	    String q = "Select * from bookings ;";
@@ -158,7 +158,7 @@ public abstract class User {
 		try
 		{Class.forName("java.sql.DriverManager");
 	    Connection con=(Connection) DriverManager.getConnection(
-	            "jdbc:mysql://localhost:3306/project","root","30july1998");
+	            "jdbc:mysql://localhost:3306/project","root","tapeied");
 	    Statement stmt=(Statement) con.createStatement();
 	    String q = "Select * from rooms where RoomNo = '"+Room+"';";
 	    System.out.println(q);
@@ -211,7 +211,7 @@ public abstract class User {
 		try
 		{Class.forName("java.sql.DriverManager");
 	    Connection con=(Connection) DriverManager.getConnection(
-	            "jdbc:mysql://localhost:3306/project","root","30july1998");
+	            "jdbc:mysql://localhost:3306/project","root","tapeied");
 	    Statement stmt=(Statement) con.createStatement();
 	    String q = "Select * from rooms where RoomNo = '"+Room+"';";
 	    System.out.println(q);
@@ -263,7 +263,7 @@ public abstract class User {
 		try
 		{Class.forName("java.sql.DriverManager");
 	    Connection con=(Connection) DriverManager.getConnection(
-	            "jdbc:mysql://localhost:3306/project","root","30july1998");
+	            "jdbc:mysql://localhost:3306/project","root","tapeied");
 	    Statement stmt=(Statement) con.createStatement();
 	    
 	    String  q = "Select * from bookings where (Day = '"+Date+"' or Day ='"+Day+"');";
@@ -321,7 +321,7 @@ public abstract class User {
 		try
 		{Class.forName("java.sql.DriverManager");
 	    Connection con=(Connection) DriverManager.getConnection(
-	            "jdbc:mysql://localhost:3306/project","root","30july1998");
+	            "jdbc:mysql://localhost:3306/project","root","tapeied");
 	    Statement stmt=(Statement) con.createStatement();
 	    String time[] = stime.split("-");
 	    String  q = "Select * from bookings where ((Start <='"+time[0]+"' and End >'"+time[0]+"') or (Start < '"+time[1]+"' and End >'"+time[1]+"'));";
@@ -380,7 +380,7 @@ public abstract class User {
 		try
 		{Class.forName("java.sql.DriverManager");
 	    Connection con=(Connection) DriverManager.getConnection(
-	            "jdbc:mysql://localhost:3306/project","root","30july1998");
+	            "jdbc:mysql://localhost:3306/project","root","tapeied");
 	    Statement stmt=(Statement) con.createStatement();
 	    String q = "Select * from rooms where RoomNo = '"+Room+"';";
 	    System.out.println(q);
@@ -434,7 +434,7 @@ public abstract class User {
 		try
 		{Class.forName("java.sql.DriverManager");
 	    Connection con=(Connection) DriverManager.getConnection(
-	            "jdbc:mysql://localhost:3306/project","root","30july1998");
+	            "jdbc:mysql://localhost:3306/project","root","tapeied");
 	    Statement stmt=(Statement) con.createStatement();
 	    String q = "Select * from rooms where RoomNo = '"+Room+"';";
 	    System.out.println(q);

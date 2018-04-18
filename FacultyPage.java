@@ -3,6 +3,7 @@ package GUIComponents;
 
 
 import java.net.URL;
+import java.sql.Time;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -18,6 +19,7 @@ import application.Admin;
 import application.Bookings;
 import application.Classrooms;
 import application.Faculty;
+import application.Project;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -44,14 +46,16 @@ public class FacultyPage  implements javafx.fxml.Initializable {
 	@FXML
 	Pane ProfilePane;
 	@FXML
-	Pane BookPane;
+	Pane BookPane, ProjectsPane;
 	@FXML
 	Pane CancelPane,Default,ChangePasswordPane;
 	
 	@FXML
-	Button showB,profB,bookB,CancelB,ChangePassword,Changed,LogoutBtn,BookedB,CheckAvailB,CancelBtn;
+	Button showB,profB,bookB,CancelB,projectB,ChangePassword,Changed,LogoutBtn,BookedB,CheckAvailB,CancelBtn, ViewProjectB, SearchProjectB, AcceptProjectB;
 	@FXML
-	TextField TXTnewpwd1,TXTnewpwd2, OldPwd,TXTCode,TXTCapacity,TXTTime,TXTTime1,TXTDay,TXTBTime,TXTBDay;
+	TextField TXTnewpwd1,TXTnewpwd2, OldPwd,TXTCode,TXTCapacity,TXTTime,TXTTime1,TXTDay,TXTBTime,TXTBDay,TXTtypeProject,TXTfieldProject;
+	@FXML
+	TextField TXTdayOfweek, TXTtimeslot, TXTprereqC;
 	@FXML
 	Label Lblemail, LblName,LblCourse;
 	@FXML
@@ -78,6 +82,21 @@ public class FacultyPage  implements javafx.fxml.Initializable {
 	TableColumn<Bookings,String> DateN1;
 	@FXML
 	TableColumn<Bookings,String> TimeN1;
+	
+	
+	@FXML
+	TableView<Project> TblViewProjects, TblSearchProject;
+	@FXML
+	TableColumn<Project, String> Topic, Topic1;
+	@FXML
+	TableColumn<Project, Integer> Student, Student1;
+	@FXML
+	TableColumn<Project, String> Type, Type1;
+	@FXML
+	TableColumn<Project, String> Field, Field1;
+	@FXML
+	TableColumn<Project, String> Status;
+
 	/*
 	 * Implementing Singleton design pattern 
 	 */
@@ -100,7 +119,7 @@ public class FacultyPage  implements javafx.fxml.Initializable {
 		{
 			Class.forName("java.sql.DriverManager");
 	        Connection con=(Connection) DriverManager.getConnection(
-	                "jdbc:mysql://localhost:3306/project","root","30july1998");
+	                "jdbc:mysql://localhost:3306/project","root","tapeied");
 	        Statement stmt=(Statement) con.createStatement();
 	        String q = "Select RoomNo from rooms ;";
 	        System.out.println(q);
@@ -136,10 +155,12 @@ public class FacultyPage  implements javafx.fxml.Initializable {
 				ProfilePane.setVisible(false);
 				CancelPane.setVisible(false);
 				Default.setVisible(false);
+				ProjectsPane.setVisible(false);
 				getrooms();
 			}
 			
 		});	
+		
 		CheckAvailB.setOnAction(new EventHandler<ActionEvent>() {
 			/* 
 			 * To set Check Avaibility of room  pane to visible and call the required details from
@@ -262,6 +283,7 @@ public class FacultyPage  implements javafx.fxml.Initializable {
 				BookPane.setVisible(false);
 				CancelPane.setVisible(false);
 				Default.setVisible(false);
+				ProjectsPane.setVisible(false);
 
 			}
 			
@@ -279,6 +301,7 @@ public class FacultyPage  implements javafx.fxml.Initializable {
 				BookPane.setVisible(true);
 				CancelPane.setVisible(false);
 				Default.setVisible(false);
+				ProjectsPane.setVisible(false);
 				getrooms();
 			}
 			
@@ -296,6 +319,8 @@ public class FacultyPage  implements javafx.fxml.Initializable {
 				ProfilePane.setVisible(false);
 				CancelPane.setVisible(true);
 				Default.setVisible(false);
+				ProjectsPane.setVisible(false);
+				
 				ArrayList<Bookings> book = faculty.GetBooking();
 				ObservableList lists = FXCollections.observableArrayList(book);
 				System.out.println(book.size());
@@ -321,6 +346,7 @@ public class FacultyPage  implements javafx.fxml.Initializable {
 				CancelPane.setVisible(false);
 				Default.setVisible(false);
 				ChangePasswordPane.setVisible(true);
+				ProjectsPane.setVisible(false);
 			
 				
 			}
@@ -358,6 +384,7 @@ public class FacultyPage  implements javafx.fxml.Initializable {
 				ShowPane.setVisible(false);
 				ProfilePane.setVisible(true);
 				CancelPane.setVisible(false);
+				ProjectsPane.setVisible(false);
 				Default.setVisible(false);
 				ChangePasswordPane.setVisible(false);
 			
@@ -374,6 +401,7 @@ public class FacultyPage  implements javafx.fxml.Initializable {
 				ProfilePane.setVisible(false);
 				ShowPane.setVisible(false);
 				CancelPane.setVisible(false);
+				ProjectsPane.setVisible(false);
 				
 				String Code = TXTCode.getText();
 				int Capacity = Integer.parseInt(TXTCapacity.getText());
@@ -455,6 +483,237 @@ public class FacultyPage  implements javafx.fxml.Initializable {
 				
 				
 			}});
+		
+		projectB.setOnAction(new EventHandler<ActionEvent>() {
+			
+			@Override
+			public void handle(ActionEvent event) {
+				BookPane.setVisible(false);
+				ShowPane.setVisible(false);
+				ProfilePane.setVisible(false);
+				CancelPane.setVisible(false);
+				Default.setVisible(false);
+				ProjectsPane.setVisible(true);
+			}
+			
+		});	
+		
+		ViewProjectB.setOnAction(new EventHandler<ActionEvent>() {
+			
+			@Override
+			public void handle(ActionEvent event) {
+				
+				TblViewProjects.setItems(null);
+				TblViewProjects.setEditable(true);
+				ArrayList<Project> projects=new ArrayList<Project> ();
+				try
+				{
+					
+					ResultSet rs=faculty.getProjects();
+					while(rs.next()) {
+						Project p = new Project(rs.getString("Topic"), rs.getInt("FacultyID"), rs.getInt("StudentID"), rs.getString("Fields"), 
+								 rs.getString("type"), rs.getString("status"));
+						projects.add(p);
+					}
+					
+				}
+				catch(Exception e)
+				{
+					System.out.println(e.getMessage());
+				}
+				
+				
+				ObservableList<Project> l=FXCollections.observableArrayList(projects);
+				TblViewProjects.setItems(l);
+        		
+        		Topic.setCellValueFactory(new PropertyValueFactory<Project,String>("Name"));
+        		Student.setCellValueFactory(new PropertyValueFactory<Project,Integer>("sid"));
+        		Type.setCellValueFactory(new PropertyValueFactory<Project,String>("Type"));
+        		Field.setCellValueFactory(new PropertyValueFactory<Project,String>("Field"));
+        		Status.setCellValueFactory(new PropertyValueFactory<Project,String>("Status"));
+        		
+        		
+				BookPane.setVisible(false);
+				ShowPane.setVisible(false);
+				ProfilePane.setVisible(false);
+				CancelPane.setVisible(false);
+				Default.setVisible(false);
+				ProjectsPane.setVisible(true);
+			}
+			
+		});	
+		
+		SearchProjectB.setOnAction(new EventHandler<ActionEvent>() {
+			
+			@Override
+			public void handle(ActionEvent event) {
+				String type = TXTtypeProject.getText();
+				String field = TXTfieldProject.getText();
+				
+				TblSearchProject.setItems(null);
+				TblSearchProject.setEditable(true);
+				ArrayList<Project> projects = new ArrayList<Project> ();
+				
+				try {
+					Class.forName("java.sql.DriverManager");
+			        Connection con=(Connection) DriverManager.getConnection(
+			                "jdbc:mysql://localhost:3306/project","root","tapeied");
+			        Statement stmt=(Statement) con.createStatement();
+			        String q;
+					if(type.equals("") && field.equals(""))
+					{
+						q = "Select * from Projects where FacultyID = "+faculty.getFacultyID(faculty.getemail())+" and status = 'Pending';";
+					}
+					else if(type.equals("") && !field.equals(""))
+					{
+						q = "Select * from Projects where FacultyID = "+faculty.getFacultyID(faculty.getemail())+" and status = 'Pending' and Fields = '"+field+"';";
+					}
+					else if(field.equals("") && !type.equals(""))
+					{
+						q = "Select * from Projects where FacultyID = "+faculty.getFacultyID(faculty.getemail())+" and status = 'Pending' and Type = '"+type+"';";
+					}
+					else
+					{
+						q = "Select * from Projects where FacultyID = "+faculty.getFacultyID(faculty.getemail())+" and status = 'Pending' and Type = '"+type+"' and Fields = '"+field+"';";
+					}
+					ResultSet rs = stmt.executeQuery(q);
+					while(rs.next()) {
+						Project p = new Project(rs.getString("Topic"), rs.getInt("FacultyID"), rs.getInt("StudentID"), rs.getString("Fields"), 
+								 rs.getString("type"), rs.getString("status"));
+						projects.add(p);
+					}
+			        
+				}
+				catch(Exception e)
+				{
+					System.out.println(e.getMessage());
+				}
+				
+				ObservableList<Project> l=FXCollections.observableArrayList(projects);
+				TblSearchProject.setItems(l);
+        		
+        		Topic1.setCellValueFactory(new PropertyValueFactory<Project,String>("Name"));
+        		Student1.setCellValueFactory(new PropertyValueFactory<Project,Integer>("sid"));
+        		Type1.setCellValueFactory(new PropertyValueFactory<Project,String>("Type"));
+        		Field1.setCellValueFactory(new PropertyValueFactory<Project,String>("Field"));
+				
+				BookPane.setVisible(false);
+				ShowPane.setVisible(false);
+				ProfilePane.setVisible(false);
+				CancelPane.setVisible(false);
+				Default.setVisible(false);
+				ProjectsPane.setVisible(true);
+			}
+			
+		});	
+
+		AcceptProjectB.setOnAction(new EventHandler<ActionEvent>() {
+		
+		@Override
+		public void handle(ActionEvent event) {
+			String dayofweek = TXTdayOfweek.getText();
+			int timeslot = Integer.parseInt(TXTtimeslot.getText());
+			String prereqC = TXTprereqC.getText();
+			
+			if(dayofweek.equals("") || timeslot<1 || timeslot>24 || prereqC.equals(""))
+			{
+				JOptionPane.showMessageDialog(null, "Please fill in all the text fields with valid data!!");
+			}
+			else {
+				
+				Project p = TblSearchProject.getSelectionModel().getSelectedItem();
+				if(p==null)
+				{
+					JOptionPane.showMessageDialog(null, "Please select a Project to accept!");
+				}
+				else
+				{
+				
+					try {
+						Class.forName("java.sql.DriverManager");
+				        Connection con=(Connection) DriverManager.getConnection(
+				                "jdbc:mysql://localhost:3306/project","root","tapeied");
+				        Statement stmt=(Statement) con.createStatement();
+				        String q;
+				        
+				        //check for pre requisite course
+				        int sid = p.getSid();
+				        q = "select CoursesTaken from students where email = (Select email from users where uid = "+sid+");";
+				        System.out.println(q);
+				        ResultSet rs = stmt.executeQuery(q);
+				        String CourseList="";
+				        if(rs.next())
+				        {
+				        	CourseList = rs.getString("CoursesTaken");
+						}
+				        System.out.println(CourseList);
+				        if(!CourseList.equals("") && CourseList.contains(prereqC))
+				        {
+				        	//now check for clashes with timetable
+				        	String[] cCodes = CourseList.split(";");
+				        	boolean flag = true;
+				        	for (String cCode : cCodes)
+				        	{
+				        		q = "select * from bookings where CourseCode = '"+cCode+"' and day = '"+dayofweek+"';";
+				        		System.out.println(q);
+				        		rs = stmt.executeQuery(q);
+				        		while(rs.next())
+				        		{
+				        			System.out.println("I found a record");
+				        			Time stTime = rs.getTime("Start");
+				        			Time endTime = rs.getTime("End");
+				        			if(timeslot>=stTime.getTime() && timeslot <= endTime.getTime())
+				        			{
+				        				JOptionPane.showMessageDialog(null, "This student is not available in this Time slot");
+				        				flag = false;
+				        				break;
+				        			}
+				        			
+				        		}
+				        		if(flag == false)
+				        			break;
+				        	}
+				        	if(flag == true) {
+				        		q = "Update Projects set Status = 'Accepted' where pid = "+ p.getPID() +";";
+				        		stmt.executeUpdate(q);
+				        		JOptionPane.showMessageDialog(null, "This project has been Accepted");
+				        		SearchProjectB.fire();
+				        		ViewProjectB.fire();
+				        	}
+				        }
+			        	else
+			        	{
+			        		JOptionPane.showMessageDialog(null, "This student doesn't have this pre-requisite course");
+			        	}
+				        
+				        
+					}
+					catch(Exception e)
+					{
+						System.out.println(e.getMessage());
+					}
+				}
+				
+				
+		}
+			
+			BookPane.setVisible(false);
+			ShowPane.setVisible(false);
+			ProfilePane.setVisible(false);
+			CancelPane.setVisible(false);
+			Default.setVisible(false);
+			ProjectsPane.setVisible(true);
+			
+			BookPane.setVisible(false);
+			ShowPane.setVisible(false);
+			ProfilePane.setVisible(false);
+			CancelPane.setVisible(false);
+			Default.setVisible(false);
+			ProjectsPane.setVisible(true);
+		}
+		
+	});	
+		
 		 /**
 		 * Logout from the application and ask whether user wishes to login again or exit the application
 		 */

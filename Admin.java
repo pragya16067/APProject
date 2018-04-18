@@ -50,7 +50,7 @@ public class Admin extends User{
 		{
 			Class.forName("java.sql.DriverManager");
 	        Connection con=(Connection) DriverManager.getConnection(
-	                "jdbc:mysql://localhost:3306/project","root","30july1998");
+	                "jdbc:mysql://localhost:3306/project","root","tapeied");
 	        Statement stmt=(Statement) con.createStatement();
 	        String q = "Select * from requests where status ='Pending';";
 	        ResultSet rs = stmt.executeQuery(q);
@@ -84,7 +84,7 @@ public class Admin extends User{
 		{
 			Class.forName("java.sql.DriverManager");
 	        Connection con=(Connection) DriverManager.getConnection(
-	                "jdbc:mysql://localhost:3306/project","root","30july1998");
+	                "jdbc:mysql://localhost:3306/project","root","tapeied");
 	        Statement stmt=(Statement) con.createStatement();
 	        String q="Select * from requests ;";
 	        ResultSet rs=stmt.executeQuery(q);
@@ -127,7 +127,7 @@ public class Admin extends User{
 		{
 			Class.forName("java.sql.DriverManager");
 	        Connection con=(Connection) DriverManager.getConnection(
-	                "jdbc:mysql://localhost:3306/project","root","30july1998");
+	                "jdbc:mysql://localhost:3306/project","root","tapeied");
 	        Statement stmt=(Statement) con.createStatement();
 	        
 	        System.out.println(rq.getDateN());
@@ -193,7 +193,7 @@ public class Admin extends User{
 		{
 			Class.forName("java.sql.DriverManager");
 	        Connection con=(Connection) DriverManager.getConnection(
-	                "jdbc:mysql://localhost:3306/project","root","30july1998");
+	                "jdbc:mysql://localhost:3306/project","root","tapeied");
 	        Statement stmt=(Statement) con.createStatement();
 	        String q = "Update requests set status = 'Rejected' where rid="+rq.getRid()+";";
 	        stmt.executeUpdate(q);
@@ -221,7 +221,7 @@ public class Admin extends User{
 		{
 			Class.forName("java.sql.DriverManager");
 	        Connection con=(Connection) DriverManager.getConnection(
-	                "jdbc:mysql://localhost:3306/project","root","30july1998");
+	                "jdbc:mysql://localhost:3306/project","root","tapeied");
 	        Statement stmt=(Statement) con.createStatement();
 	        
 	        //Select * from bookings where Roomno = "C21" and Day ="Monday" and Start =11 and End =12;
@@ -274,7 +274,7 @@ public class Admin extends User{
 		{
 			Class.forName("java.sql.DriverManager");
 	        Connection con=(Connection) DriverManager.getConnection(
-	                "jdbc:mysql://localhost:3306/project","root","30july1998");
+	                "jdbc:mysql://localhost:3306/project","root","tapeied");
 	        Statement stmt=(Statement) con.createStatement();
 	        String q ="Select * from bookings where (type = 'Admin' or type = 'Student');";
 	        ResultSet rs = stmt.executeQuery(q);
@@ -301,7 +301,7 @@ public class Admin extends User{
 		{
 			Class.forName("java.sql.DriverManager");
 	        Connection con=(Connection) DriverManager.getConnection(
-	                "jdbc:mysql://localhost:3306/project","root","30july1998");
+	                "jdbc:mysql://localhost:3306/project","root","tapeied");
 	        Statement stmt=(Statement) con.createStatement();
 	        String q = "Delete from Bookings where CourseCode = '"+b.getPurpose1()+"' and RoomNo ='"+b.getRoomN()+"' and Day ='"+b.getDateN()+"' and Start = '"+b.getTimeN().split("-")[0]+"' and End ='"+b.getTimeN().split("-")[1]+"';";
 	        System.out.println(q);
@@ -324,7 +324,7 @@ public class Admin extends User{
 		{
 			Class.forName("java.sql.DriverManager");
 	        Connection con=(Connection) DriverManager.getConnection(
-	                "jdbc:mysql://localhost:3306/project","root","30july1998");
+	                "jdbc:mysql://localhost:3306/project","root","tapeied");
 	        Statement stmt=(Statement) con.createStatement();
 	        String q="Select password from users where email='"+this.email+"';";
 	        rs=stmt.executeQuery(q);

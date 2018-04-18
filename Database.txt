@@ -55,7 +55,7 @@ Drop table courses;
 
 Alter table time rename to courses;
 
-Create table Projects(pid int primary key, StudentID int, FacultyID int, Topic Varchar(100), Fields Varchar(1000), PreReqCourses varchar(1000), status varchar(50));
+Create table Projects(pid int primary key, StudentID int, FacultyID int, Topic Varchar(100), Fields Varchar(1000), status varchar(50), type varchar(30));
 
 Alter table Projects add foreign key(StudentID) references users(uid);
 

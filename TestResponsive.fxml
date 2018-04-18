@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.web.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<FlowPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="492.0" prefWidth="764.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUIComponents.FacultyPage">
+   
+	<SplitPane dividerPositions="0.29797979797979796" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="492.0" prefWidth="764.0">
+	  <items>
+	    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="435.0" prefWidth="99.0" style="-fx-background-color: #24b590;">
+	         <children>
+	            <Button fx:id="showB" layoutX="34.0" layoutY="182.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="169.0" style="-fx-background-color: #5b615e;" text="Show Room Bookings" textFill="#24b590">
+	               <font>
+	                  <Font name="System Bold" size="13.0" />
+	               </font></Button>
+	            <Button fx:id="bookB" layoutX="34.0" layoutY="237.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="169.0" style="-fx-background-color: #5b615e;" text="Book Rooms" textFill="#24b590">
+	               <font>
+	                  <Font name="System Bold" size="14.0" />
+	               </font></Button>
+	            <Button fx:id="profB" layoutX="34.0" layoutY="123.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="169.0" style="-fx-background-color: #5b615e;" text="My Profile" textFill="#24b590">
+	               <font>
+	                  <Font name="System Bold" size="14.0" />
+	               </font></Button>
+	            <Button layoutX="28.0" layoutY="61.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="196.0" style="-fx-background-color: #5b615e;" text="Logout" textFill="#24b590">
+	               <font>
+	                  <Font name="System Bold" size="14.0" />
+	               </font>
+	            </Button>
+	            <Button fx:id="CancelB" layoutX="34.0" layoutY="300.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="169.0" style="-fx-background-color: #5b615e;" text="Cancel Booked Room" textFill="#24b590">
+	               <font>
+	                  <Font name="System Bold" size="14.0" />
+	               </font>
+	            </Button>
+	            <ImageView fitHeight="30.0" fitWidth="32.0" layoutX="-1.0" layoutY="61.0" pickOnBounds="true" preserveRatio="true">
+	               <image>
+	                  <Image url="@../../download%20(1)%20(1).png" />
+	               </image>
+	            </ImageView>
+	            <ImageView fitHeight="44.0" fitWidth="67.0" layoutX="2.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true">
+	               <image>
+	                  <Image url="@../../rounded-512.png" />
+	               </image>
+	            </ImageView>
+	            <Label alignment="CENTER" layoutX="33.0" layoutY="6.0" prefHeight="44.0" prefWidth="181.0" text="Welcome Faculty!" textFill="WHITE">
+	               <font>
+	                  <Font name="System Bold" size="18.0" />
+	               </font>
+	            </Label>
+	         </children></AnchorPane>
+	    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+	         <children>
+	            
+	            <Pane fx:id="ProfilePane" prefHeight="490.0" prefWidth="532.0" style="-fx-background-color: #24b590;">
+	               <children>
+	                   <Separator layoutX="45.0" layoutY="376.0" prefHeight="17.0" prefWidth="463.0" />
+	                        <Separator layoutX="45.0" layoutY="385.0" prefHeight="17.0" prefWidth="463.0" />
+	                         <Separator layoutX="51.0" layoutY="78.0" prefHeight="17.0" prefWidth="463.0" />
+	                  <Separator layoutX="51.0" layoutY="86.0" prefHeight="17.0" prefWidth="463.0" />
+	                 <ImageView fitHeight="36.0" fitWidth="38.0" layoutX="161.0" layoutY="411.0" pickOnBounds="true" preserveRatio="true">
+	                     <image>
+	                        <Image url="@../../download%20(2)%20(1).png" />
+	                     </image>
+	                  </ImageView>
+	                  
+	                  <Button fx:id="ChangePassword" layoutX="196.0" layoutY="410.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="162.0" style="-fx-background-color: #5b615e;" text="Change Password" textFill="#24b590">
+	                     <font>
+	                        <Font name="System Bold" size="13.0" />
+	                     </font>
+	                  </Button>
+	                  <Label layoutX="175.0" layoutY="116.0" prefHeight="37.0" prefWidth="224.0" text="Hi, &lt;&lt;Faculty Name&gt;&gt; !!">
+	                     <font>
+	                        <Font name="System Bold Italic" size="16.0" />
+	                     </font>
+	                  </Label>
+	                  <Label layoutX="53.0" layoutY="178.0" prefHeight="17.0" prefWidth="74.0" text="Email Id" />
+	                  <Label layoutX="53.0" layoutY="245.0" text="Year of Joining" />
+	                  <Label layoutX="54.0" layoutY="278.0" text="Qualifications" />
+	                  <Label layoutX="54.0" layoutY="314.0" text="Courses Taken" />
+	                  <Label layoutX="54.0" layoutY="212.0" text="Post" />
+	                  <Label layoutX="237.0" layoutY="178.0" prefHeight="17.0" prefWidth="99.0" text="xyz@iiitd.ac.in" />
+	                  <Label layoutX="237.0" layoutY="212.0" text="abc" />
+	                  <Label layoutX="234.0" layoutY="245.0" text="2016" />
+	                  <Label layoutX="232.0" layoutY="278.0" text="PhD from XUZ University" />
+	                  <Label layoutX="234.0" layoutY="314.0" text="Course1" />
+	                  <ImageView fitHeight="60.0" fitWidth="532.0" layoutX="-1.0" pickOnBounds="true">
+	                     <image>
+	                        <Image url="@../../2017-10-20.png" />
+	                     </image>
+	                  </ImageView>
+	                  
+	               </children></Pane>
+	           <Pane fx:id="BookPane" prefHeight="490.0" prefWidth="532.0" style="-fx-background-color: #24b590;" visible="false">
+	               <children>
+	                <ImageView fitHeight="60.0" fitWidth="532.0" layoutX="-1.0" pickOnBounds="true">
+	                     <image>
+	                        <Image url="@../../2017-10-20.png" />
+	                     </image>
+	                  </ImageView>
+	                  <Button layoutX="189.0" layoutY="309.0" mnemonicParsing="false" style="-fx-background-color: #5b615e;" text="Book Room" textFill="#24b590">
+	                     <font>
+	                        <Font name="Calibri Bold" size="20.0" />
+	                     </font>
+	                  </Button>
+	                  <Label layoutX="85.0" layoutY="145.0" text="Enter Course Code" textFill="#29322e">
+	                     <font>
+	                        <Font size="16.0" />
+	                     </font>
+	                  </Label>
+	                  <TextField layoutX="290.0" layoutY="145.0" />
+	                  <ChoiceBox layoutX="289.0" layoutY="210.0" prefWidth="150.0" />
+	                  <Label layoutX="88.0" layoutY="210.0" prefHeight="25.0" prefWidth="149.0" text="Choose Room" textFill="#29322e">
+	                     <font>
+	                        <Font size="16.0" />
+	                     </font>
+	                  </Label>
+	                  <Separator layoutX="26.0" layoutY="75.0" prefHeight="17.0" prefWidth="478.0" style="-fx-background-color: #5b615e;" />
+	                  <Separator layoutX="26.0" layoutY="411.0" prefHeight="17.0" prefWidth="478.0" style="-fx-background-color: #5b615e;" />
+	               </children>
+	            </Pane>
+	            <Pane fx:id="ShowPane" layoutX="1.0" layoutY="-2.0" prefHeight="490.0" prefWidth="532.0" style="-fx-background-color: #24b590" visible="false">
+	               <children>
+	                <ImageView fitHeight="60.0" fitWidth="532.0" layoutX="-1.0" pickOnBounds="true">
+	                     <image>
+	                        <Image url="@../../2017-10-20.png" />
+	                     </image>
+	                  </ImageView>
+	                  <TableView layoutX="27.0" layoutY="65.0" prefHeight="404.0" prefWidth="478.0" style="-fx-background-color: #5b615e;">
+	                    <columns>
+	                      <TableColumn prefWidth="95.0" text="Room Number" />
+	                      <TableColumn prefWidth="55.0" text="Status" />
+	                        <TableColumn prefWidth="219.0" text="Courses Booked For" />
+	                    </columns>
+	                  </TableView>
+	               </children>
+	               <effect>
+	                  <ColorAdjust />
+	               </effect>
+	            </Pane>
+	            <Pane fx:id="CancelPane" prefHeight="490.0" prefWidth="532.0" style="-fx-background-color: #24b590;" visible="false">
+	               <children>
+	                <ImageView fitHeight="60.0" fitWidth="532.0" layoutX="-1.0" pickOnBounds="true">
+	                     <image>
+	                        <Image url="@../../2017-10-20.png" />
+	                     </image>
+	                  </ImageView>
+	                  <Button layoutX="189.0" layoutY="309.0" mnemonicParsing="false" style="-fx-background-color: #5b615e;" text="Cancel Booking" textFill="#24b590">
+	                     <font>
+	                        <Font name="Calibri Bold" size="20.0" />
+	                     </font>
+	                  </Button>
+	                  <Label layoutX="85.0" layoutY="145.0" text="Enter Room Number" textFill="#29322e">
+	                     <font>
+	                        <Font size="16.0" />
+	                     </font>
+	                  </Label>
+	                  <TextField layoutX="290.0" layoutY="145.0" />
+	                  <ChoiceBox layoutX="289.0" layoutY="210.0" prefWidth="150.0" />
+	                  <Label layoutX="88.0" layoutY="210.0" prefHeight="25.0" prefWidth="149.0" text="Choose Course" textFill="#29322e">
+	                     <font>
+	                        <Font size="16.0" />
+	                     </font>
+	                  </Label>
+	                  <Separator layoutX="26.0" layoutY="75.0" prefHeight="17.0" prefWidth="478.0" style="-fx-background-color: #5b615e;" />
+	                  <Separator layoutX="26.0" layoutY="411.0" prefHeight="17.0" prefWidth="478.0" style="-fx-background-color: #5b615e;" />
+	               </children>
+	            </Pane>
+	            <Pane fx:id="ChangePasswordPane" layoutX="-1.0" layoutY="-5.0" prefHeight="504.0" prefWidth="545.0" style="-fx-background-color: #24b590;" visible="false">
+	               <children>
+	                  <PasswordField layoutX="88.0" layoutY="128.0" prefHeight="25.0" prefWidth="349.0" promptText="Old Password" />
+	                  <PasswordField layoutX="88.0" layoutY="165.0" prefHeight="25.0" prefWidth="349.0" promptText="New Password" />
+	                  <PasswordField layoutX="88.0" layoutY="203.0" prefHeight="25.0" prefWidth="349.0" promptText="Re-Type New Password" />
+	                  <Button fx:id="Changed" layoutX="186.0" layoutY="277.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="132.0" style="-fx-background-color: #5b615e;" text="Change" textFill="#24b590">
+	                     <font>
+	                        <Font name="System Bold" size="16.0" />
+	                     </font>
+	                  </Button>
+	                  <ImageView fitHeight="62.0" fitWidth="538.0" layoutX="10.0" layoutY="12.0">
+	                     <image>
+	                        <Image url="@../../2017-10-20.png" />
+	                     </image>
+	                  </ImageView>
+	               </children>
+	            </Pane>
+	            <Pane fx:id="Default" layoutX="-3.0" layoutY="-4.0" prefHeight="504.0" prefWidth="545.0" style="-fx-background-color: #24b590;">
+	               <children>
+	                  <Label layoutX="143.0" layoutY="177.0" prefHeight="17.0" prefWidth="276.0" text="Hi! Faculty" textFill="#686464">
+	                     <font>
+	                        <Font name="System Bold" size="42.0" />
+	                     </font>
+	                  </Label>
+	                  <ImageView fitHeight="62.0" fitWidth="545.0" layoutX="-3.0">
+	                     <image>
+	                        <Image url="@../../2017-10-20.png" />
+	                     </image>
+	                  </ImageView>
+	               </children>
+	            </Pane>
+	         </children></AnchorPane>
+	  </items>
+	</SplitPane>
+
+
+
+      
+   
+</FlowPane>
+
+
+
+
+

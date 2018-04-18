@@ -52,6 +52,11 @@
                </image>
             </ImageView>
             <Pane fx:id="LogoutPane1" prefHeight="490.0" prefWidth="224.0" style="-fx-background-color: #5b615e;" visible="false" />
+            <Button fx:id="Projects" layoutY="383.0" mnemonicParsing="false" prefHeight="62.0" prefWidth="224.0" style="-fx-background-color: #5b615e; -fx-border-color: #24b590;" text="My Projects" textFill="#24b590">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Button>
          </children></AnchorPane>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" style="-fx-background-color: #24b590;">
          <children>
@@ -399,6 +404,40 @@
                   </ImageView>
                      </children>
                   </Pane>
+            <Pane fx:id="ProjectPane" prefHeight="490.0" prefWidth="532.0" visible="false">
+               <children>
+                  <Button fx:id="AddProjectB" layoutX="192.0" layoutY="173.0" mnemonicParsing="false" text="Add new Project Request" />
+                  <Label layoutX="174.0" layoutY="14.0" text="Add request for a new Project">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="60.0" layoutY="50.0" text="Enter Faculty's email address" />
+                  <Label layoutX="59.0" layoutY="129.0" text="Enter Field of Study" />
+                  <Label layoutX="59.0" layoutY="103.0" text="Enter Type of project (IP/BTP/Internship)" />
+                  <Label layoutX="59.0" layoutY="77.0" text="Enter Project topic" />
+                  <TextField fx:id="TXTfaculty" layoutX="319.0" layoutY="46.0" />
+                  <TextField fx:id="TXTtopic" layoutX="319.0" layoutY="73.0" />
+                  <TextField fx:id="TXTtype" layoutX="319.0" layoutY="99.0" />
+                  <TextField fx:id="TXTfield" layoutX="319.0" layoutY="125.0" />
+                  <Separator layoutY="220.0" prefHeight="17.0" prefWidth="532.0" />
+                  <Label layoutX="192.0" layoutY="245.0" text="Check status of your Projects">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <TableView fx:id="TBLProjects" layoutX="11.0" layoutY="276.0" prefHeight="152.0" prefWidth="512.0">
+                    <columns>
+                      <TableColumn fx:id="Topic" prefWidth="90.0" text="Project Topic" />
+                      <TableColumn fx:id="ProjFaculty" prefWidth="104.0" text="Faculty" />
+                        <TableColumn fx:id="ProjType" prefWidth="98.0" text="Type of Project" />
+                        <TableColumn fx:id="Field" prefWidth="130.0" text="Field of Study" />
+                        <TableColumn fx:id="Status" prefWidth="88.0" text="Status" />
+                    </columns>
+                  </TableView>
+                  <Button fx:id="DisplayProjectB" layoutX="222.0" layoutY="439.0" mnemonicParsing="false" text="Display Projects" />
+               </children>
+            </Pane>
          </children>
          
       </AnchorPane>
