@@ -2,9 +2,9 @@ create database project;
 
 use project;
 
-CREATE TABLE users (uid int, email varchar(50), password varchar(15), type varchar(10));
+CREATE TABLE users (uid int primary key, email varchar(50), password varchar(15), type varchar(10));
 
-CREATE TABLE students (email varchar(50) primary key, CoursesTaken varchar(500), Requests varchar(500));
+CREATE TABLE students (email varchar(50) primary key, CoursesTaken varchar(500), GPA float(4,2), Requests varchar(500));
 
 
 CREATE TABLE requests (rid int primary key, purpose varchar(500), room char(3), capacity int, status Varchar(30), dateReq Date, sTimeReq Time, eTimeReq Time, StartDate DateTime);
@@ -45,9 +45,18 @@ Create table timetable (MandatoryElective Varchar(100),CourseName Varchar(100) ,
 Alter table timetable add primary key (CourseName);
 //Step 3 - Import csv file into timetable
 //Step4 -
+
 CREATE TABLE time (CourseCode Varchar(10) primary key, CourseName varchar(100), Acronym varchar(5), Credits int, Type varchar(50),Faculty Varchar(100), PostConditions varchar(3000));
+
 Insert into time ( CourseCode, CourseName, Acronym, Credits, Faculty, Type, Postconditions)
 Select a.CourseCode as CourseCode ,a.CourseName as CourseName,a.Acronym as Acronym,a.Credits as Credits,a.Faculty as Faculty ,a.Type as Type , b.Postconditions as Postconditions from courses a, timetable b where a.CourseCode = b.CourseCode;
+
 Drop table courses;
+
 Alter table time rename to courses;
 
+Create table Projects(pid int primary key, StudentID int, FacultyID int, Topic Varchar(100), Fields Varchar(1000), PreReqCourses varchar(1000), status varchar(50));
+
+Alter table Projects add foreign key(StudentID) references users(uid);
+
+Alter table Projects add foreign key(FacultyID) references users(uid);
